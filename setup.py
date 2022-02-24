@@ -6,13 +6,18 @@ with open("README.md", "r") as fh:
 setuptools.setup(
     name="landmasterlibrary",
     version="0.0.1",
-    author="landmaster135",
-    author_email="52403447+landmaster135@users.noreply.github.com",
     description="Convenient tools for me",
+    author="kinkinnbeer135ml",
+    author_email="52403447+landmaster135@users.noreply.github.com",
+    license="MIT",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/landmaster135/landmaster-library",
+    url="git+https://github.com/landmaster135/landmaster-library.git",
     packages=setuptools.find_packages(),
+    # package_dir={"": "src"},
+    # py_modules=[splitext(basename(path))[0] for path in glob('src/*.py')],
+    # include_package_data=True,
+    # zip_safe=False,
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: MIT License",
@@ -22,4 +27,7 @@ setuptools.setup(
         'console_scripts': ['sample_command = sample_command.sampleCommand:main']
     },
     python_requires='>=3.7',
+    install_requires=_requires_from_file('requirements.txt'),
+    setup_requires=["pytest-runner"],
+    tests_require=["pytest", "pytest-cov"]
 )

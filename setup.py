@@ -23,7 +23,8 @@ setup(
     url="git+https://github.com/landmaster135/landmasterlibrary.git",
     packages=find_packages("landmasterlibrary"),
     package_dir={"": "landmasterlibrary"},
-    # py_modules=[splitext(basename(path))[0] for path in glob('landmasterlibrary/*.py')],
+    # py_modules=[splitext(basename(path))[0] for path in glob("landmasterlibrary/*.py")],
+    py_modules=["landmasterlibrary"],
     include_package_data=True,
     zip_safe=False,
     classifiers=[
@@ -34,8 +35,8 @@ setup(
     # entry_points = {
     #     'console_scripts': ['sample_command = sample_command.sampleCommand:main']
     # },
-    python_requires='>=3.7',
-    install_requires=_requires_from_file('requirements.txt'),
+    python_requires=">=3.7",
+    install_requires=_requires_from_file("requirements.txt"),
     setup_requires=["pytest-runner"],
     extras_require={
         "test": ["pytest", "pytest-cov"],

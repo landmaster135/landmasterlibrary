@@ -19,7 +19,7 @@ setuptools.setup(
         "Operating System :: OS Independent",
     ],
     entry_points = {
-        'console_scripts': ['sample_command = ExportSqlite3ToCSV:main']
+        'console_scripts': ['sample_command = sample_command.sampleCommand:main']
     },
     python_requires='>=3.7',
 )

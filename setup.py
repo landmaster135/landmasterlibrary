@@ -23,7 +23,7 @@ setup(
     url="git+https://github.com/landmaster135/landmaster-library.git",
     packages=find_packages("landmasterlibrary"),
     package_dir={"": "landmasterlibrary"},
-    # py_modules=[splitext(basename(path))[0] for path in glob('landmasterlibrary/*.py')],
+    py_modules=[splitext(basename(path))[0] for path in glob('landmasterlibrary/*.py')],
     # include_package_data=True,
     # zip_safe=False,
     classifiers=[

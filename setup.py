@@ -24,8 +24,8 @@ setup(
     packages=find_packages("landmasterlibrary"),
     package_dir={"": "landmasterlibrary"},
     py_modules=[splitext(basename(path))[0] for path in glob('landmasterlibrary/*.py')],
-    # include_package_data=True,
-    # zip_safe=False,
+    include_package_data=True,
+    zip_safe=False,
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: MIT License",

@@ -7,3 +7,4 @@ from src.MorphAnalysis import *
 from src.PDFRotater import *
 from src.TextEditor import *
 from src.TextReplacer import *
+from src.generaltool import *

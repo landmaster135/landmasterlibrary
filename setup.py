@@ -20,7 +20,7 @@ setup(
     license="MIT",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="git+https://github.com/landmaster135/landmaster-library.git",
+    url="git+https://github.com/landmaster135/landmasterlibrary.git",
     packages=find_packages("landmasterlibrary"),
     package_dir={"": "landmasterlibrary"},
     py_modules=[splitext(basename(path))[0] for path in glob('landmasterlibrary/*.py')],
@@ -37,5 +37,8 @@ setup(
     python_requires='>=3.7',
     install_requires=_requires_from_file('requirements.txt'),
     setup_requires=["pytest-runner"],
-    tests_require=["pytest", "pytest-cov"]
+    extras_require={
+        "test": ["pytest", "pytest-cov"],
+        "doc": ["sphinx"]
+    }
 )

@@ -7,7 +7,7 @@ import input_controller
 import dir_editor
 sep = dir_editor.decide_seperator() # String seperator of directory.
 
-def write_playlist(file_name, extracted_dir, playlist_type):
+def write_playlist(file_name : str, extracted_dir : str, playlist_type : str):
     '''
     file_name     : String absolutely filename of target file.
     extracted_dir : String directory to save file exported extracted data.
@@ -71,8 +71,12 @@ def write_text(file_name, now_list):
             f.write("%s\n" % n)
 
 def main():
+    args = sys.argv
+
     # test code for WriteText()
-    write_text(dir_editor.decide_now_dir(), ['apple', 'banana', 'orange'])
+    write_playlist
+    # test code for write_text()
+    write_text(args[1], ['apple', 'banana', 'orange'])
 
 if __name__ == "__main__":
     main()

@@ -1,4 +1,4 @@
-# ImageEditor.py
+# image_editor.py
 # code in shift-jis
 
 import os, sys
@@ -10,7 +10,7 @@ sep = dir_editor.decide_seperator() # String seperator of directory.
 import file_list_getter
 import text_editor
 
-def select_area(filename):
+def select_area(filename : str) -> dict:
     '''
     filename   : String absolutely path of selected file
 
@@ -93,7 +93,7 @@ def select_area(filename):
     print("FrameSize for trimming is ", frame_dict)
     return frame_dict
 
-def trim_image(trimmed_img_ext):
+def trim_image(dir_full_path : str, trimmed_img_ext : str = "jpg"):
     '''
     fileList                 : List of file filtered with extension in the selected folder.
     basefilename_without_ext : String name of base file without extension.
@@ -104,7 +104,9 @@ def trim_image(trimmed_img_ext):
     trimmed_img_ext          : String of extension of trimmed_img.
     trimmed_img_name         : String of filename of trimmed_img.
     '''
-    file_list = file_list_getter.get_file_list(dir_editor.decide_now_dir(),trimmed_img_ext)
+    # now_dir = dir_editor.decide_now_dir()
+    now_dir = dir_full_path
+    file_list = file_list_getter.get_file_list(now_dir, trimmed_img_ext)
 
     # Error Handling
     if len(file_list) == 0:
@@ -136,7 +138,7 @@ def trim_image(trimmed_img_ext):
         print("saved: {trimmed_img_name}".format(trimmed_img_name=trimmed_img_name))
     print('Check directory "{dirname}"'.format(dirname=extracted_dir))
 
-def judge_match_rate_by_feature_point(file_name_1, file_name_2):
+def judge_match_rate_by_feature_point(file_name_1 : str, file_name_2 : str) -> float:
     '''
     file_name_1   : String absolutely path of selected file
     file_name_2   : String absolutely path of selected file
@@ -175,7 +177,7 @@ def judge_match_rate_by_feature_point(file_name_1, file_name_2):
 
     return similarity
 
-def judge_match_rate_by_pixel_match(file_name_1, file_name_2):
+def judge_match_rate_by_pixel_match(file_name_1 : str, file_name_2 : str) -> float:
     '''
     file_name_1   : String absolutely path of selected file
     file_name_2   : String absolutely path of selected file
@@ -211,7 +213,7 @@ def judge_match_rate_by_pixel_match(file_name_1, file_name_2):
 
     return match_rate
 
-def remove_duplication(folder_list):
+def remove_duplication(folder_list : list):
     '''
     folder_list   : List String absolutely path, of file filtered with extension in the selected folder.
     extracted_dir : String absolutely path of directory has selected file
@@ -271,7 +273,7 @@ def remove_duplication(folder_list):
 
     print('RemoveDuplication is terminated.\nCheck directory "{dirname}"'.format(dirname=extracted_dir))
 
-def extract_image(video_name):
+def extract_image(video_name : str):
     '''
     video_name    : String absolutely path of selected file
     extracted_dir : String absolutely path of directory has selected file
@@ -312,20 +314,21 @@ def extract_image(video_name):
     cap.release()
 
 def main():
+    args = sys.argv
+
     # # test code for select_area()
-    # list_of_ext = ["jpg"]
-    # select_area(dir_editor.decide_now_file(list_of_ext))
+    select_area(args[1])
 
     # test code for trim_image()
-    # trim_image('jpg')
+    # trim_image(args[1], 'jpg')
 
     # test code for remove_duplication()
-    file_list = file_list_getter.get_file_list(dir_editor.decide_now_dir(),'jpg')
-    remove_duplication(file_list)
+    # file_list = file_list_getter.get_file_list(args[1],'jpg')
+    # remove_duplication(file_list)
 
     # test code for extract_image()
     # list_of_ext = ["mp4"]
-    # extract_image(dir_editor.decide_now_file(list_of_ext))
+    # extract_image(args[1])
 
 if __name__ == "__main__":
     main()

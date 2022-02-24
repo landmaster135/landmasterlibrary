@@ -4,7 +4,7 @@
 import os, sys
 import re # regular expression
 
-def check_whether_sjis_exists(target_str_list, callingfilename_with_ext):
+def check_whether_sjis_exists(target_str_list : list, callingfilename_with_ext : str) -> bool:
     '''
     target_str_list          : String List target for check.
     callingfilename_with_ext : String absolutely name of calling file with extension
@@ -25,7 +25,7 @@ def check_whether_sjis_exists(target_str_list, callingfilename_with_ext):
         return True
     return False
 
-def repeat_input_with_multi_choices(first_message, choice_list=[]):
+def repeat_input_with_multi_choices(first_message : str, choice_list : list = []) -> str:
     '''
     first_message    : String message for the first input.
     choice_list      : List of String choice.

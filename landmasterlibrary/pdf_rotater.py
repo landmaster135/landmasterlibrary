@@ -1,4 +1,4 @@
-# PDFRotater.py
+# pdf_rotater.py
 # code in shift-jis
 
 import os, sys
@@ -7,7 +7,7 @@ import dir_editor
 sep = dir_editor.decide_seperator() # String seperator of directory.
 import file_list_getter
 
-def make_vertical(folder_list):
+def make_vertical(folder_list : list):
     '''
     folderList        : list of file filtered with extension in the selected folder.
     filename          : fullname of selected file.
@@ -57,7 +57,8 @@ def make_vertical(folder_list):
     print('\n\nCheck new folder. "{}"'.format(rotated_dir))
 
 def main():
-    make_vertical(file_list_getter.get_file_list(dir_editor.decide_now_dir(),'pdf'))
+    args = sys.argv
+    make_vertical(file_list_getter.get_file_list(args[1],'pdf'))
 
 if __name__ == "__main__":
     main()

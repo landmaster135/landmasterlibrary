@@ -1,6 +1,7 @@
-# FileListGetter.py
+# file_list_getter.py
 # code in shift-jis
 
+from argparse import ArgumentError
 import glob2
 import os, sys, platform
 import time
@@ -10,7 +11,7 @@ import dir_editor
 sep = dir_editor.decide_seperator() # String seperator of directory.
 import text_editor
 
-def extract_playlist(folder_list):
+def extract_playlist_from_text(file_list : list):
     '''
     folder_list   : List of file filtered with extension in the selected folder.
     file_name     : String absolutely filename.
@@ -19,10 +20,10 @@ def extract_playlist(folder_list):
     playlist_type : String type of playlist.
     type_list     : List of String.
     '''
-    if len(folder_list) != 0:
-        file_name = folder_list[0]
+    if len(file_list) != 0:
+        file_name = file_list[0]
     else:
-        print('\nFileListGetter.extract_playlist exits because of no target files.')
+        print('\nfile_list_getter.extract_playlist exits because of no target files.')
         sys.exit(0)
 
     extracted_dir = dir_editor.make_directory(file_name)
@@ -37,13 +38,13 @@ def extract_playlist(folder_list):
     # if fileName[:-4] != '.txt':
     #     fileName = input('それでは、基となるテキストファイル名を入力して下さい。')
 
-    for file_name in folder_list:
+    for file_name in file_list:
         text_editor.write_playlist(file_name, extracted_dir, playlist_type)
 
     print('FileListGetter.extract_playlist is terminated.')
     print('Check directory "{dirname}"'.format(dirname=extracted_dir))
 
-def extract_file_name_book():
+def extract_file_name_book(dir_full_path : str):
     '''
     now_dir          : String name of now direcotry.
     file_list        : List of String filename.
@@ -53,7 +54,9 @@ def extract_file_name_book():
     data_list        : List to memorize to dataListEXP. [, , ...]
     time_mod         : String data of date and time.
     '''
-    now_dir          = dir_editor.decide_now_dir()
+
+    # now_dir          = dir_editor.decide_now_dir()
+    now_dir          = dir_full_path
     file_list        = get_file_list(now_dir, dir_editor.input_ext_list(ext_range=1)[0])
     export_file_name = dir_editor.decide_save_file_name(now_dir, ["csv"])
 
@@ -72,7 +75,7 @@ def extract_file_name_book():
     print('extract_file_name_book is terminated.')
     print('Check directory "{dirname}"'.format(dirname=export_file_name))
 
-def confirm_execution(target, replace):
+def confirm_execution(target : str, replace : str) -> str:
     '''
     targetv              : String character you wanna delete or replace from.
     replace              : String character you wanna add or replace to.
@@ -93,7 +96,7 @@ def confirm_execution(target, replace):
     execute_confirmation = input_controller.repeat_input_with_multi_choices(input_message, ['y', 'n'])
     return execute_confirmation
 
-def edit_file_name():
+def edit_file_name(dir_full_path : str):
     '''
     sep                           : String sperator of directory. It varies by os platform.
     ext                           : String extension.
@@ -112,7 +115,9 @@ def edit_file_name():
     replace_file_name             : String absolutely replaced filename.
     '''
     ext = input('What Extension? (without ".") : ')
-    file_list = get_file_list(dir_editor.decide_now_dir(), ext)
+    # now_dir = dir_editor.decide_now_dir()
+    now_dir = dir_full_path
+    file_list = get_file_list(now_dir, ext)
     input_message = 'Select mode. [ A: Add, D: Delete, R: Replace, E: Exit ]'
     mode_selected = input_controller.repeat_input_with_multi_choices(input_message, ['A', 'D', 'R', 'E'])
     if mode_selected == 'E':
@@ -155,7 +160,7 @@ def edit_file_name():
     else:
         sys.exit(0)
 
-def get_file_list(folder_dir, ext):
+def get_file_list(folder_dir : str, ext : str = "jpg") -> list:
     '''
     folder_dir  : String selected folder's absolutely directory.
     ext         : String extension
@@ -177,20 +182,21 @@ def get_file_list(folder_dir, ext):
     return folder_list
 
 def main():
+    args = sys.argv
     # # test code for extract_playlist()
-    # extract_playlist(get_file_list(dir_editor.decide_now_dir(),'txt'))
+    # extract_playlist_from_text(get_file_list(args[1],'txt'))
 
     # # test code for extract_file_name_book()
-    # extract_file_name_book()
+    # extract_file_name_book(args[1])
 
     # # test code for confirm_execution()
     # confirm_execution('a', 'b')
 
     # test code for edit_file_name()
-    edit_file_name()
+    # edit_file_name(args[1])
 
     # # test code for get_file_list()
-    # get_file_list(dir_editor.decide_now_dir(), 'jpg')
+    get_file_list(args[1], args[2])
 
 if __name__ == "__main__":
     main()

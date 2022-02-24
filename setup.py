@@ -4,7 +4,7 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setuptools.setup(
-    name="landmaster-library",
+    name="landmasterlibrary",
     version="0.0.1",
     author="landmaster135",
     author_email="52403447+landmaster135@users.noreply.github.com",

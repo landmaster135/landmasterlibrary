@@ -5,6 +5,9 @@ from os.path import splitext
 from setuptools import setup
 from setuptools import find_packages
 
+def _requires_from_file(filename):
+    return open(filename).read().splitlines()
+
 with open("README.md", "r") as fh:
     long_description = fh.read()
 
@@ -18,8 +21,8 @@ setup(
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="git+https://github.com/landmaster135/landmaster-library.git",
-    # packages=find_packages(),
-    # package_dir={"": "src"},
+    # packages=find_packages("landmasterlibrary"),
+    # package_dir={"": "landmasterlibrary"},
     # py_modules=[splitext(basename(path))[0] for path in glob('src/*.py')],
     # include_package_data=True,
     # zip_safe=False,

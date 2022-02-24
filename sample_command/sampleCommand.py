@@ -1,5 +1,5 @@
 def main():
-    print("Hello! landmaster-library!")
+    print("Hello! landmasterlibrary!")
 
 if __name__ == '__main__':
     main()

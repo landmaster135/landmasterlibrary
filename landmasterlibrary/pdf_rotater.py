@@ -3,11 +3,11 @@
 
 import os, sys
 # IMPORT module FROM LandmasterLibrary
-import DirEditor
-sep = DirEditor.DecideSeperator() # String seperator of directory.
-import FileListGetter
+import dir_editor
+sep = dir_editor.decide_seperator() # String seperator of directory.
+import file_list_getter
 
-def MakeVertical(folderList):
+def make_vertical(folder_list):
     '''
     folderList        : list of file filtered with extension in the selected folder.
     filename          : fullname of selected file.
@@ -19,15 +19,15 @@ def MakeVertical(folderList):
     '''
     # PyPDF2 version is 1.26.0
     from PyPDF2 import PdfFileWriter, PdfFileReader
-    if len(folderList) != 0:
-        filename = folderList[0]
+    if len(folder_list) != 0:
+        filename = folder_list[0]
     else:
         print('\nPDFRotater exits because of no target files.')
         sys.exit(0)
 
-    rotated_dir = DirEditor.MakeDirectory(filename)
+    rotated_dir = dir_editor.make_directory(filename)
 
-    for filename in folderList:
+    for filename in folder_list:
         print("Rotate all page of PDF:", filename)
 
         original = PdfFileReader(filename)
@@ -48,7 +48,7 @@ def MakeVertical(folderList):
 
         # new file entry
         # output_filename = '{dirname}{sep}{basename}'.format(dirname=rotated_dir, sep=sep, basename=os.path.basename(filename))
-        output_filename = DirEditor.GenerateFileName(rotated_dir, sep, os.path.basename(filename))
+        output_filename = dir_editor.generate_file_name(rotated_dir, sep, os.path.basename(filename))
         with open(output_filename, "wb") as outputStream:
             rotated.write(outputStream)
 
@@ -57,7 +57,7 @@ def MakeVertical(folderList):
     print('\n\nCheck new folder. "{}"'.format(rotated_dir))
 
 def main():
-    MakeVertical(FileListGetter.GetFileList(DirEditor.DecideNowDir(),'pdf'))
+    make_vertical(file_list_getter.get_file_list(dir_editor.decide_now_dir(),'pdf'))
 
 if __name__ == "__main__":
     main()

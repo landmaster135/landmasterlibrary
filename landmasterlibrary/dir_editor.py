@@ -1,36 +1,36 @@
-# DirSeperator.py
+# dir_editor.py
 # code in shift-jis
 
 import os, sys, platform
 from tkinter import filedialog
 # IMPORT module FROM LandmasterLibrary
-import InputController
+import input_controller
 
-def DecideSaveFileName(dirname, list_of_ext):
+def decide_save_file_name(dirname, list_of_ext):
     '''
-    list_of_ext  : List String extension
-    dirname      : String absolutely directory of default folder
-    saveFilePath : String absolutely path of selected file
+    list_of_ext    : List String extension
+    dirname        : String absolutely directory of default folder
+    save_file_path : String absolutely path of selected file
     '''
     if list_of_ext == []:
-        list_of_ext = InputExtList()
+        list_of_ext = input_ext_list()
     else:
         pass
-    saveFilePath = filedialog.asksaveasfilename(filetypes=DecideExt(list_of_ext), initialdir=dirname ,title = "Save As")
-    print("File's Absolutely Path: {quotation}{filepath}{quotation}".format(quotation='"',filepath=saveFilePath))
-    return saveFilePath
+    save_file_path = filedialog.asksaveasfilename(filetypes=decide_ext(list_of_ext), initialdir=dirname ,title = "Save As")
+    print("File's Absolutely Path: {quotation}{filepath}{quotation}".format(quotation='"',filepath=save_file_path))
+    return save_file_path
 
-def GenerateFileName(dirname, sep, filenameWithExt):
+def generate_file_name(dirname, sep, filename_with_ext):
     '''
     dirname           : String directory name.
     sep               : String seperator of direcotry.
     filenameWithExt   : String filename with extension. (name of directory is also OK.)
     GeneratedFileName : String FileName Generated in this function.
     '''
-    GeneratedFileName = '{dirname}{sep}{filename}'.format(dirname=dirname,sep=sep,filename=filenameWithExt)
-    return GeneratedFileName
+    generated_file_name = '{dirname}{sep}{filename}'.format(dirname=dirname,sep=sep,filename=filename_with_ext)
+    return generated_file_name
 
-def MakeDirectory(filename):
+def make_directory(filename):
     '''
     filename  : String fullname of selected file.
     new_name  : String name of folder having rotated files.
@@ -38,12 +38,12 @@ def MakeDirectory(filename):
     '''
     new_name = input("Input a name of new folder: ")
     # made_path = '{dirname}{sep}{newpath}'.format(dirname=os.path.dirname(filename),sep=DecideSeperator(),newpath=new_name)
-    made_path = GenerateFileName(os.path.dirname(filename), DecideSeperator(), new_name)
+    made_path = generate_file_name(os.path.dirname(filename), decide_seperator(), new_name)
     while os.path.isdir(made_path) == True:
         new_name = input("That name already exists. Reinput: ")
         # new path entry
         # made_path = '{dirname}{sep}{newpath}'.format(dirname=os.path.dirname(filename),sep=DecideSeperator(),newpath=new_name)
-        made_path = GenerateFileName(os.path.dirname(filename), DecideSeperator(), new_name)
+        made_path = generate_file_name(os.path.dirname(filename), decide_seperator(), new_name)
 
     # make new directory if new directory is none.
     if os.path.isdir(made_path) == False:
@@ -51,30 +51,30 @@ def MakeDirectory(filename):
 
     return made_path
 
-def InputExtList(ext_range=10):
+def input_ext_list(ext_range=10):
     '''
     ext_range   : Integer number of extensions you can selecet
     list_of_ext : List String extension
-    moreFile    : String extension
+    more_file    : String extension
     '''
     list_of_ext = []
     for i in range(0, ext_range):
         # Varify message by times.
         if i == 0:
-            moreFile = input("What filetype (extension)?: ")
+            more_file = input("What filetype (extension)?: ")
         else:
-            moreFile = input('more filetype?(* or "nothing"): ')
+            more_file = input('more filetype?(* or "nothing"): ')
         # Store in a list or not.
-        if moreFile != "nothing":
-            list_of_ext.append(moreFile)
+        if more_file != "nothing":
+            list_of_ext.append(more_file)
         else:
             break
     return list_of_ext
 
-def DecideExt(list_of_ext):
+def decide_ext(list_of_ext):
     '''
     list_of_ext  : List String extension
-    fileTypes    : List type of file for choose file in the dialog
+    file_types   : List type of file for choose file in the dialog
 
     ext          : String extension
     ext_by_semic : String extension in arrangement by semicolon (if Windows)
@@ -92,51 +92,51 @@ def DecideExt(list_of_ext):
                 ext_by_semic = '*.{ext}'.format(ext=ext)
             else:
                 ext_by_semic = ext_by_semic + '{semicolon}*.{ext}'.format(ext=ext,semicolon=';')
-        fileTypes = [('data files', ext_by_semic)]
+        file_types = [('data files', ext_by_semic)]
     elif pf == 'Darwin': # OS is Mac
         # wanted to make like this...  ex. fileTypes = [("csv files","*.csv"),("txt files","*.txt")]
         for ext in list_of_ext:
             ext_by_list  = ['{ext} files'.format(ext=ext),'*.{ext}'.format(ext=ext)]
             ext_by_tuple = tuple(ext_by_list)
             if ext == list_of_ext[0]:
-                fileTypes = [ext_by_tuple]
+                file_types = [ext_by_tuple]
             else:
-                fileTypes.append(ext_by_tuple)
+                file_types.append(ext_by_tuple)
             # set default "ext_by_tuple"
             ext_by_tuple = ""
-    return fileTypes
+    return file_types
 
-def DecideNowFile(list_of_ext):
+def decide_now_file(list_of_ext):
     '''
-    list_of_ext : List String extension
-    nowDir      : String absolutely directory of default folder
-    nowFilePath : String absolutely path of selected file
+    list_of_ext   : List String extension
+    now_dir       : String absolutely directory of default folder
+    now_file_path : String absolutely path of selected file
     '''
     if list_of_ext == []:
-        list_of_ext = InputExtList()
+        list_of_ext = input_ext_list()
     else:
         pass
-    nowDir = os.path.abspath(os.path.dirname(__file__))
-    nowFilePath = filedialog.askopenfilename(filetypes=DecideExt(list_of_ext), initialdir=nowDir)
-    print("File's Absolutely Path: {quotation}{filepath}{quotation}".format(quotation='"',filepath=nowFilePath))
-    return nowFilePath
+    now_dir = os.path.abspath(os.path.dirname(__file__))
+    now_file_path = filedialog.askopenfilename(filetypes=decide_ext(list_of_ext), initialdir=now_dir)
+    print("File's Absolutely Path: {quotation}{filepath}{quotation}".format(quotation='"',filepath=now_file_path))
+    return now_file_path
 
-def DecideNowDir():
+def decide_now_dir():
     '''
-    nowDir     : String absolutely directory default folder
-    nowDirPath : String absolutely path selected folder
+    now_dir      : String absolutely directory default folder
+    now_dir_path : String absolutely path selected folder
     '''
-    nowDir = os.path.abspath(os.path.dirname(__file__))
-    nowDirPath = filedialog.askdirectory(initialdir=nowDir)
+    now_dir = os.path.abspath(os.path.dirname(__file__))
+    now_dir_path = filedialog.askdirectory(initialdir=now_dir)
 
     # Discrimination whether Windows or Mac.
     pf = platform.system()
     if pf == 'Windows': # OS is Windows
-        nowDirPath = nowDirPath.replace('/', '\\')
-    print("Folder's Absolutely Path: {quotation}{folderpath}{quotation}".format(quotation='"',folderpath=nowDirPath))
-    return nowDirPath
+        now_dir_path = now_dir_path.replace('/', '\\')
+    print("Folder's Absolutely Path: {quotation}{folderpath}{quotation}".format(quotation='"',folderpath=now_dir_path))
+    return now_dir_path
 
-def DecideSeperator():
+def decide_seperator():
     '''
     pf  : String system name of OS.
     sep : String seperator of directory.
@@ -153,7 +153,7 @@ def DecideSeperator():
 
 def main():
     # test code for DecideSeperator()
-    DecideSeperator()
+    decide_seperator()
 
 if __name__ == "__main__":
     main()

@@ -15,9 +15,9 @@ for sentence in sentenses:
         print("=============================================")
         print('%s: %d' % (k, v))
         tokenCountList.append([k, v])
-    
+
 print(tokenCountList)
-    
+
 #     print("=============================================")
 #     print("=============================================")
 #     print(sentence)

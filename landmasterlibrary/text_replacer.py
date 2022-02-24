@@ -1,5 +1,5 @@
 class ReplaceCharacter:
-    def MakeVoicedsound(self, text):
+    def make_voicedsound(self, text):
         """
         text           : String of target text.
         """

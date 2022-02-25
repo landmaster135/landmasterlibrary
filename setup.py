@@ -14,7 +14,7 @@ with open("README.md", "r") as fh:
 setup(
     name="landmasterlibrary",
     version="0.0.1",
-    description="Convenient tools for me.3",
+    description="Convenient tools for me.4",
     author="kinkinnbeer135ml",
     author_email="52403447+landmaster135@users.noreply.github.com",
     license="MIT",

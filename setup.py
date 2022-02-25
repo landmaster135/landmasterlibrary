@@ -22,9 +22,9 @@ setup(
     long_description_content_type="text/markdown",
     url="git+https://github.com/landmaster135/landmasterlibrary.git",
     packages=find_packages("src"),
-    package_dir={"src": "landmasterlibrary"},
+    # package_dir={"src": "landmasterlibrary"},
     # py_modules=[splitext(basename(path))[0] for path in glob("src/*.py")],
-    py_modules=["landmasterlibrary"],
+    py_modules=["src/landmasterlibrary"],
     include_package_data=True,
     zip_safe=False,
     classifiers=[

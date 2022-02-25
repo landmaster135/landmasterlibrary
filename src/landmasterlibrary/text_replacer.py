@@ -18,3 +18,10 @@ class ReplaceCharacter:
         print("ReplaceCharacter.make_voicedsound: return {}".format(text))
 
         return text
+
+def main():
+    replace_character = ReplaceCharacter()
+    replace_character.make_voicedsound("でずど")
+
+if __name__ == "__main__":
+    main()

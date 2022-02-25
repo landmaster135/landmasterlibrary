@@ -31,7 +31,7 @@ setup(
         "Operating System :: OS Independent",
     ],
     entry_points = {
-        'console_scripts': ['sample_command = sample_command.sampleCommand:main']
+        'console_scripts': ['text_editor = landmasterlibrary.text_editor:main']
     },
     python_requires=">=3.7",
     install_requires=_requires_from_file("requirements.txt"),

@@ -13,7 +13,7 @@ with open("README.md", "r") as fh:
 
 setup(
     name="landmasterlibrary",
-    version="0.0.3",
+    version="0.0.4",
     description="Convenient tools for me.",
     author="kinkinnbeer135ml",
     author_email="52403447+landmaster135@users.noreply.github.com",
@@ -30,6 +30,7 @@ setup(
     # package_dir={"find_packages": "src/landmasterlibrary"},
     # py_modules=[splitext(basename(path))[0] for path in glob("src/*.py")],
     # py_modules=["landmasterlibrary"],
+    py_modules=["dir_editor.py"],
     include_package_data=True,
     zip_safe=False,
     classifiers=[

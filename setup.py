@@ -31,7 +31,7 @@ setup(
         "Operating System :: OS Independent",
     ],
     entry_points = {
-        'text_replacer': ['text_editor = landmasterlibrary.text_replacer:main']
+        'console_scripts': ['text_replacer = landmasterlibrary.text_replacer:main']
     },
     python_requires=">=3.7",
     install_requires=_requires_from_file("requirements.txt"),

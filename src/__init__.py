@@ -9,6 +9,7 @@
 # from src.text_replacer import *
 # from src.generaltool import *
 # import landmasterlibrary
-import src
 
-__version__ = "0.0.1"
+# import src
+
+# __version__ = "0.0.1"

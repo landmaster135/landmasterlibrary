@@ -15,4 +15,6 @@ class ReplaceCharacter:
         for i in range(0,len(list_target)):
             text = text.replace(list_target[i], list_replace[i])
 
+        print("ReplaceCharacter.make_voicedsound: return {}".format(text))
+
         return text

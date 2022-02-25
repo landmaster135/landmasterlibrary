@@ -14,7 +14,7 @@ with open("README.md", "r") as fh:
 setup(
     name="landmasterlibrary",
     version="0.0.1",
-    description="Convenient tools for me.2",
+    description="Convenient tools for me.3",
     author="kinkinnbeer135ml",
     author_email="52403447+landmaster135@users.noreply.github.com",
     license="MIT",
@@ -22,6 +22,7 @@ setup(
     long_description_content_type="text/markdown",
     url="git+https://github.com/landmaster135/landmasterlibrary.git",
     packages=find_packages("src.landmasterlibrary"),
+    package_dir={"": "src"},
     # package_dir={"src": "landmasterlibrary"},
     # py_modules=[splitext(basename(path))[0] for path in glob("src/*.py")],
     py_modules=["src/landmasterlibrary"],

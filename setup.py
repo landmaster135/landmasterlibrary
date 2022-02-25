@@ -24,8 +24,8 @@ setup(
     packages=find_packages(where="src"),
     package_dir={"": "src"},
     # package_dir={"src": "landmasterlibrary"},
-    py_modules=[splitext(basename(path))[0] for path in glob("src/*.py")],
-    # py_modules=["src"],
+    # py_modules=[splitext(basename(path))[0] for path in glob("src/*.py")],
+    py_modules=["src"],
     include_package_data=True,
     zip_safe=False,
     classifiers=[

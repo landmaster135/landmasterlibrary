@@ -13,7 +13,7 @@ with open("README.md", "r") as fh:
 
 setup(
     name="landmasterlibrary",
-    version="0.0.2",
+    version="0.0.3",
     description="Convenient tools for me.",
     author="kinkinnbeer135ml",
     author_email="52403447+landmaster135@users.noreply.github.com",

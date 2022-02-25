@@ -3,6 +3,26 @@ from src.landmasterlibrary.generaltool import get_value_from_yaml, get_src_path_
 class Test_ReplaceCharacter:
 
     # normal system
+    def test_get_obj_from_yaml_1_1(self):
+        actual = get_obj_from_yaml(
+            get_src_path_from_test_path(__file__, config_file_name)
+        )
+        expected = {"a": "testtest", "b": "testtest2"}
+        self.assertEqual(type(expected), type(actual))
+
+    # abnormal system
+    def test_get_obj_from_yaml_2_1(self):
+        errorMsg = get_value_from_yaml(
+            get_src_path_from_test_path(__file__, config_file_name),
+            "msg_obj_e0101"
+        )
+        # TODO: configFileNameをテスト用のファイルに直す。
+        with self.assertRaises(FileNotFoundError, msg=errorMsg):
+            errorMsg = get_obj_from_yaml(
+                str(Path(__file__).parent / "src" / config_file_name)
+            )
+
+    # normal system
     def test_get_value_from_yaml_1_1(self):
         actual = get_value_from_yaml(
             get_src_path_from_test_path(__file__, config_file_name),

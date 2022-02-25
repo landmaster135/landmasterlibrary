@@ -51,10 +51,11 @@ def getValueFromYaml(yamlFile, field):
         ))
     return value
 
-def getSrcPathFromTestPath(srcFileName : str, srcFolderName : str = "src") -> str:
+def getSrcPathFromTestPath(calling_file_path : str, srcFileName : str, srcFolderName : str = "src") -> str:
     degreeOfParentDirectory = 2 - 1
-    srcPath = str(Path(__file__).parents[degreeOfParentDirectory] / srcFolderName / srcFileName)
+    # srcPath = str(Path(__file__).parents[degreeOfParentDirectory] / srcFolderName / srcFileName)
+    srcPath = str(Path(calling_file_path).parents[degreeOfParentDirectory] / srcFolderName / srcFileName)
     print("========================")
-    print("srcPath")
+    print(srcPath)
     print("========================")
     return srcPath

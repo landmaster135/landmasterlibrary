@@ -157,12 +157,14 @@ def judge_match_rate_by_feature_point(file_name_1 : str, file_name_2 : str) -> f
         while processing_method != 0 and processing_method != 10000:
             processing_method = int(input('This is not image. Decide degree of similarity by yourself. (0 or 10000:less similar)'))
         return processing_method
+
     # Grayscale is more correctly than RGB: 3 channel.
     img1 = cv2.imread(file_name_1, cv2.IMREAD_GRAYSCALE)
     img2 = cv2.imread(file_name_2, cv2.IMREAD_GRAYSCALE)
     bf = cv2.BFMatcher(cv2.NORM_HAMMING)
     detector = cv2.AKAZE_create()
     (img1_kp, img1_des) = detector.detectAndCompute(img1, None)
+
     try:
         (img2_kp, img2_des) = detector.detectAndCompute(img2, None)
         matches = bf.match(img1_des, img2_des)
@@ -190,11 +192,13 @@ def judge_match_rate_by_pixel_match(file_name_1 : str, file_name_2 : str) -> flo
     num_all_pixel : Integer number of all pixels
     match_rate    : Float rate
     '''
+
     color_mode = cv2.IMREAD_GRAYSCALE
     # coloeMode = 1
     img1 = cv2.imread(file_name_1, color_mode) # 2nd variable =0: monochrome, >0: 3 channel, <0: original
     img2 = cv2.imread(file_name_2, color_mode)
     match_count = 0
+
     if len(img1) == len(img2):
         # j: pixels in the height, k: pixels in the width
         for j in range(0, len(img1)):
@@ -283,6 +287,7 @@ def extract_image(video_name : str):
     fps           : Integer number of fps of selected video
     num_of_image  : Integer number of extracted images from video
     '''
+
     # Error Handling
     if video_name == '':
         print("ERROR: No file is selected.")
@@ -329,9 +334,9 @@ def get_times_of_movie_in_folder(dir_full_path : str, movie_file_ext : str = "mo
     ONE_HOUR_TO_SECOND = 3600
     ONE_MINUTE_TO_SECOND = 60
     print(total_time)
-    hour = round(total_time / ONE_HOUR_TO_SECOND)
-    minute = round((total_time - ONE_HOUR_TO_SECOND * hour) / ONE_MINUTE_TO_SECOND)
-    second = total_time - ONE_HOUR_TO_SECOND * hour - ONE_MINUTE_TO_SECOND * minute
+    hour = math.floor(total_time / ONE_HOUR_TO_SECOND)
+    minute = math.floor((total_time - ONE_HOUR_TO_SECOND * hour) / ONE_MINUTE_TO_SECOND)
+    second = math.floor(total_time - ONE_HOUR_TO_SECOND * hour - ONE_MINUTE_TO_SECOND * minute)
     total_time_to_display = "{}:{}:{}".format(str(hour), str(minute), str(second))
     print("Total_time is {}".format(total_time_to_display))
 

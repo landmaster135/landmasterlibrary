@@ -1,3 +1,6 @@
+# morph_analysis.py
+
+# Library by third party
 from janome.tokenizer import Tokenizer
 from janome.analyzer import Analyzer
 from janome.tokenfilter import *

@@ -1,9 +1,8 @@
 # dir_editor.py
-# code in shift-jis
 
+# Library by default
 import os, sys, platform
-# from tkinter import filedialog
-# Import module from LandmasterLibrary
+# Library by landmasterlibrary
 import input_controller
 
 def decide_save_file_name(dirname : str, list_of_ext : list) -> str:
@@ -16,7 +15,6 @@ def decide_save_file_name(dirname : str, list_of_ext : list) -> str:
         list_of_ext = input_ext_list()
     else:
         pass
-    # save_file_path = filedialog.asksaveasfilename(filetypes=decide_ext(list_of_ext), initialdir=dirname ,title = "Save As")
     sep = decide_seperator()
     save_file_name = "FILENAMES"
     save_file_path = "{0}{1}{2}{3}{4}".format(dirname, sep, save_file_name, ".", list_of_ext[0])

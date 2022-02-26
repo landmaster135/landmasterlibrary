@@ -1,9 +1,12 @@
 # image_editor.py
-# code in shift-jis
 
+# Library by default
 import os, sys
+import math
+from glob import glob
+# Library by third party
 import cv2 # opencv 3.4.2
-# IMPORT module FROM LandmasterLibrary
+# Library by landmasterlibrary
 import input_controller
 import dir_editor
 sep = dir_editor.decide_seperator() # String seperator of directory.
@@ -104,9 +107,8 @@ def trim_image(dir_full_path : str, trimmed_img_ext : str = "jpg"):
     trimmed_img_ext          : String of extension of trimmed_img.
     trimmed_img_name         : String of filename of trimmed_img.
     '''
-    # now_dir = dir_editor.decide_now_dir()
-    now_dir = dir_full_path
-    file_list = file_list_getter.get_file_list(now_dir, trimmed_img_ext)
+
+    file_list = file_list_getter.get_file_list(dir_full_path, trimmed_img_ext)
 
     # Error Handling
     if len(file_list) == 0:
@@ -313,11 +315,31 @@ def extract_image(video_name : str):
     print('Check directory "{dirname}"'.format(dirname=extracted_dir))
     cap.release()
 
+def get_times_of_movie_in_folder(dir_full_path : str, movie_file_ext : str = "mov"):
+    file_list = file_list_getter.get_file_list(dir_full_path, movie_file_ext)
+    print(file_list)
+    total_time = 0
+    for file in file_list:
+        cap = cv2.VideoCapture(file)
+        frame_count = cap.get(cv2.CAP_PROP_FRAME_COUNT)
+        fps = cap.get(cv2.CAP_PROP_FPS)
+        time = frame_count / fps
+        total_time += time
+
+    ONE_HOUR_TO_SECOND = 3600
+    ONE_MINUTE_TO_SECOND = 60
+    print(total_time)
+    hour = round(total_time / ONE_HOUR_TO_SECOND)
+    minute = round((total_time - ONE_HOUR_TO_SECOND * hour) / ONE_MINUTE_TO_SECOND)
+    second = total_time - ONE_HOUR_TO_SECOND * hour - ONE_MINUTE_TO_SECOND * minute
+    total_time_to_display = "{}:{}:{}".format(str(hour), str(minute), str(second))
+    print("Total_time is {}".format(total_time_to_display))
+
 def main():
     args = sys.argv
 
     # # test code for select_area()
-    select_area(args[1])
+    # select_area(args[1])
 
     # test code for trim_image()
     # trim_image(args[1], 'jpg')
@@ -327,8 +349,11 @@ def main():
     # remove_duplication(file_list)
 
     # test code for extract_image()
-    # list_of_ext = ["mp4"]
     # extract_image(args[1])
+
+    # test code for get_times_of_movie_in_folder()
+    ext = "mov"
+    get_times_of_movie_in_folder(args[1], ext)
 
 if __name__ == "__main__":
     main()

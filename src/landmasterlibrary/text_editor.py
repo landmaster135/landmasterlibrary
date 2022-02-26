@@ -1,8 +1,8 @@
 # text_editor.py
-# code in shift-jis
 
+# Library by default
 import os, sys, platform
-# IMPORT module FROM LandmasterLibrary
+# Library by landmasterlibrary
 import input_controller
 import dir_editor
 sep = dir_editor.decide_seperator() # String seperator of directory.

@@ -1,8 +1,8 @@
 # pdf_rotater.py
-# code in shift-jis
 
+# Library by default
 import os, sys
-# IMPORT module FROM LandmasterLibrary
+# Library by landmasterlibrary
 import dir_editor
 sep = dir_editor.decide_seperator() # String seperator of directory.
 import file_list_getter

@@ -1,6 +1,6 @@
 # input_controller.py
-# code in shift-jis
 
+# Library by default
 import os, sys
 import re # regular expression
 

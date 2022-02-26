@@ -1,11 +1,11 @@
 # file_list_getter.py
-# code in shift-jis
 
+# Library by default
 from argparse import ArgumentError
 import glob2
 import os, sys, platform
 import time
-# IMPORT module FROM LandmasterLibrary
+# Library by landmasterlibrary
 import input_controller
 import dir_editor
 sep = dir_editor.decide_seperator() # String seperator of directory.
@@ -46,19 +46,16 @@ def extract_playlist_from_text(file_list : list):
 
 def extract_file_name_book(dir_full_path : str):
     '''
-    now_dir          : String name of now direcotry.
+    dir_full_path    : String name of now direcotry.
     file_list        : List of String filename.
-    fileName       : String exported filename.
     export_file_name : String exported absolutely filename.
     data_list_exp    : List to export as CSV.           [[], [], ...]
     data_list        : List to memorize to dataListEXP. [, , ...]
     time_mod         : String data of date and time.
     '''
 
-    # now_dir          = dir_editor.decide_now_dir()
-    now_dir          = dir_full_path
-    file_list        = get_file_list(now_dir, dir_editor.input_ext_list(ext_range=1)[0])
-    export_file_name = dir_editor.decide_save_file_name(now_dir, ["csv"])
+    file_list        = get_file_list(dir_full_path, dir_editor.input_ext_list(ext_range=1)[0])
+    export_file_name = dir_editor.decide_save_file_name(dir_full_path, ["csv"])
 
     data_list_exp = []
     date_format = '%Y/%m/%d %H:%M:%S' # 日付の出力用
@@ -115,9 +112,7 @@ def edit_file_name(dir_full_path : str):
     replace_file_name             : String absolutely replaced filename.
     '''
     ext = input('What Extension? (without ".") : ')
-    # now_dir = dir_editor.decide_now_dir()
-    now_dir = dir_full_path
-    file_list = get_file_list(now_dir, ext)
+    file_list = get_file_list(dir_full_path, ext)
     input_message = 'Select mode. [ A: Add, D: Delete, R: Replace, E: Exit ]'
     mode_selected = input_controller.repeat_input_with_multi_choices(input_message, ['A', 'D', 'R', 'E'])
     if mode_selected == 'E':

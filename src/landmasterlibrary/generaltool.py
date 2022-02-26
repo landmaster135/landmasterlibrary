@@ -1,9 +1,11 @@
+# generaltool.py
+
 # Library by default
 from pathlib import Path
 import sys
 # Library by third party
 import yaml
-# Library in the local
+# Library by landmasterlibrary
 
 
 def get_str_repeated_to_mark(repeat_str : str, repeat_number_to_mark : int = 15) -> str:

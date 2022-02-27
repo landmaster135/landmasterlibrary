@@ -6,7 +6,7 @@ import sys
 # Library by third party
 import yaml
 # Library by landmasterlibrary
-
+from config import Config
 
 def get_str_repeated_to_mark(repeat_str : str, repeat_number_to_mark : int = 15) -> str:
     return str(repeat_str * repeat_number_to_mark)
@@ -58,12 +58,12 @@ def get_src_path_from_test_path(calling_file_path : str, src_file_name : str, sr
     src_path = str(Path(calling_file_path).parents[degree_of_parent_directory] / src_folder_name / src_file_name)
     return src_path
 
-def remove_spaces_at_head_and_tail(word, spaces):
+def remove_spaces_at_head_and_tail(word : str, spaces : list = Config.spaces()) -> str:
     word_tail_removed = remove_tail_sapces(word, spaces)
     word_both_removed = remove_head_sapces(word_tail_removed, spaces)
     return word_both_removed
 
-def remove_tail_sapces(word, spaces):
+def remove_tail_sapces(word : str, spaces : list = Config.spaces()) -> str:
     word_removed_space = ""
     if word[len(word) - 1] in spaces:
         word_removed_space = word[0:len(word) - 1]
@@ -73,7 +73,7 @@ def remove_tail_sapces(word, spaces):
         word_removed_space = word
     return word_removed_space
 
-def remove_head_sapces(word, spaces):
+def remove_head_sapces(word : str, spaces : list = Config.spaces()) -> str:
     word_removed_space = ""
     if word[0] in spaces:
         word_removed_space = word[1:len(word)+1]

@@ -6,7 +6,7 @@ import sys
 # Library by third party
 import yaml
 # Library by landmasterlibrary
-from config import spaces, seperators
+from .config import spaces, seperators
 
 def get_str_repeated_to_mark(repeat_str : str, repeat_number_to_mark : int = 15) -> str:
     return str(repeat_str * repeat_number_to_mark)

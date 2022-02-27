@@ -55,32 +55,50 @@ class Test_ReplaceCharacter:
     # handakuon: normal system
     def test_make_voicedsound_2_6(self):
         replaceCharacter = ReplaceCharacter()
-        assert replaceCharacter.make_voicedsound("パピプペポ") != "パピプペポ"
+        assert replaceCharacter.make_voicedsound("パピプペポ") == "パピプペポ"
 
     # dakuon: semi-normal system
     def test_make_voicedsound_3_1(self):
         replaceCharacter = ReplaceCharacter()
-        assert replaceCharacter.make_voicedsound("がぎぐげござじずぜぞ") != "かきくけこさしすせそ"
+        expectedCharacters = "かきくけこさしすせそ"
+        actualCharacters = replaceCharacter.make_voicedsound("がぎぐげござじずぜぞ")
+        for i in range(0, len(expectedCharacters), 1):
+            assert expectedCharacters[i] != actualCharacters[i]
 
     def test_make_voicedsound_3_2(self):
         replaceCharacter = ReplaceCharacter()
-        assert replaceCharacter.make_voicedsound("だぢづでどばびぶべぼ") != "たちつてとはひふへほ"
+        actualCharacters = replaceCharacter.make_voicedsound("だぢづでどばびぶべぼ")
+        expectedCharacters = "たちつてとはひふへほ"
+        for i in range(0, len(expectedCharacters), 1):
+            assert expectedCharacters[i] != actualCharacters[i]
 
     #handakuon: semi-normal system
     def test_make_voicedsound_3_3(self):
         replaceCharacter = ReplaceCharacter()
-        assert replaceCharacter.make_voicedsound("ぱぴぷぺぽ") != "はひふへほ"
+        actualCharacters = replaceCharacter.make_voicedsound("ぱぴぷぺぽ")
+        expectedCharacters = "はひふへほ"
+        for i in range(0, len(expectedCharacters), 1):
+            assert expectedCharacters[i] != actualCharacters[i]
 
     # dakuon: semi-normal system
     def test_make_voicedsound_3_4(self):
         replaceCharacter = ReplaceCharacter()
-        assert replaceCharacter.make_voicedsound("ガギグゲゴザジズゼゾ") != "カキクケコサシスセソ"
+        actualCharacters = replaceCharacter.make_voicedsound("ガギグゲゴザジズゼゾ")
+        expectedCharacters = "カキクケコサシスセソ"
+        for i in range(0, len(expectedCharacters), 1):
+            assert expectedCharacters[i] != actualCharacters[i]
 
     def test_make_voicedsound_3_5(self):
         replaceCharacter = ReplaceCharacter()
-        assert replaceCharacter.make_voicedsound("ダヂヅデドバビブベボ") != "タチツテトハヒフヘホ"
+        actualCharacters = replaceCharacter.make_voicedsound("ダヂヅデドバビブベボ")
+        expectedCharacters = "タチツテトハヒフヘホ"
+        for i in range(0, len(expectedCharacters), 1):
+            assert expectedCharacters[i] != actualCharacters[i]
 
     # handakuon: semi-normal system
     def test_make_voicedsound_3_6(self):
         replaceCharacter = ReplaceCharacter()
-        assert replaceCharacter.make_voicedsound("パピプペポ") != "ハヒフヘホ"
+        actualCharacters = replaceCharacter.make_voicedsound("パピプペポ")
+        expectedCharacters = "ハヒフヘホ"
+        for i in range(0, len(expectedCharacters), 1):
+            assert expectedCharacters[i] != actualCharacters[i]

@@ -3,9 +3,11 @@
 # Library by default
 import os, sys
 import math
-from glob import glob
+import subprocess
 # Library by third party
 import cv2 # opencv 3.4.2
+from apiclient.discovery import build
+import pandas as pd
 # Library by landmasterlibrary
 import input_controller
 import dir_editor
@@ -340,6 +342,58 @@ def get_times_of_movie_in_folder(dir_full_path : str, movie_file_ext : str = "mo
     total_time_to_display = "{}:{}:{}".format(str(hour), str(minute), str(second))
     print("Total_time is {}".format(total_time_to_display))
 
+def extract_sound_to_text(dir_full_path : str, movie_file_ext : str = "mov"):
+    file_list = file_list_getter.get_file_list(dir_full_path, movie_file_ext)
+    dir_name_list = dir_full_path.split("/")
+    base_dir_name = dir_name_list[len(dir_name_list) - 1]
+    sound_dir_name = "sound"
+    print("$$$$$$$$$$$$$$$$$$$$$$$$$$$")
+    for file_name in file_list:
+        # TODO: dir_editor直した後に動作確認
+        output_file_name = file_name.replace(f".{movie_file_ext}", ".mp3").replace(base_dir_name, f"{base_dir_name}/{sound_dir_name}")
+        cmd = "ffmpeg -i {}  {}".format(file_name, output_file_name)
+        print(file_name)
+        print(output_file_name)
+        print("=========================")
+        subprocess.call(cmd, shell=True)
+
+def resize_img(dir_full_path : str, img_file_ext : str = "jpg"):
+    # TODO:動くかどうかを確認
+    file_list = file_list_getter.get_file_list(dir_full_path, movie_file_ext)
+    convert_dir = dir_full_path + "convert/"
+
+    for file_name in file_list:
+        img = Image.open(file_name)
+        img_resize = img.resize((int(img.width / 4), int(img.height / 4)))
+        title, ext = os.path.splitext(file_name)
+        img_resize.save(convert_dir + os.path.basename(file_name))
+
+def get_statistics(youtube, id):
+    # TODO:動くかどうかを動作確認
+    statistics = youtube.videos().list(part="statistics", id=id).execute()["items"][0]["statistics"]
+    return statistics
+
+def get_youtube_statistics():
+    # TODO:動くかどうかを動作確認
+    youtube = build("youtube", "v3", developerKey=settings.APIKEY)
+
+    search_response = youtube.search().list(
+        part="snippet",
+        maxResults="50",
+        q="python",
+        relevanceLanguage="ja",
+        type="video"
+    ).execute()
+    df = pd.DataFrame()
+    for item in search_response["items"]:
+        statistics = get_statistics(item["id"]["videoId"])
+        se = pd.Series([int(statistics["viewCOunt"]), item["snippet"]["title"]], ["再生回数", "タイトル"])
+        df = df.append(se, ignore_index=True)
+
+    df_s = df.sort_values("再生回数", "タイトル")
+    print(df_s)
+
+
 def main():
     args = sys.argv
 
@@ -357,8 +411,12 @@ def main():
     # extract_image(args[1])
 
     # test code for get_times_of_movie_in_folder()
+    # ext = "mov"
+    # get_times_of_movie_in_folder(args[1], ext)
+
+    # test code for extract_sound_to_text()
     ext = "mov"
-    get_times_of_movie_in_folder(args[1], ext)
+    extract_sound_to_text(args[1], ext)
 
 if __name__ == "__main__":
     main()

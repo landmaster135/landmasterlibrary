@@ -159,22 +159,23 @@ def get_file_list(folder_dir : str, ext : str = "jpg") -> list:
     '''
     folder_dir  : String selected folder's absolutely directory.
     ext         : String extension
-    folder_list : List about selected folder
+    file_list : List about selected folder
     '''
 
     if folder_dir == '':
         print("ERROR: No directory is selected.")
         sys.exit(0)
 
-    folder_list = glob2.glob(dir_editor.generate_file_name(folder_dir, sep, '*.{ext}'.format(ext=ext)))
+    file_list = glob2.glob(dir_editor.generate_file_name(folder_dir, sep, '*.{ext}'.format(ext=ext)))
+    print(file_list)
 
     # sort order of list is irregulary if you use "glob"
-    list.sort(folder_list, reverse=False)
+    list.sort(file_list, reverse=False)
     print('Get file list in this folder.\n"', folder_dir, '"\n\n........................\n')
     # Get list about files.
-    for file in folder_list:
-        print(file)
-    return folder_list
+    for file_name in file_list:
+        print(file_name)
+    return file_list
 
 def main():
     args = sys.argv

@@ -92,12 +92,12 @@ def get_words_by_seperators(word : str, seperators : list = Config.seperators, s
     print(words_without_space)
     return words_without_space
 
-def remove_spaces_at_head_and_tail(word : str, spaces : list = Config.spaces()) -> str:
+def remove_spaces_at_head_and_tail(word : str, spaces : list = Config.spaces) -> str:
     word_tail_removed = remove_tail_sapces(word, spaces)
     word_both_removed = remove_head_sapces(word_tail_removed, spaces)
     return word_both_removed
 
-def remove_tail_sapces(word : str, spaces : list = Config.spaces()) -> str:
+def remove_tail_sapces(word : str, spaces : list = Config.spaces) -> str:
     word_removed_space = ""
     if word[len(word) - 1] in spaces:
         word_removed_space = word[0:len(word) - 1]
@@ -107,7 +107,7 @@ def remove_tail_sapces(word : str, spaces : list = Config.spaces()) -> str:
         word_removed_space = word
     return word_removed_space
 
-def remove_head_sapces(word : str, spaces : list = Config.spaces()) -> str:
+def remove_head_sapces(word : str, spaces : list = Config.spaces) -> str:
     word_removed_space = ""
     if word[0] in spaces:
         word_removed_space = word[1:len(word)+1]

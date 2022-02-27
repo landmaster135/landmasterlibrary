@@ -8,8 +8,8 @@
 #     def seperators(self):
 #         return [",", "、"]
 
-def spaces(self):
+def spaces():
     return [" ", "　"]
 
-def seperators(self):
+def seperators():
     return [",", "、"]

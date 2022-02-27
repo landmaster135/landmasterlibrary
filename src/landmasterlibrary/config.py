@@ -6,4 +6,4 @@ class Config:
         return [" ", "　"]
 
     def seperators(self):
-        return [" ", "　"]
+        return [",", "、"]

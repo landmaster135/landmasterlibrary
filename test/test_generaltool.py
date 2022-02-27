@@ -3,7 +3,7 @@ from pathlib import Path
 # Library by third party
 import pytest
 # Library by landmasterlibrary
-from src.landmasterlibrary.generaltool import get_value_from_yaml, get_src_path_from_test_path
+from src.landmasterlibrary.generaltool import get_value_from_yaml, get_src_path_from_test_path, remove_spaces_at_head_and_tail, remove_tail_sapces, remove_head_sapces
 
 class Test_ReplaceCharacter:
 
@@ -104,3 +104,27 @@ class Test_ReplaceCharacter:
     #             get_src_path_from_test_path(__file__, config_file_name),
     #             "testFielddddddd"
     #         )
+
+    # normal system
+    def test_remove_tail_sapces_1_1(self):
+        keyword  = "   　　　　　　　      　　   node.js    　　　　　  　　　　  "
+        spaces = [" ", "　"]
+        actual = remove_tail_sapces(keyword, spaces)
+        expected = "   　　　　　　　      　　   node.js"
+        assert actual == expected
+
+    # normal system
+    def test_remove_head_sapces_1_1(self):
+        keyword  = "   　　　　　　　      　　   node.js    　　　　　  　　　　  "
+        spaces = [" ", "　"]
+        actual = remove_head_sapces(keyword, spaces)
+        expected =                             "node.js    　　　　　  　　　　  "
+        assert actual == expected
+
+    # normal system
+    def test_remove_spaces_at_head_and_tail_1_1(self):
+        keyword  = "   　　　　　　　      　　   node.js    　　　　　  　　　　  "
+        spaces = [" ", "　"]
+        actual = remove_spaces_at_head_and_tail(keyword, spaces)
+        expected = "node.js"
+        assert actual == expected

@@ -1,6 +1,6 @@
 class Config:
     def __init__(self):
-        self._spaces = [" ", "　"]
+        self.spaces     = [" ", "　"]
         self.seperators = [",", "、"]
 
     # def spaces(self) -> list:

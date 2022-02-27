@@ -84,7 +84,7 @@ def get_words_by_indices(word : str, indices : list) -> list:
     return words
 
 def get_words_by_seperators(word : str, seperators : list = seperators(), spaces : list = spaces()) -> list:
-    indices = get_indices_by_seperators(word)
+    indices = get_indices_by_seperators(word, seperators)
     words = get_words_by_indices(word, indices)
     words_without_space = []
     for word in words:

@@ -1,15 +1,15 @@
-# class Config:
-#     def __init__(self):
-#         pass
+class Config:
+    def __init__(self):
+        pass
 
-#     def spaces(self):
-#         return [" ", "　"]
+    def spaces(self):
+        return [" ", "　"]
 
-#     def seperators(self):
-#         return [",", "、"]
+    def seperators(self):
+        return [",", "、"]
 
-def spaces():
-    return [" ", "　"]
+# def spaces():
+#     return [" ", "　"]
 
-def seperators():
-    return [",", "、"]
+# def seperators():
+#     return [",", "、"]

@@ -1,12 +1,13 @@
 class Config:
     def __init__(self):
-        pass
+        self._spaces = [" ", "　"]
+        self.seperators = [",", "、"]
 
-    def spaces(self):
-        return [" ", "　"]
+    # def spaces(self) -> list:
+    #     return [" ", "　"]
 
-    def seperators(self):
-        return [",", "、"]
+    # def seperators(self) -> list:
+    #     return [",", "、"]
 
 # def spaces():
 #     return [" ", "　"]

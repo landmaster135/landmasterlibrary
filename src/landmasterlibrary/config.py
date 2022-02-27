@@ -4,3 +4,6 @@ class Config:
 
     def spaces(self):
         return [" ", "　"]
+
+    def seperators(self):
+        return [" ", "　"]

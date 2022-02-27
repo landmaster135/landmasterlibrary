@@ -58,6 +58,40 @@ def get_src_path_from_test_path(calling_file_path : str, src_file_name : str, sr
     src_path = str(Path(calling_file_path).parents[degree_of_parent_directory] / src_folder_name / src_file_name)
     return src_path
 
+def get_indices_by_seperators(word : str, seperators : list = Config.seperators) -> list:
+    sep_indices = []
+    for sep in seperators:
+        start = 0
+        sep_index = 0
+        while sep_index != -1:
+            sep_index = word.find(sep, start)
+            if sep_index != -1:
+                sep_indices.append(sep_index)
+            start = sep_index + 1
+    sep_indices.append(len(word))
+    print(sep_indices)
+    sep_indices.sort()
+    print(sep_indices)
+    return sep_indices
+
+def get_words_by_indices(word : str, indices : list) -> list:
+    start = 0
+    words = []
+    for i in indices:
+        words.append(word[start:i])
+        start = i + 1
+    print(words)
+    return words
+
+def get_words_by_seperators(word : str, seperators : list = Config.seperators, spaces : list = Config.spaces()) -> list:
+    indices = get_indices_by_seperators(word)
+    words = get_words_by_indices(word, indices)
+    words_without_space = []
+    for word in words:
+        words_without_space.append(remove_spaces_at_head_and_tail(word, spaces))
+    print(words_without_space)
+    return words_without_space
+
 def remove_spaces_at_head_and_tail(word : str, spaces : list = Config.spaces()) -> str:
     word_tail_removed = remove_tail_sapces(word, spaces)
     word_both_removed = remove_head_sapces(word_tail_removed, spaces)

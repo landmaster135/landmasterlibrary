@@ -159,7 +159,7 @@ def printfunc() -> str:
     )
     print(f"file_name is {file_name}")
     try:
-        if isinstance(file_name, str):
+        if isinstance(file_name, str) == False:
             raise TypeError("TypeError: 1 argument is expected str only, not NoneType")
     except TypeError as e:
         raise

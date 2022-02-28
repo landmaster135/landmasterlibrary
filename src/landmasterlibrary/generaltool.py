@@ -116,7 +116,7 @@ def remove_head_sapces(word : str, spaces : list = Config.spaces) -> str:
     word_removed_space = ""
     print("===========================")
     print(word)
-    print(word[0])
+    # print(word[0])
     print(spaces)
     if len(word) != 0:
 

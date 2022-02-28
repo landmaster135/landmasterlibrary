@@ -149,12 +149,11 @@ def get_words_in_lines_by_head_and_tail(text_lines : list, head_of_target : str,
 
 
 def printfunc() -> str:
-    exec_file_name = __file__.__name__
     function_name = sys._getframe().f_code.co_name
     args = sys.argv
     file_name = args[1]
     output_log(
-        exec_file_name,
+        __file__,
         function_name,
         "{}".format(get_str_repeated_to_mark("a"))
     )

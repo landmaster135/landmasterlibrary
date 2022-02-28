@@ -201,6 +201,7 @@ def printfunc() -> str:
     functions = get_functions_in_python_file(file_path)
     for func in functions:
         print(func)
+    print("**********************************")
     return True
 
 if __name__ == "__main__":

@@ -149,8 +149,16 @@ def get_words_in_lines_by_head_and_tail(text_lines : list, head_of_target : str,
 
 
 def printfunc() -> str:
+    exec_file_name = __file__.__name__
+    function_name = sys._getframe().f_code.co_name
     args = sys.argv
     file_name = args[1]
+    output_log(
+        exec_file_name,
+        function_name,
+        "{}".format(get_str_repeated_to_mark("a"))
+    )
+    print("file_name is {}")
     try:
         if isinstance(file_name, str):
             raise TypeError("TypeError: 1 argument is expected str only, not NoneType")
@@ -168,3 +176,6 @@ def printfunc() -> str:
     for func in functions:
         print(func)
     return True
+
+if __name__ == "__main__":
+    printfunc()

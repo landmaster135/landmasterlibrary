@@ -118,15 +118,18 @@ def remove_head_sapces(word : str, spaces : list = Config.spaces) -> str:
     print(word)
     print(word[0])
     print(spaces)
-    if word[0] in spaces:
-        print("KKKKKKKKKKKKKKKKKKKKKKKK")
-        word_removed_space = word[1:len(word)+1]
-        # invisible head character if head space is nothing
-        print("'{}'".format(word_removed_space[1:len(word)]))
-        word_removed_space = remove_head_sapces(word_removed_space, spaces)
+    if len(word) != 0:
+
+        if word[0] in spaces:
+            print("KKKKKKKKKKKKKKKKKKKKKKKK")
+            word_removed_space = word[1:len(word)+1]
+            # invisible head character if head space is nothing
+            print("'{}'".format(word_removed_space[1:len(word)]))
+            word_removed_space = remove_head_sapces(word_removed_space, spaces)
     else:
         print("OOOOOOOOOOOOOOOOOOOOOOO")
         word_removed_space = word
+
     return word_removed_space
 
 def get_functions_in_python_file(file_full_name : str, head_of_function : str = "def ", tail_of_function : str = "(") -> list:

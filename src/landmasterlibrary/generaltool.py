@@ -199,7 +199,9 @@ def printfunc() -> str:
     except Exception as e:
         raise
     functions = get_functions_in_python_file(file_path)
+    print("**********************************")
     for func in functions:
+        print("EEEEEEEEEEEEEEEEEEEEEEEE")
         print(func)
     print("**********************************")
     return True

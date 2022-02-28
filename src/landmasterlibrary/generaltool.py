@@ -195,10 +195,13 @@ def printfunc() -> str:
     except Exception as e:
         raise
     functions = get_functions_in_python_file(file_path)
-    print("============ functions: start ============")
+
+    # display
+    prefix = args[2]
+    print("============ functions list: start ============")
     for func in functions:
-        print(func)
-    print("============ functions: end ============")
+        print("{} {}".format(prefix, func))
+    print("============ functions list: end ============")
     return True
 
 if __name__ == "__main__":

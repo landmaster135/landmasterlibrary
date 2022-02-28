@@ -2,15 +2,15 @@
 
 This library is create by kinkinbeer135ml.
 
-***
+<br>
 
-## Install
+# Installation
 
 ```bash
 pip install git+https://github.com/landmaster135/landmasterlibrary.git
 ```
 
-## Import
+# Importation
 
 To activate me, input this in python file.
 
@@ -18,7 +18,7 @@ To activate me, input this in python file.
 import * from landmasterlibrary
 ```
 
- ## Modules
+ # Modules
 
 1. input_controller.py
 2. dir_editor.py
@@ -27,7 +27,34 @@ import * from landmasterlibrary
 5. pdf_rotater.py
 6. ImageEditor.py
 
-## Usage
+# Functions in each Module
+
+## input_controller.py
+
+### check_whether_sjis_exists
+
+### c
+
+### c
+
+### c
+
+## dir_editor.py
+
+### c
+
+### c
+
+### c
+
+### c
+
+## text_editor.py
+## file_list_getter.py
+## pdf_rotater.py
+## ImageEditor.py
+
+# Usage
 
 You can use like these by `__name__ == "__main__"`.
 

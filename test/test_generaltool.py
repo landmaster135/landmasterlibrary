@@ -194,6 +194,22 @@ class Test_ReplaceCharacter:
         assert actual == expected
 
     # normal system
+    def test_remove_tail_sapces_1_2(self):
+        keyword  = "# generaltool.py"
+        # spaces = [" ", "　"]
+        actual = remove_tail_sapces(keyword, Config.spaces)
+        expected = "# generaltool.py"
+        assert actual == expected
+
+    # normal system
+    def test_remove_tail_sapces_1_3(self):
+        keyword  = ""
+        # spaces = [" ", "　"]
+        actual = remove_tail_sapces(keyword, Config.spaces)
+        expected = ""
+        assert actual == expected
+
+    # normal system
     def test_remove_head_sapces_1_1(self):
         keyword  = "   　　　　　　　      　　   node.js    　　　　　  　　　　  "
         # spaces = [" ", "　"]

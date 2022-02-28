@@ -150,7 +150,6 @@ def get_words_in_lines_by_head_and_tail(text_lines : list, head_of_target : str,
     words = []
     text_line_removed_head_space = ""
     function_name = sys._getframe().f_code.co_name
-
     output_log(
         __file__,
         function_name,
@@ -168,6 +167,11 @@ def get_words_in_lines_by_head_and_tail(text_lines : list, head_of_target : str,
             continue
         word = text_line_removed_head_space[len(head_of_target):tail_index]
         words.append(word)
+    output_log(
+        __file__,
+        function_name,
+        "{}".format(get_str_repeated_to_mark("a"))
+    )
     return words
 
 
@@ -195,6 +199,11 @@ def printfunc() -> str:
     except Exception as e:
         raise
     functions = get_functions_in_python_file(file_path)
+    output_log(
+        __file__,
+        function_name,
+        "{}".format(get_str_repeated_to_mark("b"))
+    )
 
     # display
     prefix = args[2]

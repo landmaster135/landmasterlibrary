@@ -125,6 +125,7 @@ def remove_head_sapces(word : str, spaces : list = Config.spaces) -> str:
         print("'{}'".format(word_removed_space[1:len(word)]))
         word_removed_space = remove_head_sapces(word_removed_space, spaces)
     else:
+        print("OOOOOOOOOOOOOOOOOOOOOOO")
         word_removed_space = word
     return word_removed_space
 

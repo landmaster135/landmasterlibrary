@@ -7,7 +7,7 @@ cursor = connection.cursor()
 
 tables = ['users', 'wardrobes', 'history_own', 'history_wear', 'weather_today']
 
-def main():
+def export_to_csv():
     for i in tables:
         cursor.execute("SELECT * FROM {};".format(i))
         rows = cursor.fetchall()
@@ -24,4 +24,4 @@ def main():
             print(','.join(list(j_list)))
 
 if __name__ == '__main__':
-    main()
+    export_to_csv()

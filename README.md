@@ -29,112 +29,180 @@ import * from landmasterlibrary
 
 # Functions in each Module
 
+|ddd|    vvvvvvv|
+|-----|----|
+## export_sqlite_to_csv.py
+
+- export_to_csv
+
+## file_list_getter.py
+
+- extract_playlist_from_text
+- extract_file_name_book
+- confirm_execution
+- edit_file_name
+- get_file_list
+- main
+
+## generaltool.py
+
+- get_str_repeated_to_mark
+- output_log
+- get_str_from_list
+- get_obj_from_yaml
+- get_value_from_yaml
+- get_src_path_from_test_path
+- get_indices_by_seperators
+- get_words_by_indices
+- get_words_by_seperators
+- remove_spaces_at_head_and_tail
+- remove_tail_sapces
+- remove_head_sapces
+- get_functions_in_python_file
+- get_words_in_lines_by_head_and_tail
+- printfunc
+
+
+## image_editor.py
 ## input_controller.py
 
-### check_whether_sjis_exists
+### morph_analysis.py
+## pdf_rotater.py
 
-### c
+## text_editor.py
 
-### c
+## text_replacer.py
 
-### c
+# Usage by `console_scripts`
+
+<!-- You can use like these by `__name__ == "__main__"`. -->
+
+You can use like these by `console_scripts`.
 
 ## dir_editor.py
 
-### c
-
-### c
-
-### c
-
-### c
-
-## text_editor.py
-## file_list_getter.py
-## pdf_rotater.py
-## ImageEditor.py
-
-# Usage
-
-You can use like these by `__name__ == "__main__"`.
-
-## Execution by console_scripts
-
-## text_editor
-
-write_text()
+- write_text
 
 ```bash
-python text_editor.py '/Users/landmaster/Downloads/test_folder/test.txt'
+python dir_editor.py '/Users/landmaster/Downloads/test_folder/test.txt'
 ```
 
-### file_list_getter
+## export_sqlite_to_csv.py
 
-|extract_playlist_from_text()|`python file_list_getter.py '/Users/landmaster/Downloads/test_folder'`|
-|----|-----|
+- write_text
 
-extract_playlist_from_text()
+```bash
+python dir_editor.py '/Users/landmaster/Downloads/test_folder/test.txt'
+```
+
+## file_list_getter
+
+
+- extract_playlist_from_text
 
 ```bash
 python file_list_getter.py '/Users/landmaster/Downloads/test_folder'
 ```
 
-extract_file_name_book()
+- extract_file_name_book
 
 ```bash
 python file_list_getter.py '/Users/landmaster/Downloads/test_folder'
 ```
 
-edit_file_name()
+- edit_file_name
 
 ```bash
 python file_list_getter.py '/Users/landmaster/Downloads/test_folder'
 ```
 
-get_file_list()
+- get_file_list
 
 ```bash
 python file_list_getter.py '/Users/landmaster/Downloads/test_folder' 'png'
 ```
 
-### pdf_rotater
+## generaltool
 
-make_vertical()
+- printfunc
 
 ```bash
-python pdf_rotater.py '/Users/landmaster/Downloads/test_folder'
+python file_list_getter.py '/Users/landmaster/Downloads/test_folder' 'png'
 ```
 
-### image_editor
+example
 
-select_area()
+```bash
+printfunc /usr/local/lib/python3.8/dist-packages/landmasterlibrary/generaltool.py '###'
+```
+
+->
+
+```shell
+============ functions list: start ============
+### get_str_repeated_to_mark
+### output_log
+### get_str_from_list
+### get_obj_from_yaml
+### get_value_from_yaml
+### get_src_path_from_test_path
+### get_indices_by_seperators
+### get_words_by_indices
+### get_words_by_seperators
+### remove_spaces_at_head_and_tail
+### remove_tail_sapces
+### remove_head_sapces
+### get_functions_in_python_file
+### get_words_in_lines_by_head_and_tail
+### printfunc
+============ functions list: end ============
+```
+
+## image_editor
+
+- select_area
 
 ```bash
 python image_editor.py '/Users/landmaster/Downloads/test_folder'
 ```
 
-trim_image()
+- trim_image
 
 ```bash
 python image_editor.py '/Users/landmaster/Downloads/test_folder' 'jpg'
 ```
 
-remove_duplication()
+- remove_duplication
 
 ```bash
 python image_editor.py
 ```
 
-extract_image()
+- extract_image
 
 ```bash
 python image_editor.py '/Users/landmaster/Downloads/test_folder/test_movie.mp4'
 ```
 
-#
+## 📑 &nbsp; pdf_rotater
+
+- make_vertical
+
+```bash
+python pdf_rotater.py '/Users/landmaster/Downloads/test_folder'
+```
+
+## text_editor
+
+- write_text
+
+```bash
+python text_editor.py '/Users/landmaster/Downloads/test_folder/test.txt'
+```
+
 
 ***
 
-##### Diagram
+# Diagram
 
 **_Module_Diagram.drawio** shows diagram of this library.

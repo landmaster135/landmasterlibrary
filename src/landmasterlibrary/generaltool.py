@@ -104,7 +104,9 @@ def remove_spaces_at_head_and_tail(word : str, spaces : list = Config.spaces) ->
 
 def remove_tail_sapces(word : str, spaces : list = Config.spaces) -> str:
     word_removed_space = ""
-    if word[len(word) - 1] in spaces:
+    if len(word) == 0:
+        word_removed_space = word
+    elif word[len(word) - 1] in spaces:
         word_removed_space = word[0:len(word) - 1]
         print("'{}'".format(word_removed_space[0:len(word) - 1]))
         word_removed_space = remove_tail_sapces(word_removed_space, spaces)
@@ -114,23 +116,14 @@ def remove_tail_sapces(word : str, spaces : list = Config.spaces) -> str:
 
 def remove_head_sapces(word : str, spaces : list = Config.spaces) -> str:
     word_removed_space = ""
-    # print("===========================")
-    # print(word)
-    # print(word[0])
-    # print(spaces)
-
-    # if len(word) != 0:
-
     if len(word) == 0:
         word_removed_space = word
     elif word[0] in spaces:
-        # print("KKKKKKKKKKKKKKKKKKKKKKKK")
         word_removed_space = word[1:len(word)+1]
         # invisible head character if head space is nothing
         print("'{}'".format(word_removed_space[1:len(word)]))
         word_removed_space = remove_head_sapces(word_removed_space, spaces)
     else:
-        # print("OOOOOOOOOOOOOOOOOOOOOOO")
         word_removed_space = word
 
     return word_removed_space
@@ -202,11 +195,10 @@ def printfunc() -> str:
     except Exception as e:
         raise
     functions = get_functions_in_python_file(file_path)
-    print("**********************************")
+    print("============ functions: start ============")
     for func in functions:
-        print("EEEEEEEEEEEEEEEEEEEEEEEE")
         print(func)
-    print("**********************************")
+    print("============ functions: end ============")
     return True
 
 if __name__ == "__main__":

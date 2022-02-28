@@ -119,6 +119,7 @@ def remove_head_sapces(word : str, spaces : list = Config.spaces) -> str:
     print(word[0])
     print(spaces)
     if word[0] in spaces:
+        print("KKKKKKKKKKKKKKKKKKKKKKKK")
         word_removed_space = word[1:len(word)+1]
         # invisible head character if head space is nothing
         print("'{}'".format(word_removed_space[1:len(word)]))

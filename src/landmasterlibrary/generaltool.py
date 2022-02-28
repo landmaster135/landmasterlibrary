@@ -114,20 +114,20 @@ def remove_tail_sapces(word : str, spaces : list = Config.spaces) -> str:
 
 def remove_head_sapces(word : str, spaces : list = Config.spaces) -> str:
     word_removed_space = ""
-    print("===========================")
-    print(word)
+    # print("===========================")
+    # print(word)
     # print(word[0])
-    print(spaces)
+    # print(spaces)
     if len(word) != 0:
 
         if word[0] in spaces:
-            print("KKKKKKKKKKKKKKKKKKKKKKKK")
+            # print("KKKKKKKKKKKKKKKKKKKKKKKK")
             word_removed_space = word[1:len(word)+1]
             # invisible head character if head space is nothing
             print("'{}'".format(word_removed_space[1:len(word)]))
             word_removed_space = remove_head_sapces(word_removed_space, spaces)
     else:
-        print("OOOOOOOOOOOOOOOOOOOOOOO")
+        # print("OOOOOOOOOOOOOOOOOOOOOOO")
         word_removed_space = word
 
     return word_removed_space

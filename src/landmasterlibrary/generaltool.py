@@ -128,6 +128,15 @@ def get_functions_in_python_file(file_full_name : str, head_of_function : str = 
     text = ""
     with open(file_full_name, "r", encoding="UTF-8") as f:
         text = f.read()
+
+    function_name = sys._getframe().f_code.co_name
+    output_log(
+        __file__,
+        function_name,
+        "{}".format(get_str_repeated_to_mark("a"))
+    )
+    print(text)
+
     text_lines = text.split("\n")
     functions = get_words_in_lines_by_head_and_tail(text_lines, head_of_function, tail_of_function)
     return functions
@@ -135,6 +144,15 @@ def get_functions_in_python_file(file_full_name : str, head_of_function : str = 
 def get_words_in_lines_by_head_and_tail(text_lines : list, head_of_target : str, tail_of_target : str) -> list:
     words = []
     text_line_removed_head_space = ""
+    function_name = sys._getframe().f_code.co_name
+
+    output_log(
+        __file__,
+        function_name,
+        "{}".format(get_str_repeated_to_mark("a"))
+    )
+    print(text_lines)
+
     for text_line in text_lines:
         text_line_removed_head_space = remove_head_sapces(text_line)
         head_index = text_line_removed_head_space.find(head_of_target, 0)
@@ -149,9 +167,9 @@ def get_words_in_lines_by_head_and_tail(text_lines : list, head_of_target : str,
 
 
 def printfunc() -> str:
-    function_name = sys._getframe().f_code.co_name
     args = sys.argv
     file_name = args[1]
+    function_name = sys._getframe().f_code.co_name
     output_log(
         __file__,
         function_name,

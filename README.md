@@ -58,7 +58,9 @@ import * from landmasterlibrary
 
 You can use like these by `__name__ == "__main__"`.
 
-### text_editor
+## Execution by console_scripts
+
+## text_editor
 
 write_text()
 
@@ -67,6 +69,9 @@ python text_editor.py '/Users/landmaster/Downloads/test_folder/test.txt'
 ```
 
 ### file_list_getter
+
+|extract_playlist_from_text()|`python file_list_getter.py '/Users/landmaster/Downloads/test_folder'`|
+|----|-----|
 
 extract_playlist_from_text()
 
@@ -126,6 +131,10 @@ extract_image()
 python image_editor.py '/Users/landmaster/Downloads/test_folder/test_movie.mp4'
 ```
 
+#
+
 ***
 
-##### **_Module_Diagram.drawio** shows diagram of this library.
+##### Diagram
+
+**_Module_Diagram.drawio** shows diagram of this library.

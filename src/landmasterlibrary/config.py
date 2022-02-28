@@ -11,9 +11,3 @@ class Config:
 
     # def seperators(self) -> list:
     #     return [",", "、"]
-
-# def spaces():
-#     return [" ", "　"]
-
-# def seperators():
-#     return [",", "、"]

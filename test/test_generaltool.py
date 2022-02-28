@@ -1,10 +1,11 @@
 # Library by default
 from pathlib import Path
+import subprocess
 # Library by third party
 import pytest
 # Library by landmasterlibrary
 from src.landmasterlibrary.config import Config
-from src.landmasterlibrary.generaltool import get_value_from_yaml, get_indices_by_seperators, get_words_by_indices, get_words_by_seperators, get_src_path_from_test_path, remove_spaces_at_head_and_tail, remove_tail_sapces, remove_head_sapces
+from src.landmasterlibrary.generaltool import get_value_from_yaml, get_indices_by_seperators, get_words_by_indices, get_words_by_seperators, get_src_path_from_test_path, remove_spaces_at_head_and_tail, remove_tail_sapces, remove_head_sapces, get_functions_in_python_file, get_words_in_lines_by_head_and_tail
 
 class Test_ReplaceCharacter:
 
@@ -188,8 +189,7 @@ class Test_ReplaceCharacter:
     def test_remove_tail_sapces_1_1(self):
         keyword  = "   　　　　　　　      　　   node.js    　　　　　  　　　　  "
         # spaces = [" ", "　"]
-        spaces = Config.spaces()
-        actual = remove_tail_sapces(keyword, spaces)
+        actual = remove_tail_sapces(keyword, Config.spaces)
         expected = "   　　　　　　　      　　   node.js"
         assert actual == expected
 
@@ -197,8 +197,7 @@ class Test_ReplaceCharacter:
     def test_remove_head_sapces_1_1(self):
         keyword  = "   　　　　　　　      　　   node.js    　　　　　  　　　　  "
         # spaces = [" ", "　"]
-        spaces = Config.spaces()
-        actual = remove_head_sapces(keyword, spaces)
+        actual = remove_head_sapces(keyword, Config.spaces)
         expected =                             "node.js    　　　　　  　　　　  "
         assert actual == expected
 
@@ -206,7 +205,40 @@ class Test_ReplaceCharacter:
     def test_remove_spaces_at_head_and_tail_1_1(self):
         keyword  = "   　　　　　　　      　　   node.js    　　　　　  　　　　  "
         # spaces = [" ", "　"]
+        actual = remove_spaces_at_head_and_tail(keyword, Config.spaces)
+        expected = "node.js"
+        assert actual == expected
+
+    # normal system for Python
+    def test_get_functions_in_python_file_1_1(self):
+        # TODO
+        file_full_name = ""
+        actual = get_functions_in_python_file(file_full_name)
+        expected = "node.js"
+        assert actual == expected
+
+    # normal system for JavaScript (ECMAScript)
+    def test_get_functions_in_python_file_1_1(self):
+        # TODO
+        file_full_name = ""
+        actual = get_functions_in_python_file(file_full_name, "function ", "(")
+        expected = "node.js"
+        assert actual == expected
+
+    # normal system
+    def test_get_words_in_lines_by_head_and_tail_1_1(self):
+        lines = ["class ReplaceCharacter:", "    def make_voicedsound(self, text : str) -> str:", "        pass", "def main():", "    replace_character = ReplaceCharacter()", "if __name__ == \"__main__\":", "    main()"]
+        head = "def "
+        tail = "("
+        actual = get_words_in_lines_by_head_and_tail(lines, head, tail)
+        expected = ["make_voicedsound", "main"]
+        assert actual == expected
+
+    def test_printfunc_1_1(self):
+        # TODO
+        cmd = "{}".format("")
+        subprocess.call(cmd, shell=True)
         spaces = Config.spaces()
-        actual = remove_spaces_at_head_and_tail(keyword, spaces)
+        actual = printfunc(keyword, spaces)
         expected = "node.js"
         assert actual == expected

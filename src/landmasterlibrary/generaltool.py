@@ -1,8 +1,11 @@
 # generaltool.py
 
 # Library by default
+from argparse import ArgumentError
 from pathlib import Path
+import os
 import sys
+from typing import Type
 # Library by third party
 import yaml
 # Library by landmasterlibrary
@@ -120,6 +123,48 @@ def remove_head_sapces(word : str, spaces : list = Config.spaces) -> str:
         word_removed_space = word
     return word_removed_space
 
-def get_functions_in_python_file(file_full_name : str) -> list:
+def get_functions_in_python_file(file_full_name : str, head_of_function : str = "def ", tail_of_function : str = "(") -> list:
     functions = []
+    text = ""
+    with open(file_full_name, "r", encoding="UTF-8") as f:
+        text = f.read()
+    text_lines = text.split("\n")
+    functions = get_words_in_lines_by_head_and_tail(text_lines, head_of_function, tail_of_function)
     return functions
+
+def get_words_in_lines_by_head_and_tail(text_lines : list, head_of_target : str, tail_of_target : str) -> list:
+    words = []
+    text_line_removed_head_space = ""
+    for text_line in text_lines:
+        text_line_removed_head_space = remove_head_sapces(text_line)
+        head_index = text_line_removed_head_space.find(head_of_target, 0)
+        if head_index != 0:
+            continue
+        tail_index = text_line_removed_head_space.find(tail_of_target, 0+head_index)
+        if text_line_removed_head_space.find(tail_of_target, 0) == -1:
+            continue
+        word = text_line_removed_head_space[len(head_of_target):tail_index]
+        words.append(word)
+    return words
+
+
+def printfunc() -> str:
+    args = sys.argv
+    file_name = args[1]
+    try:
+        if isinstance(file_name, str):
+            raise TypeError("TypeError: 1 argument is expected str only, not NoneType")
+    except TypeError as e:
+        raise
+    file_path = Path(file_name)
+    try:
+        if os.path.isfile(file_path) == False:
+            if os.path.isdir(file_path) == True:
+                raise IsADirectoryError(f"File \"{file_path}\" is a directory")
+            raise FileNotFoundError(f"File \"{file_path}\" does not exist")
+    except Exception as e:
+        raise
+    functions = get_functions_in_python_file(file_path)
+    for func in functions:
+        print(func)
+    return True

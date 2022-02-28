@@ -157,7 +157,7 @@ def printfunc() -> str:
         function_name,
         "{}".format(get_str_repeated_to_mark("a"))
     )
-    print("file_name is {}")
+    print(f"file_name is {file_name}")
     try:
         if isinstance(file_name, str):
             raise TypeError("TypeError: 1 argument is expected str only, not NoneType")

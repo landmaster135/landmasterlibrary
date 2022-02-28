@@ -10,6 +10,8 @@ This library is create by kinkinbeer135ml.
 pip install git+https://github.com/landmaster135/landmasterlibrary.git
 ```
 
+<br>
+
 # Importation
 
 To activate me, input this in python file.
@@ -17,6 +19,8 @@ To activate me, input this in python file.
 ```python
 import * from landmasterlibrary
 ```
+
+<br>
 
  # Modules
 
@@ -26,6 +30,8 @@ import * from landmasterlibrary
 4. file_list_getter.py
 5. pdf_rotater.py
 6. ImageEditor.py
+
+<br>
 
 # Functions in each Module
 
@@ -62,16 +68,42 @@ import * from landmasterlibrary
 - get_words_in_lines_by_head_and_tail
 - printfunc
 
-
 ## image_editor.py
+
+- select_area
+- update
+- trim_image
+- judge_match_rate_by_feature_point
+- judge_match_rate_by_pixel_match
+- remove_duplication
+- extract_image
+- get_times_of_movie_in_folder
+- extract_sound_to_text
+- resize_img
+- get_statistics
+- get_youtube_statistics
+- main
+
 ## input_controller.py
+
+- check_whether_sjis_exists
+- repeat_input_with_multi_choices
+- main
 
 ### morph_analysis.py
 ## pdf_rotater.py
 
 ## text_editor.py
 
+- write_playlist
+- write_csv
+- write_text
+- main
+
 ## text_replacer.py
+
+- make_voicedsound
+- main
 
 # Usage by `console_scripts`
 
@@ -87,7 +119,7 @@ You can use like these by `console_scripts`.
 python dir_editor.py '/Users/landmaster/Downloads/test_folder/test.txt'
 ```
 
-## export_sqlite_to_csv.py
+## 🗄 &nbsp; export_sqlite_to_csv.py
 
 - write_text
 
@@ -95,7 +127,7 @@ python dir_editor.py '/Users/landmaster/Downloads/test_folder/test.txt'
 python dir_editor.py '/Users/landmaster/Downloads/test_folder/test.txt'
 ```
 
-## file_list_getter
+## 🗂 &nbsp; file_list_getter
 
 
 - extract_playlist_from_text
@@ -122,7 +154,7 @@ python file_list_getter.py '/Users/landmaster/Downloads/test_folder'
 python file_list_getter.py '/Users/landmaster/Downloads/test_folder' 'png'
 ```
 
-## generaltool
+## 💼 &nbsp; generaltool
 
 - printfunc
 
@@ -158,7 +190,7 @@ printfunc /usr/local/lib/python3.8/dist-packages/landmasterlibrary/generaltool.p
 ============ functions list: end ============
 ```
 
-## image_editor
+## 🎞 &nbsp; image_editor
 
 - select_area
 
@@ -192,7 +224,7 @@ python image_editor.py '/Users/landmaster/Downloads/test_folder/test_movie.mp4'
 python pdf_rotater.py '/Users/landmaster/Downloads/test_folder'
 ```
 
-## text_editor
+## 📝 &nbsp; text_editor
 
 - write_text
 

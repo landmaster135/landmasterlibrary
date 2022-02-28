@@ -2,15 +2,11 @@
 
 This library is create by kinkinbeer135ml.
 
-<br>
-
 # Installation
 
 ```bash
 pip install git+https://github.com/landmaster135/landmasterlibrary.git
 ```
-
-<br>
 
 # Importation
 
@@ -20,23 +16,22 @@ To activate me, input this in python file.
 import * from landmasterlibrary
 ```
 
-<br>
-
  # Modules
 
-1. input_controller.py
+1. config.py
 2. dir_editor.py
-3. text_editor.py
+3. export_sqlite_to_csv.py
 4. file_list_getter.py
-5. pdf_rotater.py
-6. ImageEditor.py
-
-<br>
+5. generaltool.py
+6. image_editor.py
+7. input_controller.py
+8. morph_analysis.py
+9. pdf_rotater.py
+10. text_editor.py
+11. text_replacer.py
 
 # Functions in each Module
 
-|ddd|    vvvvvvv|
-|-----|----|
 ## export_sqlite_to_csv.py
 
 - export_to_csv
@@ -91,8 +86,12 @@ import * from landmasterlibrary
 - main
 
 ### morph_analysis.py
+
+
 ## pdf_rotater.py
 
+- make_vertical
+- main
 ## text_editor.py
 
 - write_playlist
@@ -231,7 +230,6 @@ python pdf_rotater.py '/Users/landmaster/Downloads/test_folder'
 ```bash
 python text_editor.py '/Users/landmaster/Downloads/test_folder/test.txt'
 ```
-
 
 ***
 

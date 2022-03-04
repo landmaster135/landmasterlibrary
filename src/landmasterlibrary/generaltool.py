@@ -170,7 +170,7 @@ def get_words_in_lines_by_head_and_tail(text_lines : list, head_of_target : str,
     output_log(
         __file__,
         function_name,
-        "{}".format(get_str_repeated_to_mark("a"))
+        "{}".format(get_str_repeated_to_mark("b"))
     )
     return words
 

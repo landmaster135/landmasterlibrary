@@ -6,10 +6,10 @@ import glob2
 import os, sys, platform
 import time
 # Library by landmasterlibrary
-import input_controller
-import dir_editor
+import src.landmasterlibrary.input_controller as input_controller
+import src.landmasterlibrary.dir_editor as dir_editor
 sep = dir_editor.decide_seperator() # String seperator of directory.
-import text_editor
+import src.landmasterlibrary.text_editor as text_editor
 
 def extract_playlist_from_text(file_list : list):
     '''

@@ -174,17 +174,7 @@ def get_words_in_lines_by_head_and_tail(text_lines : list, head_of_target : str,
     )
     return words
 
-
-def printfunc() -> str:
-    args = sys.argv
-    file_name = args[1]
-    function_name = sys._getframe().f_code.co_name
-    output_log(
-        __file__,
-        function_name,
-        "{}".format(get_str_repeated_to_mark("a"))
-    )
-    print(f"file_name is {file_name}")
+def get_file_path(file_name : str) -> str:
     try:
         if isinstance(file_name, str) == False:
             raise TypeError("TypeError: 1 argument is expected str only, not NoneType")
@@ -198,6 +188,37 @@ def printfunc() -> str:
             raise FileNotFoundError(f"File \"{file_path}\" does not exist")
     except Exception as e:
         raise
+    return file_path
+
+def printfunc() -> str:
+    args = sys.argv
+    print(args)
+    file_name = args[1]
+    function_name = sys._getframe().f_code.co_name
+    output_log(
+        __file__,
+        function_name,
+        "{}".format(get_str_repeated_to_mark("a"))
+    )
+    print(f"file_name is {file_name}")
+    print(type(file_name))
+    try:
+        if isinstance(file_name, str) == False:
+            raise TypeError("TypeError: 1 argument is expected str only, not NoneType")
+    except TypeError as e:
+        raise
+    try:
+        # file_path = Path(file_name)
+        file_path = get_file_path(file_name)
+    except Exception as e:
+        raise
+    # try:
+    #     if os.path.isfile(file_path) == False:
+    #         if os.path.isdir(file_path) == True:
+    #             raise IsADirectoryError(f"File \"{file_path}\" is a directory")
+    #         raise FileNotFoundError(f"File \"{file_path}\" does not exist")
+    # except Exception as e:
+    #     raise
     functions = get_functions_in_python_file(file_path)
     output_log(
         __file__,
@@ -211,7 +232,7 @@ def printfunc() -> str:
     for func in functions:
         print("{} {}".format(prefix, func))
     print("============ functions list: end ============")
-    return True
+    return functions
 
 if __name__ == "__main__":
     printfunc()

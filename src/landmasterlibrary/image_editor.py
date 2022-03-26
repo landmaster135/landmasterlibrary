@@ -9,11 +9,11 @@ import cv2 # opencv 3.4.2
 from apiclient.discovery import build
 import pandas as pd
 # Library by landmasterlibrary
-import input_controller
-import dir_editor
+import src.landmasterlibrary.input_controller as input_controller
+import src.landmasterlibrary.dir_editor as dir_editor
 sep = dir_editor.decide_seperator() # String seperator of directory.
-import file_list_getter
-import text_editor
+import src.landmasterlibrary.file_list_getter as file_list_getter
+import src.landmasterlibrary.text_editor as text_editor
 
 def select_area(filename : str) -> dict:
     '''

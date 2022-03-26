@@ -3,8 +3,8 @@
 # Library by default
 import os, sys, platform
 # Library by landmasterlibrary
-import input_controller
-import dir_editor
+import src.landmasterlibrary.input_controller
+import src.landmasterlibrary.dir_editor as dir_editor
 sep = dir_editor.decide_seperator() # String seperator of directory.
 
 def write_playlist(file_name : str, extracted_dir : str, playlist_type : str):

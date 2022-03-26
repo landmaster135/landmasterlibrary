@@ -3,9 +3,9 @@
 # Library by default
 import os, sys
 # Library by landmasterlibrary
-import dir_editor
+import src.landmasterlibrary.dir_editor as dir_editor
 sep = dir_editor.decide_seperator() # String seperator of directory.
-import file_list_getter
+import src.landmasterlibrary.file_list_getter as file_list_getter
 
 def make_vertical(folder_list : list):
     '''

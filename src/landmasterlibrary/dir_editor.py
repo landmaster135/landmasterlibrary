@@ -3,7 +3,7 @@
 # Library by default
 import os, sys, platform
 # Library by landmasterlibrary
-import input_controller
+import src.landmasterlibrary.input_controller as input_controller
 
 def decide_save_file_name(dirname : str, list_of_ext : list) -> str:
     '''

@@ -1,51 +1,46 @@
 # Library by default
 from pathlib import Path
 import subprocess
+import sys
 # Library by third party
 import pytest
 # Library by landmasterlibrary
 from src.landmasterlibrary.config import Config
-from src.landmasterlibrary.generaltool import get_value_from_yaml, get_indices_by_seperators, get_words_by_indices, get_words_by_seperators, get_src_path_from_test_path, remove_spaces_at_head_and_tail, remove_tail_sapces, remove_head_sapces, get_functions_in_python_file, get_words_in_lines_by_head_and_tail
+from src.landmasterlibrary.generaltool import get_value_from_yaml, get_indices_by_seperators, get_words_by_indices, get_words_by_seperators, get_src_path_from_test_path, remove_spaces_at_head_and_tail, remove_tail_sapces, remove_head_sapces, get_functions_in_python_file, get_words_in_lines_by_head_and_tail, printfunc
 
-class Test_ReplaceCharacter:
+class Test_Generaltool:
 
     # normal system
     def test_get_src_path_from_test_path_1_1(self):
-        # TODO: configFileNameをテスト用のファイルに直す。
-        actual_path = get_src_path_from_test_path(__file__, configFileName)
+        test_file_name = "pathtest.yml"
+        actual_path = get_src_path_from_test_path(__file__, test_file_name)
         actual = actual_path.count("/")
         expected = 2
         assert actual >= expected
 
     # normal system
     def test_get_src_path_from_test_path_1_2(self):
-        # TODO: configFileNameをテスト用のファイルに直す。
-        actual_path = get_src_path_from_test_path(__file__, configFileName, "src")
+        test_file_name = "pathtest.yml"
+        actual_path = get_src_path_from_test_path(__file__, test_file_name, "src")
         actual = actual_path.count("/")
         expected = 2
         assert actual >= expected
 
     # abnormal system
     def test_get_src_path_from_test_path_2_1(self):
-        # TODO: pytest形式に直す
-        # with self.assertRaises(TypeError):
-        #     actual = get_src_path_from_test_path()
-        #     expected = 2
         with pytest.raises(Exception) as e:
             actual = get_src_path_from_test_path()
             expected = 2
-        assert str(e.value) == ""
+        print(e.value)
+        assert str(e.value) == "get_src_path_from_test_path() missing 2 required positional arguments: 'calling_file_path' and 'src_file_name'"
 
     # abnormal system
     def test_get_src_path_from_test_path_2_2(self):
-        # TODO: pytest形式に直す
-        # with self.assertRaises(TypeError):
-        #     actual = get_src_path_from_test_path(__file__)
-        #     expected = 2
         with pytest.raises(Exception) as e:
             actual = get_src_path_from_test_path(__file__)
             expected = 2
-        assert str(e.value) == ""
+        print(e.value)
+        assert str(e.value) == "get_src_path_from_test_path() missing 1 required positional argument: 'src_file_name'"
 
     # normal system
     # def test_get_obj_from_yaml_1_1(self):
@@ -111,7 +106,7 @@ class Test_ReplaceCharacter:
     def test_get_indices_by_seperators_1_1(self):
         keyword = "python, node.js 、 gollila ,web"
         # spaces = [" ", "　"]
-        seperators = Config.seperators()
+        seperators = Config.seperators
         actual = get_indices_by_seperators(keyword, seperators)
         expected = [6, 16, 26, 30]
         assert actual == expected
@@ -137,7 +132,7 @@ class Test_ReplaceCharacter:
     def test_get_indices_by_seperators_1_2(self):
         keyword = "Internet　、Creative Coding  ,　Machine Learning "
         # spaces = [" ", "　"]
-        seperators = Config.seperators()
+        seperators = Config.seperators
         actual = get_indices_by_seperators(keyword, seperators)
         expected = [9, 27, 46]
         assert actual == expected
@@ -163,7 +158,7 @@ class Test_ReplaceCharacter:
     def test_get_indices_by_seperators_1_3(self):
         keyword = " Flask"
         # spaces = [" ", "　"]
-        seperators = Config.seperators()
+        seperators = Config.seperators
         actual = get_indices_by_seperators(keyword, seperators)
         expected = [6]
         assert actual == expected
@@ -243,18 +238,24 @@ class Test_ReplaceCharacter:
 
     # normal system for Python
     def test_get_functions_in_python_file_1_1(self):
-        # TODO
-        file_full_name = ""
+        file_full_name = get_src_path_from_test_path(__file__, "for_test_get_func_python.py", "test_data")
         actual = get_functions_in_python_file(file_full_name)
-        expected = "node.js"
+        expected = ["make_voicedsound", "main"]
+        assert actual == expected
+
+     # normal system for Python
+    def test_get_functions_in_python_file_1_2(self):
+        file_full_name = get_src_path_from_test_path(__file__, "for_test_get_func_python.py", "test_data")
+        actual = get_functions_in_python_file(file_full_name, "def ", "(")
+        expected = ["make_voicedsound", "main"]
         assert actual == expected
 
     # normal system for JavaScript (ECMAScript)
-    def test_get_functions_in_python_file_1_1(self):
+    def test_get_functions_in_python_file_2_1(self):
         # TODO
-        file_full_name = ""
+        file_full_name = get_src_path_from_test_path(__file__, "for_test_get_func_javascript.js", "test_data")
         actual = get_functions_in_python_file(file_full_name, "function ", "(")
-        expected = "node.js"
+        expected = ["getFolderIdArray"]
         assert actual == expected
 
     # normal system
@@ -266,11 +267,10 @@ class Test_ReplaceCharacter:
         expected = ["make_voicedsound", "main"]
         assert actual == expected
 
-    def test_printfunc_1_1(self):
-        # TODO
-        cmd = "{}".format("")
-        subprocess.call(cmd, shell=True)
-        spaces = Config.spaces()
-        actual = printfunc(keyword, spaces)
-        expected = "node.js"
+    def test_printfunc_1_1(self, mocker):
+        file_full_name = get_src_path_from_test_path(__file__, "for_test_get_func_python.py", "test_data")
+        mocker.patch("sys.argv", return_value=["printfunc", file_full_name, ""])
+        mocker.patch.object(sys, "argv", ["printfunc", file_full_name, ""])
+        actual = printfunc()
+        expected = ["make_voicedsound", "main"]
         assert actual == expected

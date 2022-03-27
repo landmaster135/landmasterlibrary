@@ -6,41 +6,315 @@ import sys
 import pytest
 # Library by landmasterlibrary
 from src.landmasterlibrary.config import Config
-from src.landmasterlibrary.generaltool import get_value_from_yaml, get_indices_by_seperators, get_words_by_indices, get_words_by_seperators, get_src_path_from_test_path, remove_spaces_at_head_and_tail, remove_tail_sapces, remove_head_sapces, get_functions_in_python_file, get_words_in_lines_by_head_and_tail, printfunc
+from src.landmasterlibrary.generaltool import get_str_repeated_to_mark, get_str_by_zero_padding, output_log, get_str_from_list, get_value_from_yaml, get_indices_by_seperators, get_words_by_indices, get_words_by_seperators, get_src_path_from_test_path, remove_spaces_at_head_and_tail, remove_tail_sapces, remove_head_sapces, get_functions_in_python_file, get_words_in_lines_by_head_and_tail, append_items, remove_empty_items, printfunc
 
 class Test_Generaltool:
+
+    # normal system
+    def test_get_str_repeated_to_mark_1_1(self):
+        repeat_str = "a"
+        repeat_number_to_mark = 10
+        actual = get_str_repeated_to_mark(repeat_str, repeat_number_to_mark)
+        expected = "aaaaaaaaaa"
+        assert actual == expected
+
+    # normal system
+    def test_get_str_repeated_to_mark_1_2(self):
+        repeat_str = "ab"
+        repeat_number_to_mark = 10
+        actual = get_str_repeated_to_mark(repeat_str, repeat_number_to_mark)
+        expected = "abababababababababab"
+        assert actual == expected
+
+    # normal system
+    def test_get_str_repeated_to_mark_1_3(self):
+        repeat_str = "ab"
+        repeat_number_to_mark = 0
+        actual = get_str_repeated_to_mark(repeat_str, repeat_number_to_mark)
+        expected = ""
+        assert actual == expected
+
+    # normal system
+    def test_get_str_repeated_to_mark_2_1(self):
+        repeat_str = "a"
+        repeat_number_to_mark = 10
+        actual = get_str_repeated_to_mark(repeat_str)
+        expected = "aaaaaaaaaaaaaaa"
+        assert actual == expected
+
+    # abnormal system
+    def test_get_str_repeated_to_mark_3_1(self):
+        repeat_str = 123
+        repeat_number_to_mark = 10
+        with pytest.raises(TypeError) as e:
+            actual = get_str_repeated_to_mark(repeat_str, repeat_number_to_mark)
+
+    # abnormal system
+    def test_get_str_repeated_to_mark_3_2(self):
+        repeat_str = "a"
+        repeat_number_to_mark = "10"
+        with pytest.raises(TypeError) as e:
+            actual = get_str_repeated_to_mark(repeat_str, repeat_number_to_mark)
+
+    # abnormal system
+    def test_get_str_repeated_to_mark_3_3(self):
+        repeat_str = None
+        repeat_number_to_mark = 10
+        with pytest.raises(TypeError) as e:
+            actual = get_str_repeated_to_mark(repeat_str, repeat_number_to_mark)
+
+    # abnormal system
+    def test_get_str_repeated_to_mark_3_4(self):
+        repeat_str = "a"
+        repeat_number_to_mark = None
+        with pytest.raises(TypeError) as e:
+            actual = get_str_repeated_to_mark(repeat_str, repeat_number_to_mark)
+
+    # abnormal system
+    def test_get_str_repeated_to_mark_3_5(self):
+        repeat_str = "a"
+        repeat_number_to_mark = 10
+        with pytest.raises(TypeError) as e:
+            actual = get_str_repeated_to_mark()
+
+    # normal system
+    def test_get_str_by_zero_padding_1_1(self):
+        number = 123
+        number_of_digit = 6
+        actual = get_str_by_zero_padding(number, number_of_digit)
+        expected = "000123"
+        assert actual == expected
+
+    # normal system
+    def test_get_str_by_zero_padding_1_2(self):
+        number = 12345
+        number_of_digit = 2
+        actual = get_str_by_zero_padding(number, number_of_digit)
+        expected = "12345"
+        assert actual == expected
+
+    # normal system
+    def test_get_str_by_zero_padding_1_3(self):
+        number = 321
+        actual = get_str_by_zero_padding(number)
+        expected = "0321"
+        assert actual == expected
+
+    # normal system
+    def test_get_str_by_zero_padding_1_4(self):
+        number = 12345
+        actual = get_str_by_zero_padding(number)
+        expected = "12345"
+        assert actual == expected
+
+    # abnormal system
+    def test_get_str_by_zero_padding_2_1(self):
+        number = "123"
+        number_of_digit = 6
+        with pytest.raises(TypeError) as e:
+            actual = get_str_by_zero_padding(number, number_of_digit)
+
+    # abnormal system
+    def test_get_str_by_zero_padding_2_2(self):
+        number = 12.3
+        number_of_digit = 6
+        with pytest.raises(TypeError) as e:
+            actual = get_str_by_zero_padding(number, number_of_digit)
+
+    # abnormal system
+    def test_get_str_by_zero_padding_3_1(self):
+        number = 123
+        number_of_digit = "6"
+        with pytest.raises(TypeError) as e:
+            actual = get_str_by_zero_padding(number, number_of_digit)
+
+    # abnormal system
+    def test_get_str_by_zero_padding_3_2(self):
+        number = 123
+        number_of_digit = 6.1
+        with pytest.raises(TypeError) as e:
+            actual = get_str_by_zero_padding(number, number_of_digit)
+
+    # abnormal system
+    def test_get_str_by_zero_padding_4_1(self):
+        number = 123
+        number_of_digit = None
+        with pytest.raises(TypeError) as e:
+            actual = get_str_by_zero_padding(number, number_of_digit)
+
+    # abnormal system
+    def test_get_str_by_zero_padding_4_2(self):
+        number = None
+        number_of_digit = 6
+        with pytest.raises(TypeError) as e:
+            actual = get_str_by_zero_padding(number, number_of_digit)
+
+    # abnormal system
+    def test_get_str_by_zero_padding_5_1(self):
+        with pytest.raises(TypeError) as e:
+            actual = get_str_by_zero_padding()
+
+    # normal system
+    def test_output_log_1_1(self):
+        class_name = "test_class"
+        function_name = "my_function"
+        remark = "test_for_output."
+        actual = output_log(class_name, function_name, remark)
+        expected = "test_class: my_function: test_for_output."
+        assert actual == expected
+
+    # normal system
+    def test_output_log_1_2(self):
+        class_name = __name__
+        function_name = sys._getframe().f_code.co_name
+        remark = "test_for_output."
+        actual = output_log(class_name, function_name, remark)
+        expected = f"{class_name}: {function_name}: {remark}"
+        assert actual == expected
+
+    # normal system
+    def test_output_log_2_1(self):
+        class_name = "test_class"
+        function_name = "my_function"
+        remark = None
+        actual = output_log(class_name, function_name, remark)
+        expected = f"{class_name}: {function_name}: "
+        assert actual == expected
+
+    # normal system
+    def test_output_log_2_2(self):
+        class_name = "test_class"
+        function_name = "my_function"
+        actual = output_log(class_name, function_name)
+        expected = f"{class_name}: {function_name}: "
+        assert actual == expected
+
+    # abnormal system
+    def test_output_log_3_1(self):
+        class_name = "test_class"
+        with pytest.raises(TypeError) as e:
+            actual = output_log(class_name)
+
+    # abnormal system
+    def test_output_log_3_2(self):
+        with pytest.raises(TypeError) as e:
+            actual = output_log()
+
+    # abnormal system
+    def test_output_log_3_3(self):
+        class_name = "test_class"
+        function_name = None
+        remark = "test_for_output"
+        with pytest.raises(TypeError) as e:
+            actual = output_log(class_name, function_name, remark)
+
+    # abnormal system
+    def test_output_log_3_4(self):
+        class_name = None
+        function_name = "my_function"
+        remark = "test_for_output"
+        with pytest.raises(TypeError) as e:
+            actual = output_log(class_name, function_name, remark)
+
+    # normal system
+    def test_get_str_from_list_1_1(self):
+        target_list = [1, 2, 3]
+        actual = get_str_from_list(target_list)
+        expected = "[ 1,2,3 ]"
+        print(actual)
+        assert actual == expected
+
+    # normal system
+    def test_get_str_from_list_1_2(self):
+        target_list = ["1", "2", "3"]
+        actual = get_str_from_list(target_list)
+        expected = "[ 1,2,3 ]"
+        print(actual)
+        assert actual == expected
 
     # normal system
     def test_get_src_path_from_test_path_1_1(self):
         test_file_name = "pathtest.yml"
         actual_path = get_src_path_from_test_path(__file__, test_file_name)
         actual = actual_path.count("/")
-        expected = 2
+        expected = 3
         assert actual >= expected
 
     # normal system
     def test_get_src_path_from_test_path_1_2(self):
         test_file_name = "pathtest.yml"
-        actual_path = get_src_path_from_test_path(__file__, test_file_name, "src")
+        actual_path = get_src_path_from_test_path(__file__, test_file_name, "src/landmasterlibrary")
         actual = actual_path.count("/")
-        expected = 2
+        expected = 3
         assert actual >= expected
 
     # abnormal system
     def test_get_src_path_from_test_path_2_1(self):
-        with pytest.raises(Exception) as e:
+        with pytest.raises(TypeError) as e:
             actual = get_src_path_from_test_path()
-            expected = 2
         print(e.value)
         assert str(e.value) == "get_src_path_from_test_path() missing 2 required positional arguments: 'calling_file_path' and 'src_file_name'"
 
     # abnormal system
     def test_get_src_path_from_test_path_2_2(self):
-        with pytest.raises(Exception) as e:
+        with pytest.raises(TypeError) as e:
             actual = get_src_path_from_test_path(__file__)
-            expected = 2
         print(e.value)
         assert str(e.value) == "get_src_path_from_test_path() missing 1 required positional argument: 'src_file_name'"
+
+    # abnormal system
+    def test_get_src_path_from_test_path_3_1(self):
+        calling_file_path = None
+        src_file_name = ""
+        src_folder_name = ""
+        with pytest.raises(TypeError) as e:
+            actual = get_src_path_from_test_path(calling_file_path, src_file_name, src_folder_name)
+
+    # abnormal system
+    def test_get_src_path_from_test_path_3_2(self):
+        calling_file_path = ""
+        src_file_name = None
+        src_folder_name = ""
+        with pytest.raises(TypeError) as e:
+            actual = get_src_path_from_test_path(calling_file_path, src_file_name, src_folder_name)
+
+    # abnormal system
+    def test_get_src_path_from_test_path_3_3(self):
+        calling_file_path = ""
+        src_file_name = ""
+        src_folder_name = None
+        with pytest.raises(TypeError) as e:
+            actual = get_src_path_from_test_path(calling_file_path, src_file_name, src_folder_name)
+
+    # abnormal system
+    def test_get_src_path_from_test_path_4_1(self):
+        test_file_name = "pathte.yml"
+        with pytest.raises(FileNotFoundError) as e:
+            actual_path = get_src_path_from_test_path(__file__, test_file_name)
+
+    # abnormal system
+    def test_get_src_path_from_test_path_4_2(self):
+        test_file_name = "pathte.yml"
+        with pytest.raises(FileNotFoundError) as e:
+            actual_path = get_src_path_from_test_path(__file__, test_file_name, "src/landmasterlibrary")
+
+    # abnormal system
+    def test_get_src_path_from_test_path_5_1(self):
+        test_file_name = "empty_dir"
+        with pytest.raises(IsADirectoryError) as e:
+            actual_path = get_src_path_from_test_path(__file__, test_file_name)
+
+    # abnormal system
+    def test_get_src_path_from_test_path_5_2(self):
+        test_file_name = "empty_dir"
+        with pytest.raises(IsADirectoryError) as e:
+            actual_path = get_src_path_from_test_path(__file__, test_file_name, "src/landmasterlibrary")
+
+    # abnormal system
+    def test_get_src_path_from_test_path_5_3(self):
+        test_file_name = "empty_dir"
+        with pytest.raises(IsADirectoryError) as e:
+            actual_path = get_src_path_from_test_path(__file__, test_file_name, "test_data")
 
     # normal system
     # def test_get_obj_from_yaml_1_1(self):
@@ -267,8 +541,156 @@ class Test_Generaltool:
         expected = ["make_voicedsound", "main"]
         assert actual == expected
 
+    def test_append_items_1_1(self):
+        read_txt_lines = ["a", "b", "c"]
+        cron_lines = ["  schedule:", "  - cron: '* 19 * * *'  # At 04:00. – https://crontab.guru"]
+        index_of_workflow_dispatch = 1
+        actual = append_items(read_txt_lines, cron_lines, index_of_workflow_dispatch)
+        expected = ["a", "  schedule:", "  - cron: '* 19 * * *'  # At 04:00. – https://crontab.guru", "b", "c"]
+        assert actual == expected
+
+    def test_append_items_1_2(self):
+        read_txt_lines = ["a", "b", "c"]
+        cron_lines = []
+        index_of_workflow_dispatch = 1
+        actual = append_items(read_txt_lines, cron_lines, index_of_workflow_dispatch)
+        expected = ["a", "b", "c"]
+        assert actual == expected
+
+    def test_append_items_1_3(self):
+        read_txt_lines = []
+        print(read_txt_lines)
+        cron_lines = ["  schedule:", "  - cron: '* 19 * * *'  # At 04:00. – https://crontab.guru"]
+        index_of_workflow_dispatch = 0
+        actual = append_items(read_txt_lines, cron_lines, index_of_workflow_dispatch)
+        expected = ["  schedule:", "  - cron: '* 19 * * *'  # At 04:00. – https://crontab.guru"]
+        assert actual == expected
+
+    def test_append_items_1_4(self):
+        read_txt_lines = ["a", "b", "c"]
+        cron_lines = ["  schedule:", "  - cron: '* 19 * * *'  # At 04:00. – https://crontab.guru"]
+        index_of_workflow_dispatch = 0
+        actual = append_items(read_txt_lines, cron_lines)
+        expected = ["  schedule:", "  - cron: '* 19 * * *'  # At 04:00. – https://crontab.guru", "a", "b", "c"]
+        assert actual == expected
+
+    def test_append_items_1_5(self):
+        read_txt_lines = ["a", "b", "c"]
+        cron_lines = ["d", "e"]
+        index_of_workflow_dispatch = 3
+        actual = append_items(read_txt_lines, cron_lines, index_of_workflow_dispatch)
+        expected = ["a", "b", "c", "d", "e"]
+        assert actual == expected
+
+    def test_append_items_2_1(self):
+        read_txt_lines = ["a", "b", "c"]
+        index_of_workflow_dispatch = -1
+        cron_lines = ["  schedule:", "  - cron: '* 19 * * *'  # At 04:00. – https://crontab.guru"]
+        with pytest.raises(IndexError) as e:
+            actual = append_items(read_txt_lines, cron_lines, index_of_workflow_dispatch)
+        print(e.value)
+        assert str(e.value) == "IndexError: target_index must be more than or equal to 0."
+
+    def test_append_items_2_2(self):
+        read_txt_lines = None
+        index_of_workflow_dispatch = 0
+        cron_lines = ["  schedule:", "  - cron: '* 19 * * *'  # At 04:00. – https://crontab.guru"]
+        with pytest.raises(TypeError) as e:
+            actual = append_items(read_txt_lines, cron_lines, index_of_workflow_dispatch)
+
+    def test_append_items_2_3(self):
+        read_txt_lines = ["a", "b", "c"]
+        index_of_workflow_dispatch = None
+        cron_lines = ["  schedule:", "  - cron: '* 19 * * *'  # At 04:00. – https://crontab.guru"]
+        with pytest.raises(TypeError) as e:
+            actual = append_items(read_txt_lines, cron_lines, index_of_workflow_dispatch)
+
+    def test_append_items_2_4(self):
+        read_txt_lines = ["a", "b", "c"]
+        index_of_workflow_dispatch = 0
+        cron_lines = None
+        with pytest.raises(TypeError) as e:
+            actual = append_items(read_txt_lines, cron_lines, index_of_workflow_dispatch)
+
+    def test_append_items_2_5(self):
+        read_txt_lines = ["a", "b", "c"]
+        index_of_workflow_dispatch = 4
+        cron_lines = ["  schedule:", "  - cron: '* 19 * * *'  # At 04:00. – https://crontab.guru"]
+        with pytest.raises(IndexError) as e:
+            actual = append_items(read_txt_lines, cron_lines, index_of_workflow_dispatch)
+
+    def test_remove_empty_items_1_1(self):
+        target_list = ["a", "", "b", "c", ""]
+        actual = remove_empty_items(target_list)
+        expected = ["a", "b", "c"]
+        assert actual == expected
+
+    def test_remove_empty_items_1_2(self):
+        target_list = ["a", "b", "c"]
+        actual = remove_empty_items(target_list)
+        expected = ["a", "b", "c"]
+        assert actual == expected
+
+    def test_remove_empty_items_1_3(self):
+        target_list = ["", "", ""]
+        actual = remove_empty_items(target_list)
+        expected = []
+        assert actual == expected
+
+    def test_remove_empty_items_2_1(self):
+        target_list = None
+        with pytest.raises(TypeError) as e:
+            actual = remove_empty_items(target_list)
+
+    def test_remove_empty_items_2_2(self):
+        target_list = "abc"
+        with pytest.raises(TypeError) as e:
+            actual = remove_empty_items(target_list)
+
+    def test_remove_empty_items_3_1(self):
+        with pytest.raises(TypeError) as e:
+            actual = remove_empty_items()
+
+    def test_remove_empty_items_11_1(self):
+        target_list = ["a", "", "b", "c", ""]
+        actual = remove_empty_items(target_list, [""])
+        expected = ["a", "b", "c"]
+        assert actual == expected
+
+    def test_remove_empty_items_11_2(self):
+        target_list = ["a", "", "b", "c", "a"]
+        actual = remove_empty_items(target_list, ["a"])
+        expected = ["", "b", "c"]
+        assert actual == expected
+
+    def test_remove_empty_items_11_3(self):
+        target_list = ["a", "", "b", "c", "a"]
+        actual = remove_empty_items(target_list, ["", "a"])
+        expected = ["b", "c"]
+        assert actual == expected
+
+    def test_remove_empty_items_11_4(self):
+        target_list = [11, 12, "", 13, 14, 12, 15]
+        actual = remove_empty_items(target_list, ["", 12])
+        expected = [11, 13, 14, 15]
+        assert actual == expected
+
+    def test_remove_empty_items_12_1(self):
+        target_list = ["a", "", "b", "c", ""]
+        target_items = None
+        with pytest.raises(TypeError) as e:
+            actual = remove_empty_items(target_list, target_items)
+
     def test_printfunc_1_1(self, mocker):
         file_full_name = get_src_path_from_test_path(__file__, "for_test_get_func_python.py", "test_data")
+        mocker.patch("sys.argv", return_value=["printfunc", file_full_name, ""])
+        mocker.patch.object(sys, "argv", ["printfunc", file_full_name, ""])
+        actual = printfunc()
+        expected = ["make_voicedsound", "main"]
+        assert actual == expected
+
+    def test_printfunc_1_2(self, mocker):
+        file_full_name = "./test_data/for_test_get_func_python.py"
         mocker.patch("sys.argv", return_value=["printfunc", file_full_name, ""])
         mocker.patch.object(sys, "argv", ["printfunc", file_full_name, ""])
         actual = printfunc()

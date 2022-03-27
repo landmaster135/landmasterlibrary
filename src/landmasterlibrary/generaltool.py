@@ -14,14 +14,43 @@ from .config import Config
 
 
 def get_str_repeated_to_mark(repeat_str : str, repeat_number_to_mark : int = 15) -> str:
+    if type(repeat_str) != str:
+        raise TypeError("TypeError: repeat_str must be str type.")
+    if type(repeat_number_to_mark) != int:
+        raise TypeError("TypeError: repeat_number_to_mark must be int type.")
     return str(repeat_str * repeat_number_to_mark)
 
-def output_log(class_name : str, function_name : str, remark : str) -> None:
-    print("{class_name}: {function_name}: {remark}".format(
+def get_str_by_zero_padding(number : int, number_of_digit : int = 4) -> str:
+    if type(number) != int:
+        raise TypeError("TypeError: number must be str type.")
+    if type(number_of_digit) != int:
+        raise TypeError("TypeError: number_of_digit must be int type.")
+    targetNumberOfDigit = number_of_digit
+    if len(str(number)) >= number_of_digit:
+        targetNumberOfDigit = 0
+    else:
+        targetNumberOfDigit = number_of_digit - len(str(number))
+    return "{}{}".format(get_str_repeated_to_mark("0", targetNumberOfDigit), str(number))
+    # return get_str_repeated_to_mark("0", targetNumberOfDigit + number).slice(-(targetNumberOfDigit))
+
+def output_log(class_name : str, function_name : str, remark : str = "") -> str:
+    remark = remark
+    if type(class_name) != str:
+        raise TypeError("TypeError: class_name must be str type.")
+    if type(function_name) != str:
+        raise TypeError("TypeError: function_name must be str type.")
+    if remark is None:
+        print("a")
+        remark = ""
+    if type(remark) != str:
+        raise TypeError("TypeError: remark must be str type.")
+    print_str = "{class_name}: {function_name}: {remark}".format(
         class_name=class_name,
         function_name=function_name,
         remark=remark
-    ))
+    )
+    print(print_str)
+    return print_str
 
 def get_str_from_list(target_list : list) -> str:
     separator = ","
@@ -58,10 +87,31 @@ def get_value_from_yaml(yaml_file, field):
         ))
     return value
 
-def get_src_path_from_test_path(calling_file_path : str, src_file_name : str, src_folder_name : str = "src") -> str:
+def get_src_path_from_test_path(calling_file_path : str, src_file_name : str, src_folder_name : str = "src/landmasterlibrary") -> str:
+    if type(calling_file_path) != str:
+        raise TypeError("TypeError: calling_file_path must be str type.")
+    if type(src_file_name) != str:
+        raise TypeError("TypeError: src_file_name must be str type.")
+    if type(src_folder_name) != str:
+        raise TypeError("TypeError: src_folder_name must be str type.")
     degree_of_parent_directory = 2 - 1
     src_path = str(Path(calling_file_path).parents[degree_of_parent_directory] / src_folder_name / src_file_name)
+    if os.path.isfile(src_path) == False:
+        if os.path.isdir(src_path) == True:
+            raise IsADirectoryError(f"File \"{src_path}\" is a directory")
+        raise FileNotFoundError(f"File \"{src_path}\" does not exist")
     return src_path
+
+# def get_file_path(file_name : str) -> str:
+#     if type(file_name) != str:
+#         raise TypeError("TypeError: 1st argument is expected str only.")
+#     file_path = Path(file_name)
+#     print(file_path)
+#     if os.path.isfile(file_path) == False:
+#         if os.path.isdir(file_path) == True:
+#             raise IsADirectoryError(f"File \"{file_path}\" is a directory")
+#         raise FileNotFoundError(f"File \"{file_path}\" does not exist")
+#     return file_path
 
 def get_indices_by_seperators(word : str, seperators : list = Config.seperators) -> list:
     sep_indices = []
@@ -140,8 +190,6 @@ def get_functions_in_python_file(file_full_name : str, head_of_function : str = 
         function_name,
         "{}".format(get_str_repeated_to_mark("a"))
     )
-    print(text)
-
     text_lines = text.split("\n")
     functions = get_words_in_lines_by_head_and_tail(text_lines, head_of_function, tail_of_function)
     return functions
@@ -174,51 +222,53 @@ def get_words_in_lines_by_head_and_tail(text_lines : list, head_of_target : str,
     )
     return words
 
-def get_file_path(file_name : str) -> str:
-    try:
-        if isinstance(file_name, str) == False:
-            raise TypeError("TypeError: 1 argument is expected str only, not NoneType")
-    except TypeError as e:
-        raise
-    file_path = Path(file_name)
-    try:
-        if os.path.isfile(file_path) == False:
-            if os.path.isdir(file_path) == True:
-                raise IsADirectoryError(f"File \"{file_path}\" is a directory")
-            raise FileNotFoundError(f"File \"{file_path}\" does not exist")
-    except Exception as e:
-        raise
-    return file_path
+def append_items(appended_list : list, appending_list : list, target_index : int = 0) -> list:
+    if type(appended_list) != list:
+        raise TypeError("TypeError: appended_list must be list type.")
+    if type(appending_list) != list:
+        raise TypeError("TypeError: appending_list must be list type.")
+    if type(target_index) != int:
+        raise TypeError("TypeError: target_index must be int type.")
+    if target_index < 0:
+        raise IndexError("IndexError: target_index must be more than or equal to 0.")
+    if target_index > len(appended_list):
+        raise IndexError("IndexError: target_index must be less than length of appended_list.")
+    for i in range(0, len(appending_list)):
+        appended_list.insert(target_index + i, appending_list[i])
+    return appended_list
+
+def remove_empty_items(removed_list : list, target_items : list = [""]) -> list:
+    if type(removed_list) != list:
+        raise TypeError("TypeError: removed_list must be list type.")
+    if type(target_items) != list:
+        raise TypeError("TypeError: target_item must be list type.")
+    removed_count = 0
+    for i in range(0, len(removed_list)):
+        j = i - removed_count
+        if removed_list[j] in target_items:
+        # if removed_list[j] == target_item:
+            removed_list.pop(j)
+            removed_count += 1
+    return removed_list
 
 def printfunc() -> str:
     args = sys.argv
     print(args)
-    file_name = args[1]
+    # file_name = args[1]
+    file_path = args[1]
     function_name = sys._getframe().f_code.co_name
     output_log(
         __file__,
         function_name,
         "{}".format(get_str_repeated_to_mark("a"))
     )
-    print(f"file_name is {file_name}")
-    print(type(file_name))
+    print(f"file_name is {file_path}")
+    print(type(file_path))
     try:
-        if isinstance(file_name, str) == False:
+        if type(file_path) != str:
             raise TypeError("TypeError: 1 argument is expected str only, not NoneType")
     except TypeError as e:
         raise
-    try:
-        # file_path = Path(file_name)
-        file_path = get_file_path(file_name)
-    except Exception as e:
-        raise
-    # try:
-    #     if os.path.isfile(file_path) == False:
-    #         if os.path.isdir(file_path) == True:
-    #             raise IsADirectoryError(f"File \"{file_path}\" is a directory")
-    #         raise FileNotFoundError(f"File \"{file_path}\" does not exist")
-    # except Exception as e:
-    #     raise
     functions = get_functions_in_python_file(file_path)
     output_log(
         __file__,

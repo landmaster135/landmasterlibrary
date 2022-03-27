@@ -95,6 +95,10 @@ def get_src_path_from_test_path(calling_file_path : str, src_file_name : str, sr
     if type(src_folder_name) != str:
         raise TypeError("TypeError: src_folder_name must be str type.")
     degree_of_parent_directory = 2 - 1
+    print(Path(calling_file_path).parents[0])
+    print(Path(calling_file_path).parents[1])
+    print(src_folder_name)
+    print(src_file_name)
     src_path = str(Path(calling_file_path).parents[degree_of_parent_directory] / src_folder_name / src_file_name)
     if os.path.isfile(src_path) == False:
         if os.path.isdir(src_path) == True:

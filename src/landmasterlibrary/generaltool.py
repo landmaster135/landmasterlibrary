@@ -97,14 +97,6 @@ def get_src_path_from_test_path(calling_file_path : str, src_file_name : str, sr
     if type(isChecking) != bool:
         raise TypeError("TypeError: isChecking must be bool type.")
     degree_of_parent_directory = 2 - 1
-    # print(calling_file_path)
-    # print(Path(calling_file_path).parents[0])
-    # print(Path(calling_file_path).parents[1])
-    # print(src_folder_name)
-    # print(src_file_name)
-    # print(Path(calling_file_path).resolve())
-    # print(Path(calling_file_path).resolve().parents[0])
-    # src_path = str(Path(calling_file_path).parents[degree_of_parent_directory] / src_folder_name / src_file_name)
     src_path = str(Path(calling_file_path).resolve().parents[degree_of_parent_directory] / src_folder_name / src_file_name)
     if isChecking == True:
         if os.path.isfile(src_path) == False:
@@ -113,16 +105,23 @@ def get_src_path_from_test_path(calling_file_path : str, src_file_name : str, sr
             raise FileNotFoundError(f"File \"{src_path}\" does not exist")
     return src_path
 
-# def get_file_path(file_name : str) -> str:
-#     if type(file_name) != str:
-#         raise TypeError("TypeError: 1st argument is expected str only.")
-#     file_path = Path(file_name)
-#     print(file_path)
-#     if os.path.isfile(file_path) == False:
-#         if os.path.isdir(file_path) == True:
-#             raise IsADirectoryError(f"File \"{file_path}\" is a directory")
-#         raise FileNotFoundError(f"File \"{file_path}\" does not exist")
-#     return file_path
+def read_txt_lines(calling_file_path : str, read_files : list, dir_name : str) -> list:
+    if type(calling_file_path) != str:
+        raise TypeError("TypeError: calling_file_path must be str type.")
+    if type(read_files) != list:
+        raise TypeError("TypeError: read_files must be list type.")
+    if type(dir_name) != str:
+        raise TypeError("TypeError: dir_name must be str type.")
+    read_txt_lines = []
+    for i in range(0, len(read_files)):
+        file_full_name = get_src_path_from_test_path(calling_file_path, read_files[i], dir_name)
+        with open(file_full_name, "r") as fr:
+            # read_books_lines = fr.readlines()
+            read_txt_lines.append(fr.readlines())
+        read_txt_lines[i] = remove_empty_items(read_txt_lines[i])
+        for j in range(0, len(read_txt_lines[i])):
+            read_txt_lines[i][j] = read_txt_lines[i][j].replace("\n", "")
+    return read_txt_lines
 
 def get_indices_by_seperators(word : str, seperators : list = Config.seperators) -> list:
     sep_indices = []

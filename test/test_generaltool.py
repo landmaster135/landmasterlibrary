@@ -6,7 +6,7 @@ import sys
 import pytest
 # Library by landmasterlibrary
 from src.landmasterlibrary.config import Config
-from src.landmasterlibrary.generaltool import get_str_repeated_to_mark, get_str_by_zero_padding, output_log, get_str_from_list, get_value_from_yaml, get_indices_by_seperators, get_words_by_indices, get_words_by_seperators, get_src_path_from_test_path, remove_spaces_at_head_and_tail, remove_tail_sapces, remove_head_sapces, get_functions_in_python_file, get_words_in_lines_by_head_and_tail, append_items, remove_empty_items, printfunc
+from src.landmasterlibrary.generaltool import get_str_repeated_to_mark, get_str_by_zero_padding, output_log, get_str_from_list, get_value_from_yaml, get_indices_by_seperators, get_words_by_indices, get_words_by_seperators, get_src_path_from_test_path, read_txt_lines, remove_spaces_at_head_and_tail, remove_tail_sapces, remove_head_sapces, get_functions_in_python_file, get_words_in_lines_by_head_and_tail, append_items, remove_empty_items, printfunc
 
 class Test_Generaltool:
 
@@ -351,6 +351,50 @@ class Test_Generaltool:
         test_file_name = "pathte.yml"
         with pytest.raises(TypeError) as e:
             actual_path = get_src_path_from_test_path(__file__, test_file_name, "src/landmasterlibrary", None)
+
+    def test_read_txt_lines_1_1(self):
+        read_files = ["for_test_get_func_python.py"]
+        dir_name = "test_data"
+        actual = read_txt_lines(__file__, read_files, dir_name)
+        expected = [["class ReplaceCharacter:"
+            , "    def make_voicedsound(self, text : str) -> str:"
+            , "        pass"
+            , ""
+            , "def main():"
+            , "    replace_character = ReplaceCharacter()"
+            , ""
+            , "if __name__ == \"__main__\":"
+            , "    main()"
+        ]]
+        assert actual == expected
+
+    def test_read_txt_lines_2_1(self):
+        read_files = ["for_test_get_func_python.py"]
+        dir_name = "test_data"
+        with pytest.raises(TypeError) as e:
+            actual = read_txt_lines(None, read_files, dir_name)
+
+    def test_read_txt_lines_2_2(self):
+        read_files = None
+        dir_name = "test_data"
+        with pytest.raises(TypeError) as e:
+            actual = read_txt_lines(__file__, read_files, dir_name)
+
+    def test_read_txt_lines_2_3(self):
+        read_files = ["for_test_get_func_python.py"]
+        dir_name = None
+        with pytest.raises(TypeError) as e:
+            actual = read_txt_lines(__file__, read_files, dir_name)
+
+    def test_read_txt_lines_3_1(self):
+        read_files = ["for_test_get_func_python.py"]
+        with pytest.raises(TypeError) as e:
+            actual = read_txt_lines(__file__, read_files)
+
+    def test_read_txt_lines_3_2(self):
+        read_files = ["for_test_get_func_python.py"]
+        with pytest.raises(TypeError) as e:
+            actual = read_txt_lines(__file__)
 
     # normal system
     # def test_get_obj_from_yaml_1_1(self):

@@ -87,13 +87,15 @@ def get_value_from_yaml(yaml_file, field):
         ))
     return value
 
-def get_src_path_from_test_path(calling_file_path : str, src_file_name : str, src_folder_name : str = "src/landmasterlibrary") -> str:
+def get_src_path_from_test_path(calling_file_path : str, src_file_name : str, src_folder_name : str = "src/landmasterlibrary", isChecking : bool = True) -> str:
     if type(calling_file_path) != str:
         raise TypeError("TypeError: calling_file_path must be str type.")
     if type(src_file_name) != str:
         raise TypeError("TypeError: src_file_name must be str type.")
     if type(src_folder_name) != str:
         raise TypeError("TypeError: src_folder_name must be str type.")
+    if type(isChecking) != bool:
+        raise TypeError("TypeError: isChecking must be bool type.")
     degree_of_parent_directory = 2 - 1
     # print(calling_file_path)
     # print(Path(calling_file_path).parents[0])
@@ -104,10 +106,11 @@ def get_src_path_from_test_path(calling_file_path : str, src_file_name : str, sr
     # print(Path(calling_file_path).resolve().parents[0])
     # src_path = str(Path(calling_file_path).parents[degree_of_parent_directory] / src_folder_name / src_file_name)
     src_path = str(Path(calling_file_path).resolve().parents[degree_of_parent_directory] / src_folder_name / src_file_name)
-    if os.path.isfile(src_path) == False:
-        if os.path.isdir(src_path) == True:
-            raise IsADirectoryError(f"File \"{src_path}\" is a directory")
-        raise FileNotFoundError(f"File \"{src_path}\" does not exist")
+    if isChecking == True:
+        if os.path.isfile(src_path) == False:
+            if os.path.isdir(src_path) == True:
+                raise IsADirectoryError(f"File \"{src_path}\" is a directory")
+            raise FileNotFoundError(f"File \"{src_path}\" does not exist")
     return src_path
 
 # def get_file_path(file_name : str) -> str:

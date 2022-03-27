@@ -248,6 +248,22 @@ class Test_Generaltool:
         expected = 3
         assert actual >= expected
 
+    # normal system
+    def test_get_src_path_from_test_path_1_3(self):
+        test_file_name = "pathtest.yml"
+        actual_path = get_src_path_from_test_path(__file__, test_file_name, "src/landmasterlibrary", True)
+        actual = actual_path.count("/")
+        expected = 3
+        assert actual >= expected
+
+    # normal system
+    def test_get_src_path_from_test_path_1_4(self):
+        test_file_name = "pathtest.yml"
+        actual_path = get_src_path_from_test_path(__file__, test_file_name, "src/landmasterlibrary", False)
+        actual = actual_path.count("/")
+        expected = 3
+        assert actual >= expected
+
     # abnormal system
     def test_get_src_path_from_test_path_2_1(self):
         with pytest.raises(TypeError) as e:
@@ -299,6 +315,12 @@ class Test_Generaltool:
             actual_path = get_src_path_from_test_path(__file__, test_file_name, "src/landmasterlibrary")
 
     # abnormal system
+    def test_get_src_path_from_test_path_4_3(self):
+        test_file_name = "pathte.yml"
+        with pytest.raises(FileNotFoundError) as e:
+            actual_path = get_src_path_from_test_path(__file__, test_file_name, "src/landmasterlibrary", True)
+
+    # abnormal system
     def test_get_src_path_from_test_path_5_1(self):
         test_file_name = "empty_dir"
         with pytest.raises(IsADirectoryError) as e:
@@ -315,6 +337,20 @@ class Test_Generaltool:
         test_file_name = "empty_dir"
         with pytest.raises(IsADirectoryError) as e:
             actual_path = get_src_path_from_test_path(__file__, test_file_name, "test_data")
+
+    # normal system
+    def test_get_src_path_from_test_path_6_1(self):
+        test_file_name = "pathte.yml"
+        actual_path = get_src_path_from_test_path(__file__, test_file_name, "src/landmasterlibrary", False)
+        actual = actual_path.count("/")
+        expected = 3
+        assert actual >= expected
+
+    # normal system
+    def test_get_src_path_from_test_path_7_1(self):
+        test_file_name = "pathte.yml"
+        with pytest.raises(TypeError) as e:
+            actual_path = get_src_path_from_test_path(__file__, test_file_name, "src/landmasterlibrary", None)
 
     # normal system
     # def test_get_obj_from_yaml_1_1(self):

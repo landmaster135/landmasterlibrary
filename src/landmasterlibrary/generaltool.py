@@ -87,6 +87,22 @@ def get_value_from_yaml(yaml_file, field):
         ))
     return value
 
+def get_src_dir_path_from_test_path(calling_file_path : str, src_folder_name : str, isChecking : bool = True) -> str:
+    if type(calling_file_path) != str:
+        raise TypeError("TypeError: calling_file_path must be str type.")
+    if type(src_folder_name) != str:
+        raise TypeError("TypeError: src_folder_name must be str type.")
+    if type(isChecking) != bool:
+        raise TypeError("TypeError: isChecking must be bool type.")
+    degree_of_parent_directory = 2 - 1
+    src_dir_path = str(Path(calling_file_path).resolve().parents[degree_of_parent_directory] / src_folder_name)
+    if isChecking == True:
+        if os.path.isdir(src_dir_path) == False:
+            if os.path.isfile(src_dir_path) == True:
+                raise NotADirectoryError(f"NotADirectoryError: Directory \"{src_dir_path}\" is a file")
+            raise FileNotFoundError(f"FileNotFoundError: Directory \"{src_dir_path}\" does not exist")
+    return src_dir_path
+
 def get_src_path_from_test_path(calling_file_path : str, src_file_name : str, src_folder_name : str = "src/landmasterlibrary", isChecking : bool = True) -> str:
     if type(calling_file_path) != str:
         raise TypeError("TypeError: calling_file_path must be str type.")
@@ -101,8 +117,8 @@ def get_src_path_from_test_path(calling_file_path : str, src_file_name : str, sr
     if isChecking == True:
         if os.path.isfile(src_path) == False:
             if os.path.isdir(src_path) == True:
-                raise IsADirectoryError(f"File \"{src_path}\" is a directory")
-            raise FileNotFoundError(f"File \"{src_path}\" does not exist")
+                raise IsADirectoryError(f"IsADirectoryError: File \"{src_path}\" is a directory")
+            raise FileNotFoundError(f"FileNotFoundError: File \"{src_path}\" does not exist")
     return src_path
 
 def read_txt_lines(calling_file_path : str, read_files : list, dir_name : str) -> list:
@@ -283,6 +299,28 @@ def remove_empty_items(removed_list : list, target_items : list = [""]) -> list:
             removed_list.pop(j)
             removed_count += 1
     return removed_list
+
+def get_files_by_extensions(target_dir : str, extensions : list) -> list:
+    if type(extensions) != list:
+        raise TypeError("TypeError: extensions must be list type.")
+    for i in range(0, len(extensions)):
+        if type(extensions[i]) != str:
+            raise TypeError("TypeError: extensions' items must be str type.")
+    all_files = os.listdir(target_dir)
+    # all_files = os.listdir(Path().cwd())
+    # all_files = os.listdir('Folder\\')
+    files = []
+    # extension = '.txt'
+    for i in range(0, len(all_files)):
+        for j in range(0, len(extensions)):
+            print(all_files[i])
+            print(-len(extensions[j]))
+            print(all_files[i][-len(extensions[j]):])
+            print(extensions[j])
+            if all_files[i][-len(extensions[j]):] == extensions[j]:
+                files.append(all_files[i])
+    # files = [file for file in all_files if extension in file]
+    return files
 
 def printfunc() -> str:
     args = sys.argv

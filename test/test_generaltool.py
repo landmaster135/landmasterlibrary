@@ -6,7 +6,7 @@ import sys
 import pytest
 # Library by landmasterlibrary
 from src.landmasterlibrary.config import Config
-from src.landmasterlibrary.generaltool import get_str_repeated_to_mark, get_str_by_zero_padding, output_log, get_str_from_list, get_value_from_yaml, get_indices_by_seperators, get_words_by_indices, get_words_by_seperators, get_src_path_from_test_path, read_txt_lines, read_csv_lines, remove_spaces_at_head_and_tail, remove_tail_sapces, remove_head_sapces, get_functions_in_python_file, get_words_in_lines_by_head_and_tail, append_items, remove_empty_items, printfunc
+from src.landmasterlibrary.generaltool import get_str_repeated_to_mark, get_str_by_zero_padding, output_log, get_str_from_list, get_value_from_yaml, get_indices_by_seperators, get_words_by_indices, get_words_by_seperators, get_src_dir_path_from_test_path, get_src_path_from_test_path, read_txt_lines, read_csv_lines, remove_spaces_at_head_and_tail, remove_tail_sapces, remove_head_sapces, get_functions_in_python_file, get_words_in_lines_by_head_and_tail, append_items, remove_empty_items, get_files_by_extensions, printfunc
 
 class Test_Generaltool:
 
@@ -231,6 +231,93 @@ class Test_Generaltool:
         expected = "[ 1,2,3 ]"
         print(actual)
         assert actual == expected
+
+    # normal system
+    def test_get_src_dir_path_from_test_path_1_1(self):
+        actual_path = get_src_dir_path_from_test_path(__file__, "src/landmasterlibrary")
+        actual = actual_path.count("/")
+        expected = 2
+        assert actual >= expected
+
+    # normal system
+    def test_get_src_dir_path_from_test_path_1_2(self):
+        actual_path = get_src_dir_path_from_test_path(__file__, "src/landmasterlibrary", True)
+        actual = actual_path.count("/")
+        expected = 2
+        assert actual >= expected
+
+    # normal system
+    def test_get_src_dir_path_from_test_path_1_3(self):
+        actual_path = get_src_dir_path_from_test_path(__file__, "src/landmasterlibrary", False)
+        actual = actual_path.count("/")
+        expected = 2
+        assert actual >= expected
+
+    # abnormal system
+    def test_get_src_dir_path_from_test_path_2_1(self):
+        with pytest.raises(TypeError) as e:
+            actual = get_src_dir_path_from_test_path()
+        print(e.value)
+        assert str(e.value) == "get_src_dir_path_from_test_path() missing 2 required positional arguments: 'calling_file_path' and 'src_folder_name'"
+
+    # abnormal system
+    def test_get_src_dir_path_from_test_path_2_2(self):
+        with pytest.raises(TypeError) as e:
+            actual = get_src_dir_path_from_test_path(__file__)
+        print(e.value)
+        assert str(e.value) == "get_src_dir_path_from_test_path() missing 1 required positional argument: 'src_folder_name'"
+
+    # abnormal system
+    def test_get_src_dir_path_from_test_path_3_1(self):
+        calling_file_path = None
+        src_folder_name = ""
+        with pytest.raises(TypeError) as e:
+            actual = get_src_dir_path_from_test_path(calling_file_path, src_folder_name)
+
+    # abnormal system
+    def test_get_src_dir_path_from_test_path_3_2(self):
+        calling_file_path = ""
+        src_folder_name = None
+        with pytest.raises(TypeError) as e:
+            actual = get_src_dir_path_from_test_path(calling_file_path, src_folder_name)
+
+    # abnormal system
+    def test_get_src_dir_path_from_test_path_4_1(self):
+        test_dir_name = "test_data/pathte"
+        with pytest.raises(FileNotFoundError) as e:
+            actual_path = get_src_dir_path_from_test_path(__file__, test_dir_name)
+
+    # abnormal system
+    def test_get_src_dir_path_from_test_path_4_2(self):
+        test_dir_name = "test_data/pathte"
+        with pytest.raises(FileNotFoundError) as e:
+            actual_path = get_src_dir_path_from_test_path(__file__, test_dir_name, True)
+
+    # abnormal system
+    def test_get_src_dir_path_from_test_path_5_1(self):
+        test_dir_name = "test_data/for_test_read_csv_lines.csv"
+        with pytest.raises(NotADirectoryError) as e:
+            actual_path = get_src_dir_path_from_test_path(__file__, test_dir_name)
+
+    # abnormal system
+    def test_get_src_dir_path_from_test_path_5_2(self):
+        test_dir_name = "test_data/for_test_read_csv_lines.csv"
+        with pytest.raises(NotADirectoryError) as e:
+            actual_path = get_src_dir_path_from_test_path(__file__, test_dir_name, True)
+
+    # normal system
+    def test_get_src_dir_path_from_test_path_6_1(self):
+        test_dir_name = "test_data/pathte"
+        actual_path = get_src_dir_path_from_test_path(__file__, test_dir_name, False)
+        actual = actual_path.count("/")
+        expected = 3
+        assert actual >= expected
+
+    # normal system
+    def test_get_src_dir_path_from_test_path_7_1(self):
+        test_dir_name = "test_data/pathte"
+        with pytest.raises(TypeError) as e:
+            actual_path = get_src_dir_path_from_test_path(__file__, test_dir_name, None)
 
     # normal system
     def test_get_src_path_from_test_path_1_1(self):
@@ -620,6 +707,37 @@ class Test_Generaltool:
         actual = remove_head_sapces(keyword, Config.spaces)
         expected = ""
         assert actual == expected
+
+    def test_get_files_by_extensions_1_1(self):
+        target_dir = get_src_dir_path_from_test_path(__file__, "test_data", True)
+        # target_dir = Path().cwd()
+        extensions = [".csv"]
+        actual = get_files_by_extensions(target_dir, extensions)
+        expected = ["for_test_read_csv_lines.csv"]
+        assert actual == expected
+
+    def test_get_files_by_extensions_1_2(self):
+        target_dir = get_src_dir_path_from_test_path(__file__, "test_data", True)
+        extensions = [".py"]
+        actual = get_files_by_extensions(target_dir, extensions)
+        expected = ["for_test_get_func_python.py", "for_test_get_files_by_extensions.js.py"]
+        assert len(actual) == len(expected)
+        assert actual == expected
+
+    def test_get_files_by_extensions_2_1(self):
+        extensions = [".csv"]
+        with pytest.raises(TypeError) as e:
+            actual = get_files_by_extensions()
+
+    def test_get_files_by_extensions_2_2(self):
+        extensions = None
+        with pytest.raises(TypeError) as e:
+            actual = get_files_by_extensions(extensions)
+
+    def test_get_files_by_extensions_2_3(self):
+        extensions = [".csv",  None]
+        with pytest.raises(TypeError) as e:
+            actual = get_files_by_extensions(extensions)
 
     # normal system
     def test_remove_spaces_at_head_and_tail_1_1(self):

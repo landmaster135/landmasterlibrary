@@ -121,7 +121,30 @@ def read_txt_lines(calling_file_path : str, read_files : list, dir_name : str) -
         read_txt_lines[i] = remove_empty_items(read_txt_lines[i])
         for j in range(0, len(read_txt_lines[i])):
             read_txt_lines[i][j] = read_txt_lines[i][j].replace("\n", "")
-    return read_txt_lines
+    return read_txt_lines # [][]
+
+def read_csv_lines(calling_file_path : str, read_files : list, dir_name : str) -> list:
+    if type(calling_file_path) != str:
+        raise TypeError("TypeError: calling_file_path must be str type.")
+    if type(read_files) != list:
+        raise TypeError("TypeError: read_files must be list type.")
+    if type(dir_name) != str:
+        raise TypeError("TypeError: dir_name must be str type.")
+    read_csv_lines = []
+    for i in range(0, len(read_files)):
+        file_full_name = get_src_path_from_test_path(calling_file_path, read_files[i], dir_name)
+        with open(file_full_name, "r") as fr:
+            # read_books_lines = fr.readlines()
+            read_txt_lines = fr.readlines()
+        read_csv_line = []
+        for j in range(0, len(read_txt_lines)):
+            read_csv_line.append(read_txt_lines[j].split(","))
+        read_csv_lines.append(read_csv_line)
+        read_csv_lines[i] = remove_empty_items(read_csv_lines[i])
+        for j in range(0, len(read_csv_lines[i])):
+            for k in range(0, len(read_csv_lines[i][j])):
+                read_csv_lines[i][j][k] = read_csv_lines[i][j][k].replace("\n", "")
+    return read_csv_lines # [][][]
 
 def get_indices_by_seperators(word : str, seperators : list = Config.seperators) -> list:
     sep_indices = []

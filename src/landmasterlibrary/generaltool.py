@@ -307,19 +307,11 @@ def get_files_by_extensions(target_dir : str, extensions : list) -> list:
         if type(extensions[i]) != str:
             raise TypeError("TypeError: extensions' items must be str type.")
     all_files = os.listdir(target_dir)
-    # all_files = os.listdir(Path().cwd())
-    # all_files = os.listdir('Folder\\')
     files = []
-    # extension = '.txt'
     for i in range(0, len(all_files)):
         for j in range(0, len(extensions)):
-            print(all_files[i])
-            print(-len(extensions[j]))
-            print(all_files[i][-len(extensions[j]):])
-            print(extensions[j])
             if all_files[i][-len(extensions[j]):] == extensions[j]:
                 files.append(all_files[i])
-    # files = [file for file in all_files if extension in file]
     return files
 
 def printfunc() -> str:

@@ -724,6 +724,13 @@ class Test_Generaltool:
         assert len(actual) == len(expected)
         assert actual == expected
 
+    def test_get_files_by_extensions_1_3(self):
+        target_dir = "./"
+        extensions = [".py"]
+        actual = get_files_by_extensions(target_dir, extensions)
+        expected = ["setup.py"]
+        assert actual == expected
+
     def test_get_files_by_extensions_2_1(self):
         extensions = [".csv"]
         with pytest.raises(TypeError) as e:

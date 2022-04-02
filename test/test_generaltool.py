@@ -583,7 +583,6 @@ class Test_Generaltool:
     #             "testFielddddddd"
     #         )
 
-    # normal system
     def test_get_indices_by_seperators_1_1(self):
         keyword = "python, node.js 、 gollila ,web"
         # spaces = [" ", "　"]
@@ -592,7 +591,6 @@ class Test_Generaltool:
         expected = [6, 16, 26, 30]
         assert actual == expected
 
-    # normal system
     def test_get_indices_by_seperators_1_2(self):
         keyword = "Internet　、Creative Coding  ,　Machine Learning "
         # spaces = [" ", "　"]
@@ -601,7 +599,6 @@ class Test_Generaltool:
         expected = [9, 27, 46]
         assert actual == expected
 
-    # normal system
     def test_get_indices_by_seperators_1_3(self):
         keyword = " Flask"
         # spaces = [" ", "　"]
@@ -610,7 +607,6 @@ class Test_Generaltool:
         expected = [6]
         assert actual == expected
 
-    # normal system
     def test_get_indices_by_seperators_2_1(self):
         keyword = "python, node.js 、 gollila ,web"
         # spaces = [" ", "　"]
@@ -619,7 +615,6 @@ class Test_Generaltool:
         expected = [7, 15, 17, 25, 30]
         assert actual == expected
 
-    # normal system
     def test_get_indices_by_seperators_2_2(self):
         keyword = "Internet　、Creative Coding  ,　Machine Learning "
         # spaces = [" ", "　"]
@@ -628,7 +623,6 @@ class Test_Generaltool:
         expected = [8, 18, 25, 26, 28, 36, 45, 46]
         assert actual == expected
 
-    # normal system
     def test_get_indices_by_seperators_2_3(self):
         keyword = " Flask"
         # spaces = [" ", "　"]
@@ -637,7 +631,6 @@ class Test_Generaltool:
         expected = [0, 6]
         assert actual == expected
 
-    # normal system
     def test_get_indices_by_seperators_3_1(self):
         keyword = "cdf"
         seperators = ["cde"]
@@ -645,7 +638,6 @@ class Test_Generaltool:
         expected = [3]
         assert actual == expected
 
-    # normal system
     def test_get_indcies_containing_words_1_1(self):
         target_list = ["abcde", "cde", "cdf"]
         words = ["cde"]
@@ -653,7 +645,6 @@ class Test_Generaltool:
         expected = [0, 1]
         assert actual == expected
 
-    # normal system
     def test_get_indcies_containing_words_1_2(self):
         target_list = ["abcde", "cde", "cdf", "ert"]
         words = ["cde", "ert"]
@@ -661,7 +652,13 @@ class Test_Generaltool:
         expected = [0, 1, 3]
         assert actual == expected
 
-    # normal system
+    def test_get_indcies_containing_words_1_3(self):
+        target_list = ["abcde", "cdert", "cdf", "ert"]
+        words = ["cde", "ert"]
+        actual = get_indcies_containing_words(target_list, words)
+        expected = [0, 1, 3]
+        assert actual == expected
+
     def test_get_indcies_containing_words_2_1(self):
         target_list = ["ab5de", 5, "cdf"]
         words = ["5"]
@@ -669,7 +666,6 @@ class Test_Generaltool:
         expected = [0, 1]
         assert actual == expected
 
-    # normal system
     def test_get_indcies_containing_words_2_2(self):
         target_list = ["ab56de", 5, "cdf"]
         words = [56]
@@ -677,7 +673,6 @@ class Test_Generaltool:
         expected = [0]
         assert actual == expected
 
-    # normal system
     def test_get_indcies_containing_words_2_3(self):
         target_list = ["ab234", 234, 2340, "c23df", 234.1]
         words = [234]
@@ -685,7 +680,6 @@ class Test_Generaltool:
         expected = [0, 1, 2, 4]
         assert actual == expected
 
-    # normal system
     def test_get_indcies_containing_words_2_4(self):
         target_list = [0.234, 2.34]
         words = [234]
@@ -693,49 +687,49 @@ class Test_Generaltool:
         expected = [0]
         assert actual == expected
 
-    # normal system
+    def test_get_indcies_containing_words_2_5(self):
+        target_list = ["False", False, "false", True]
+        words = [False]
+        actual = get_indcies_containing_words(target_list, words)
+        expected = [0, 1]
+        assert actual == expected
+
     def test_get_indcies_containing_words_3_1(self):
         target_list = "abcde"
         words = ["cde"]
         with pytest.raises(TypeError) as e:
             actual = get_indcies_containing_words(target_list, words)
 
-    # normal system
     def test_get_indcies_containing_words_3_2(self):
         target_list = ["abcde", "cde", "cdf"]
         words = "cde"
         with pytest.raises(TypeError) as e:
             actual = get_indcies_containing_words(target_list, words)
 
-    # normal system
     def test_get_indcies_containing_words_4_1(self):
         target_list = None
         words = ["cde"]
         with pytest.raises(TypeError) as e:
             actual = get_indcies_containing_words(target_list, words)
 
-    # normal system
     def test_get_indcies_containing_words_4_2(self):
         target_list = ["abcde", "cde", "cdf"]
         words = None
         with pytest.raises(TypeError) as e:
             actual = get_indcies_containing_words(target_list, words)
 
-    # normal system
     def test_get_indcies_containing_words_5_1(self):
         target_list = "abcde"
         words = ["cde"]
         with pytest.raises(TypeError) as e:
             actual = get_indcies_containing_words(target_list)
 
-    # normal system
     def test_get_indcies_containing_words_5_2(self):
         target_list = ["abcde", "cde", "cdf"]
         words = "cde"
         with pytest.raises(TypeError) as e:
             actual = get_indcies_containing_words()
 
-    # normal system
     def test_get_words_by_indices_1_1(self):
         keyword = "python, node.js 、 gollila ,web"
         # spaces = [" ", "　"]
@@ -744,7 +738,6 @@ class Test_Generaltool:
         expected = ["python", " node.js ", " gollila ", "web"]
         assert actual == expected
 
-    # normal system
     def test_get_words_by_indices_1_2(self):
         keyword = "Internet　、Creative Coding  ,　Machine Learning "
         # spaces = [" ", "　"]
@@ -753,7 +746,6 @@ class Test_Generaltool:
         expected = ["Internet　", "Creative Coding  ", "　Machine Learning "]
         assert actual == expected
 
-    # normal system
     def test_get_words_by_indices_1_3(self):
         keyword = " Flask"
         # spaces = [" ", "　"]
@@ -762,7 +754,6 @@ class Test_Generaltool:
         expected = [' Flask']
         assert actual == expected
 
-    # normal system
     def test_get_words_by_seperators_1_1(self):
         keyword = "python, node.js 、 gollila ,web"
         # spaces = [" ", "　"]
@@ -770,7 +761,6 @@ class Test_Generaltool:
         expected = ["python", "node.js", "gollila", "web"]
         assert actual == expected
 
-    # normal system
     def test_get_words_by_seperators_1_2(self):
         keyword = "Internet　、Creative Coding  ,　Machine Learning "
         # spaces = [" ", "　"]
@@ -778,7 +768,6 @@ class Test_Generaltool:
         expected = ["Internet", "Creative Coding", "Machine Learning"]
         assert actual == expected
 
-    # normal system
     def test_get_words_by_seperators_1_3(self):
         keyword = " Flask"
         # spaces = [" ", "　"]
@@ -786,7 +775,6 @@ class Test_Generaltool:
         expected = ['Flask']
         assert actual == expected
 
-    # normal system
     def test_remove_tail_sapces_1_1(self):
         keyword  = "   　　　　　　　      　　   node.js    　　　　　  　　　　  "
         # spaces = [" ", "　"]
@@ -794,7 +782,6 @@ class Test_Generaltool:
         expected = "   　　　　　　　      　　   node.js"
         assert actual == expected
 
-    # normal system
     def test_remove_tail_sapces_1_2(self):
         keyword  = "# generaltool.py"
         # spaces = [" ", "　"]
@@ -802,7 +789,6 @@ class Test_Generaltool:
         expected = "# generaltool.py"
         assert actual == expected
 
-    # normal system
     def test_remove_tail_sapces_1_3(self):
         keyword  = ""
         # spaces = [" ", "　"]
@@ -810,7 +796,6 @@ class Test_Generaltool:
         expected = ""
         assert actual == expected
 
-    # normal system
     def test_remove_head_sapces_1_1(self):
         keyword  = "   　　　　　　　      　　   node.js    　　　　　  　　　　  "
         # spaces = [" ", "　"]
@@ -818,7 +803,6 @@ class Test_Generaltool:
         expected =                             "node.js    　　　　　  　　　　  "
         assert actual == expected
 
-    # normal system
     def test_remove_head_sapces_1_2(self):
         keyword  = "# generaltool.py"
         # spaces = [" ", "　"]
@@ -826,7 +810,6 @@ class Test_Generaltool:
         expected = "# generaltool.py"
         assert actual == expected
 
-    # normal system
     def test_remove_head_sapces_1_3(self):
         keyword  = ""
         # spaces = [" ", "　"]

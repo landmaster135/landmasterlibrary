@@ -2,11 +2,12 @@
 from pathlib import Path
 import subprocess
 import sys
+import datetime
 # Library by third party
 import pytest
 # Library by landmasterlibrary
 from src.landmasterlibrary.config import Config
-from src.landmasterlibrary.generaltool import get_str_repeated_to_mark, get_str_by_zero_padding, output_log, get_str_from_list, get_value_from_yaml, get_indices_by_seperators, get_words_by_indices, get_words_by_seperators, get_src_dir_path_from_test_path, get_src_path_from_test_path, read_txt_lines, read_csv_lines, remove_spaces_at_head_and_tail, remove_tail_sapces, remove_head_sapces, get_functions_in_python_file, get_words_in_lines_by_head_and_tail, append_items, remove_empty_items, get_files_by_extensions, printfunc
+from src.landmasterlibrary.generaltool import get_str_repeated_to_mark, get_str_by_zero_padding, output_log, get_str_from_list, get_value_from_yaml, get_indices_by_seperators, get_words_by_indices, get_words_by_seperators, get_src_dir_path_from_test_path, get_src_path_from_test_path, read_txt_lines, read_csv_lines, remove_spaces_at_head_and_tail, remove_tail_sapces, remove_head_sapces, get_functions_in_python_file, get_words_in_lines_by_head_and_tail, append_items, remove_empty_items, get_files_by_extensions, generate_cron_from_datetime_now, printfunc
 
 class Test_Generaltool:
 
@@ -925,9 +926,100 @@ class Test_Generaltool:
         with pytest.raises(TypeError) as e:
             actual = remove_empty_items(target_list, target_items)
 
+    @pytest.mark.freeze_time("2022-01-12 13:23:43")
+    def test_generate_cron_from_datetime_now_1_1(self):
+        minutes_scheduled_later = 10
+        time_difference = 0
+        actual = generate_cron_from_datetime_now(minutes_scheduled_later, time_difference)
+        expected_hours = 13
+        expected_minutes = 33
+        expected = f"{expected_minutes} {expected_hours} * * *"
+        assert actual == expected
+
+    @pytest.mark.freeze_time("2022-01-12 13:53:43")
+    def test_generate_cron_from_datetime_now_1_2(self):
+        minutes_scheduled_later = 10
+        time_difference = 0
+        actual = generate_cron_from_datetime_now(minutes_scheduled_later, time_difference)
+        expected_hours = 14
+        expected_minutes = 3
+        expected = f"{expected_minutes} {expected_hours} * * *"
+        assert actual == expected
+
+    @pytest.mark.freeze_time("2022-01-12 23:53:43")
+    def test_generate_cron_from_datetime_now_1_3(self):
+        minutes_scheduled_later = 10
+        time_difference = 0
+        actual = generate_cron_from_datetime_now(minutes_scheduled_later, time_difference)
+        expected_hours = 0
+        expected_minutes = 3
+        expected = f"{expected_minutes} {expected_hours} * * *"
+        assert actual == expected
+
+    @pytest.mark.freeze_time("2022-01-12 13:23:43")
+    def test_generate_cron_from_datetime_now_2_1(self):
+        minutes_scheduled_later = 10
+        time_difference = 2
+        actual = generate_cron_from_datetime_now(minutes_scheduled_later, time_difference)
+        expected_hours = 15
+        expected_minutes = 33
+        expected = f"{expected_minutes} {expected_hours} * * *"
+        assert actual == expected
+
+    @pytest.mark.freeze_time("2022-01-12 13:23:43")
+    def test_generate_cron_from_datetime_now_2_2(self):
+        minutes_scheduled_later = 10
+        time_difference = -2
+        actual = generate_cron_from_datetime_now(minutes_scheduled_later, time_difference)
+        expected_hours = 11
+        expected_minutes = 33
+        expected = f"{expected_minutes} {expected_hours} * * *"
+        assert actual == expected
+
+    @pytest.mark.freeze_time("2022-01-12 13:23:43")
+    def test_generate_cron_from_datetime_now_3_1(self):
+        minutes_scheduled_later = 10
+        actual = generate_cron_from_datetime_now(minutes_scheduled_later)
+        expected_hours = 13
+        expected_minutes = 33
+        expected = f"{expected_minutes} {expected_hours} * * *"
+        assert actual == expected
+
+    @pytest.mark.freeze_time("2022-01-12 23:53:43")
+    def test_generate_cron_from_datetime_now_4_1(self):
+        minutes_scheduled_later = "10"
+        time_difference = 0
+        with pytest.raises(TypeError) as e:
+            actual = generate_cron_from_datetime_now(minutes_scheduled_later, time_difference)
+
+    @pytest.mark.freeze_time("2022-01-12 23:53:43")
+    def test_generate_cron_from_datetime_now_4_2(self):
+        minutes_scheduled_later = 10
+        time_difference = "0"
+        with pytest.raises(TypeError) as e:
+            actual = generate_cron_from_datetime_now(minutes_scheduled_later, time_difference)
+
+    @pytest.mark.freeze_time("2022-01-12 23:53:43")
+    def test_generate_cron_from_datetime_now_4_3(self):
+        minutes_scheduled_later = None
+        time_difference = 0
+        with pytest.raises(TypeError) as e:
+            actual = generate_cron_from_datetime_now(minutes_scheduled_later, time_difference)
+
+    @pytest.mark.freeze_time("2022-01-12 23:53:43")
+    def test_generate_cron_from_datetime_now_4_4(self):
+        minutes_scheduled_later = 10
+        time_difference = None
+        with pytest.raises(TypeError) as e:
+            actual = generate_cron_from_datetime_now(minutes_scheduled_later, time_difference)
+
+    @pytest.mark.freeze_time("2022-01-12 23:53:43")
+    def test_generate_cron_from_datetime_now_5_1(self):
+        with pytest.raises(TypeError) as e:
+            actual = generate_cron_from_datetime_now()
+
     def test_printfunc_1_1(self, mocker):
         file_full_name = get_src_path_from_test_path(__file__, "for_test_get_func_python.py", "test_data")
-        mocker.patch("sys.argv", return_value=["printfunc", file_full_name, ""])
         mocker.patch.object(sys, "argv", ["printfunc", file_full_name, ""])
         actual = printfunc()
         expected = ["make_voicedsound", "main"]
@@ -935,7 +1027,6 @@ class Test_Generaltool:
 
     def test_printfunc_1_2(self, mocker):
         file_full_name = "./test_data/for_test_get_func_python.py"
-        mocker.patch("sys.argv", return_value=["printfunc", file_full_name, ""])
         mocker.patch.object(sys, "argv", ["printfunc", file_full_name, ""])
         actual = printfunc()
         expected = ["make_voicedsound", "main"]

@@ -5,6 +5,7 @@ from argparse import ArgumentError
 from pathlib import Path
 import os
 import sys
+import datetime
 from typing import Type
 # Library by third party
 import yaml
@@ -314,10 +315,37 @@ def get_files_by_extensions(target_dir : str, extensions : list) -> list:
                 files.append(all_files[i])
     return files
 
+def generate_cron_from_datetime_now(minutes_scheduled_later : int, time_difference : int = 0) -> str:
+    """
+    e.g.
+    '0 19 * * *'  # At 04:00. – https://crontab.guru"
+    """
+    if type(minutes_scheduled_later) != int:
+        raise TypeError("TypeError: minutes_scheduled_later must be int type.")
+    if type(time_difference) != int:
+        raise TypeError("TypeError: time_difference must be int type.")
+    cron_minute = 0
+    cron_hour = 0
+    dt_now = datetime.datetime.now(
+        datetime.timezone(datetime.timedelta(hours=time_difference))
+    )
+    minutes_from_an_hour = 60
+    if dt_now.minute + minutes_scheduled_later >= minutes_from_an_hour:
+        cron_minute = dt_now.minute + minutes_scheduled_later - minutes_from_an_hour
+        cron_hour = dt_now.hour + 1
+    else:
+        cron_minute = dt_now.minute + minutes_scheduled_later
+        cron_hour = dt_now.hour
+    hours_from_a_day = 24
+    if cron_hour >= hours_from_a_day:
+        cron_hour = cron_hour - hours_from_a_day
+
+    cron = f"{cron_minute} {cron_hour} * * *"
+    return cron
+
 def printfunc() -> str:
     args = sys.argv
     print(args)
-    # file_name = args[1]
     file_path = args[1]
     function_name = sys._getframe().f_code.co_name
     output_log(

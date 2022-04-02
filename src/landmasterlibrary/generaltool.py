@@ -11,7 +11,6 @@ from typing import Type
 import yaml
 # Library by landmasterlibrary
 from .config import Config
-# config = Config()
 
 
 def get_str_repeated_to_mark(repeat_str : str, repeat_number_to_mark : int = 15) -> str:
@@ -32,7 +31,6 @@ def get_str_by_zero_padding(number : int, number_of_digit : int = 4) -> str:
     else:
         targetNumberOfDigit = number_of_digit - len(str(number))
     return "{}{}".format(get_str_repeated_to_mark("0", targetNumberOfDigit), str(number))
-    # return get_str_repeated_to_mark("0", targetNumberOfDigit + number).slice(-(targetNumberOfDigit))
 
 def output_log(class_name : str, function_name : str, remark : str = "") -> str:
     remark = remark
@@ -67,8 +65,6 @@ def get_str_from_list(target_list : list) -> str:
     return result_str
 
 def get_obj_from_yaml(yaml_file):
-    # className = self.__class__.__name__
-    # functionName = sys._getframe().f_code.co_name
     with open(yaml_file) as file:
         obj = yaml.safe_load(file)
     return obj
@@ -133,7 +129,6 @@ def read_txt_lines(calling_file_path : str, read_files : list, dir_name : str) -
     for i in range(0, len(read_files)):
         file_full_name = get_src_path_from_test_path(calling_file_path, read_files[i], dir_name)
         with open(file_full_name, "r") as fr:
-            # read_books_lines = fr.readlines()
             read_txt_lines.append(fr.readlines())
         read_txt_lines[i] = remove_empty_items(read_txt_lines[i])
         for j in range(0, len(read_txt_lines[i])):
@@ -151,7 +146,6 @@ def read_csv_lines(calling_file_path : str, read_files : list, dir_name : str) -
     for i in range(0, len(read_files)):
         file_full_name = get_src_path_from_test_path(calling_file_path, read_files[i], dir_name)
         with open(file_full_name, "r") as fr:
-            # read_books_lines = fr.readlines()
             read_txt_lines = fr.readlines()
         read_csv_line = []
         for j in range(0, len(read_txt_lines)):

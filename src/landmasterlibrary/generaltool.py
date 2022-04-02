@@ -174,9 +174,7 @@ def get_indices_by_seperators(word : str, seperators : list = Config.seperators)
                 sep_indices.append(sep_index)
             start = sep_index + 1
     sep_indices.append(len(word))
-    print(sep_indices)
     sep_indices.sort()
-    print(sep_indices)
     return sep_indices
 
 def get_indcies_containing_words(target_list : list, words : list) -> list:

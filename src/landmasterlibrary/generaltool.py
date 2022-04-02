@@ -179,6 +179,27 @@ def get_indices_by_seperators(word : str, seperators : list = Config.seperators)
     print(sep_indices)
     return sep_indices
 
+def get_indcies_containing_words(target_list : list, words : list) -> list:
+    if type(target_list) != list:
+        raise TypeError("TypeError: target_list must be list type.")
+    if type(words) != list:
+        raise TypeError("TypeError: words must be list type.")
+    for i in range(0, len(target_list)):
+        if type(target_list[i]) != str:
+            target_list[i] = str(target_list[i])
+    for i in range(0, len(words)):
+        if type(words[i]) != str:
+            words[i] = str(words[i])
+    indcies_containing_words = []
+    for i in range(0, len(target_list)):
+        for j in range(0, len(words)):
+            indices = get_indices_by_seperators(target_list[i], [words[j]])
+            indices.pop(len(indices) - 1)
+            if len(indices) > 0:
+                indcies_containing_words.append(i)
+                break
+    return indcies_containing_words
+
 def get_words_by_indices(word : str, indices : list) -> list:
     start = 0
     words = []
@@ -194,7 +215,6 @@ def get_words_by_seperators(word : str, seperators : list = Config.seperators, s
     words_without_space = []
     for word in words:
         words_without_space.append(remove_spaces_at_head_and_tail(word, spaces))
-    print(words_without_space)
     return words_without_space
 
 def remove_spaces_at_head_and_tail(word : str, spaces : list = Config.spaces) -> str:
@@ -342,6 +362,7 @@ def generate_cron_from_datetime_now(minutes_scheduled_later : int, time_differen
 
     cron = f"{cron_minute} {cron_hour} * * *"
     return cron
+
 
 def printfunc() -> str:
     args = sys.argv

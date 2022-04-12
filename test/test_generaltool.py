@@ -7,7 +7,7 @@ import datetime
 import pytest
 # Library by landmasterlibrary
 from src.landmasterlibrary.config import Config
-from src.landmasterlibrary.generaltool import get_str_repeated_to_mark, get_str_by_zero_padding, output_log, get_str_from_list, get_value_from_yaml, get_indices_by_seperators, get_indcies_containing_words, get_words_by_indices, get_words_by_seperators, get_src_dir_path_from_test_path, get_src_path_from_test_path, read_txt_lines, read_csv_lines, remove_spaces_at_head_and_tail, remove_tail_sapces, remove_head_sapces, get_functions_in_python_file, get_words_in_lines_by_head_and_tail, append_items, remove_empty_items, get_files_by_extensions, generate_cron_from_datetime_now, printfunc
+from src.landmasterlibrary.generaltool import get_str_repeated_to_mark, get_str_by_zero_padding, output_log, get_str_from_list, get_value_from_yaml, get_indices_by_seperators, get_indcies_containing_words, get_words_by_indices, get_words_by_seperators, get_src_dir_path_from_test_path, get_src_path_from_test_path, read_txt_lines, read_csv_lines, remove_spaces_at_head_and_tail, remove_tail_sapces, remove_head_sapces, replace_by_words, get_functions_in_python_file, get_words_in_lines_by_head_and_tail, append_items, remove_empty_items, get_files_by_extensions, generate_cron_from_datetime_now, printfunc
 
 class Test_Generaltool:
 
@@ -861,6 +861,88 @@ class Test_Generaltool:
         # spaces = [" ", "　"]
         actual = remove_spaces_at_head_and_tail(keyword, Config.spaces)
         expected = "node.js"
+        assert actual == expected
+
+    # normal system
+    def test_replace_by_words_1_1(self):
+        keyword  = "Salesforce ソリューションキット: :クイ\"ック/ルック"
+        actual = replace_by_words(keyword)
+        expected = "Salesforce ソリューションキット： ：クイ”ック／ルック"
+        assert actual == expected
+
+    # normal system
+    def test_replace_by_words_1_2(self):
+        keyword  = "Salesforce ソリューションキット: クイックルック"
+        actual = replace_by_words(keyword)
+        expected = "Salesforce ソリューションキット： クイックルック"
+        assert actual == expected
+
+    # normal system
+    def test_replace_by_words_2_1(self):
+        keyword  = "Salesforce ソリュ$ーショ$ンキット: :クイック\"ルック"
+        actual = replace_by_words(keyword, {"$": "dollar"})
+        expected = "Salesforce ソリュdollarーショdollarンキット: :クイック\"ルック"
+        assert actual == expected
+
+    # abnormal system
+    def test_replace_by_words_3_1(self):
+        keyword  = 123
+        with pytest.raises(AttributeError) as e:
+            actual = replace_by_words(keyword, {"$": "dollar"})
+
+    # abnormal system
+    def test_replace_by_words_3_2(self):
+        keyword  = 123
+        with pytest.raises(AttributeError) as e:
+            actual = replace_by_words(keyword)
+
+    # abnormal system
+    def test_replace_by_words_4_1(self):
+        keyword  = True
+        with pytest.raises(AttributeError) as e:
+            actual = replace_by_words(keyword, {"$": "dollar"})
+
+    # abnormal system
+    def test_replace_by_words_4_2(self):
+        keyword  = True
+        with pytest.raises(AttributeError) as e:
+            actual = replace_by_words(keyword)
+
+    # abnormal system
+    def test_replace_by_words_5_1(self):
+        keyword  = None
+        with pytest.raises(AttributeError) as e:
+            actual = replace_by_words(keyword, {"$": "dollar"})
+
+    # abnormal system
+    def test_replace_by_words_5_2(self):
+        keyword  = None
+        with pytest.raises(AttributeError) as e:
+            actual = replace_by_words(keyword)
+
+    # abnormal system
+    def test_replace_by_words_6_1(self):
+        keyword  = None
+        with pytest.raises(TypeError) as e:
+            actual = replace_by_words()
+
+    # abnormal system
+    def test_replace_by_words_7_1(self):
+        with pytest.raises(AttributeError) as e:
+            actual = replace_by_words({"$": "dollar"})
+
+    # normal system
+    def test_replace_by_words_8_1(self):
+        keyword  = "123"
+        actual = replace_by_words(keyword, {"$": "dollar"})
+        expected = "123"
+        assert actual == expected
+
+    # normal system
+    def test_replace_by_words_8_2(self):
+        keyword  = "123"
+        actual = replace_by_words(keyword)
+        expected = "123"
         assert actual == expected
 
     # normal system for Python

@@ -240,6 +240,13 @@ def remove_head_sapces(word : str, spaces : list = Config.spaces) -> str:
 
     return word_removed_space
 
+def replace_by_words(word : str, replacing_word : dict = {":": "：", "/": "／", "\"": "”"}) -> str:
+    for k, v in replacing_word.items():
+        print(k, ",,,,,", v)
+        print(word)
+        word = word.replace(k, v)
+    return word
+
 def get_functions_in_python_file(file_full_name : str, head_of_function : str = "def ", tail_of_function : str = "(") -> list:
     functions = []
     text = ""

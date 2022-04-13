@@ -21,21 +21,22 @@ setup(
     include_package_data=True,
     zip_safe=False,
     classifiers=[
-        "Programming Language :: Python :: 3",
-        "License :: OSI Approved :: MIT License",
-        "Operating System :: OS Independent",
+        "Programming Language :: Python :: 3"
+        , "License :: OSI Approved :: MIT License"
+        , "Operating System :: OS Independent"
     ],
     entry_points = {
         'console_scripts': [
-            'text_replacer = landmasterlibrary.text_replacer:main',
-            "printfunc = landmasterlibrary.generaltool:printfunc"
+            "text_replacer = landmasterlibrary.text_replacer:main"
+            , "printfunc = landmasterlibrary.generaltool:printfunc"
+            , "convert_image = landmasterlibrary.image_editor:exe_convert_image_format_in_folder"
         ]
     },
     python_requires=">=3.7",
     install_requires=_requires_from_file("requirements.txt"),
     setup_requires=["pytest-runner"],
     extras_require={
-        "test": ["pytest", "pytest-cov"],
+        "test": ["pytest", "pytest-cov", "pytest-mock", "pytest-freezegun"],
         "doc": ["sphinx"]
     }
 )

@@ -6,8 +6,9 @@ import math
 import subprocess
 # Library by third party
 import cv2 # opencv 3.4.2
-from apiclient.discovery import build
+# from apiclient.discovery import build
 import pandas as pd
+from PIL import Image
 # Library by landmasterlibrary
 import src.landmasterlibrary.input_controller as input_controller
 import src.landmasterlibrary.dir_editor as dir_editor
@@ -373,26 +374,54 @@ def get_statistics(youtube, id):
     statistics = youtube.videos().list(part="statistics", id=id).execute()["items"][0]["statistics"]
     return statistics
 
-def get_youtube_statistics():
-    # TODO:動くかどうかを動作確認
-    youtube = build("youtube", "v3", developerKey=settings.APIKEY)
+# def get_youtube_statistics():
+#     # TODO:動くかどうかを動作確認
+#     youtube = build("youtube", "v3", developerKey=settings.APIKEY)
 
-    search_response = youtube.search().list(
-        part="snippet",
-        maxResults="50",
-        q="python",
-        relevanceLanguage="ja",
-        type="video"
-    ).execute()
-    df = pd.DataFrame()
-    for item in search_response["items"]:
-        statistics = get_statistics(item["id"]["videoId"])
-        se = pd.Series([int(statistics["viewCOunt"]), item["snippet"]["title"]], ["再生回数", "タイトル"])
-        df = df.append(se, ignore_index=True)
+#     search_response = youtube.search().list(
+#         part="snippet",
+#         maxResults="50",
+#         q="python",
+#         relevanceLanguage="ja",
+#         type="video"
+#     ).execute()
+#     df = pd.DataFrame()
+#     for item in search_response["items"]:
+#         statistics = get_statistics(item["id"]["videoId"])
+#         se = pd.Series([int(statistics["viewCOunt"]), item["snippet"]["title"]], ["再生回数", "タイトル"])
+#         df = df.append(se, ignore_index=True)
 
-    df_s = df.sort_values("再生回数", "タイトル")
-    print(df_s)
+#     df_s = df.sort_values("再生回数", "タイトル")
+#     print(df_s)
 
+def convert_image_format(file_name : str, src_ext : str = "png", dest_ext : str = "jpg"):
+    if type(file_name) != str:
+        raise TypeError("TypeError: file_name must be str type.")
+    if type(src_ext) != str:
+        raise TypeError("TypeError: src_ext must be str type.")
+    if type(dest_ext) != str:
+        raise TypeError("TypeError: dest_ext must be str type.")
+    if f".{src_ext}" not in file_name:
+        raise ValueError("ValueError: src_ext must be contained by file_name.")
+    file_name_without_ext = file_name.replace(f".{src_ext}", "")
+    im = Image.open(f"{file_name_without_ext}.{src_ext}")
+    im = im.convert("RGB")
+    im.save(f"{file_name_without_ext}.{dest_ext}")
+    return True
+
+def convert_image_format_in_folder(folder_dir : str, src_ext : str = "png", dest_ext : str = "jpg"):
+    if type(folder_dir) != str:
+        raise TypeError("TypeError: folder_dir must be str type.")
+    files = file_list_getter.get_file_list(folder_dir, src_ext)
+    for file_name in files:
+        convert_image_format(file_name, src_ext, dest_ext)
+    return True
+
+def exe_convert_image_format_in_folder():
+    args = sys.argv
+    convert_image_format_in_folder(str(args[1]))
+    # convert_image_format_in_folder(str(args[1]), str(args[2]), str(args[3]))
+    return True
 
 def main():
     args = sys.argv
@@ -415,8 +444,11 @@ def main():
     # get_times_of_movie_in_folder(args[1], ext)
 
     # test code for extract_sound_to_text()
-    ext = "mov"
-    extract_sound_to_text(args[1], ext)
+    # ext = "mov"
+    # extract_sound_to_text(args[1], ext)
+
+    # test code for convert_image_format_in_folder()
+    convert_image_format_in_folder(str(args[1]), 'png', 'jpg')
 
 if __name__ == "__main__":
     main()

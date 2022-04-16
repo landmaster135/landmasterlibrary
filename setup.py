@@ -29,7 +29,6 @@ setup(
         'console_scripts': [
             "text_replacer = landmasterlibrary.text_replacer:main"
             , "printfunc = landmasterlibrary.generaltool:printfunc"
-            , "convert_image = landmasterlibrary.image_editor:exe_convert_image_format_in_folder"
         ]
     },
     python_requires=">=3.7",

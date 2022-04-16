@@ -1,12 +1,10 @@
 # generaltool.py
 
 # Library by default
-from argparse import ArgumentError
 from pathlib import Path
 import os
 import sys
 import datetime
-from typing import Type
 # Library by third party
 import yaml
 # Library by landmasterlibrary

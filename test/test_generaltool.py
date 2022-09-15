@@ -7,7 +7,7 @@ import datetime
 import pytest
 # Library by landmasterlibrary
 from src.landmasterlibrary.config import Config
-from src.landmasterlibrary.generaltool import get_str_repeated_to_mark, get_str_by_zero_padding, output_log, get_str_from_list, get_value_from_yaml, get_indices_by_seperators, get_indcies_containing_words, get_words_by_indices, get_words_by_seperators, get_src_dir_path_from_test_path, get_src_path_from_test_path, read_txt_lines, read_csv_lines, remove_spaces_at_head_and_tail, remove_tail_sapces, remove_head_sapces, replace_by_words, get_text_in_file, get_funcs_in_text, get_functions_in_python_file, get_words_in_lines_by_head_and_tail, get_str_of_head_or_tail_by_extension, get_mark_of_not_function_statement, append_items, remove_empty_items, get_files_by_extensions, generate_cron_from_datetime_now, printfunc, printdepends
+from src.landmasterlibrary.generaltool import get_str_repeated_to_mark, get_str_by_zero_padding, output_log, get_str_from_list, get_value_from_yaml, get_indices_by_seperators, get_indcies_containing_words, get_words_by_indices, get_words_by_seperators, get_src_dir_path_from_test_path, get_src_path_from_test_path, read_txt_lines, read_csv_lines, remove_spaces_at_head_and_tail, remove_tail_sapces, remove_head_sapces, replace_by_words, get_text_in_file, get_funcs_in_text, get_functions_in_python_file, get_words_in_lines_by_head_and_tail, get_str_of_head_or_tail_by_extension, get_mark_of_not_function_statement, get_mermaid_elements, append_items, remove_empty_items, get_files_by_extensions, generate_cron_from_datetime_now, print_funcs, print_depends, count_mermaid_lines, print_depends_on_mermaid
 
 class Test_Generaltool:
 
@@ -1182,11 +1182,29 @@ class Test_Generaltool:
         expected = "}"
         assert actual == expected
 
-    def test_get_str_of_head_or_tail_by_extension_2_1(self):
+    def test_get_mark_of_not_function_statement_2_1(self):
         extension = ".lua"
         with pytest.raises(AttributeError) as e:
             actual = get_mark_of_not_function_statement(extension)
         assert str(e.value) == f"'{extension}' is not supported."
+
+    def test_get_mermaid_elements_1_1(self):
+        prefix_or_suffix = "prefix"
+        actual = get_mermaid_elements(prefix_or_suffix)
+        expected = ["```mermaid", "classDiagram"]
+        assert actual == expected
+
+    def test_get_mermaid_elements_1_2(self):
+        prefix_or_suffix = "suffix"
+        actual = get_mermaid_elements(prefix_or_suffix)
+        expected = ["```"]
+        assert actual == expected
+
+    def test_get_mermaid_elements_2_1(self):
+        prefix_or_suffix = "fix"
+        with pytest.raises(AttributeError) as e:
+            actual = get_mermaid_elements(prefix_or_suffix)
+        assert str(e.value) == f"'prefix_or_suffix' must be 'prefix' or 'suffix'."
 
 
     def test_append_items_1_1(self):
@@ -1424,55 +1442,105 @@ class Test_Generaltool:
     def test_printfunc_1_1(self, mocker):
         file_full_name = get_src_path_from_test_path(__file__, "for_test_get_func_python.py", "test_data")
         mocker.patch.object(sys, "argv", ["printfunc", file_full_name, "", ""])
-        actual = printfunc()
+        actual = print_funcs()
         expected = ["make_voicedsound", "main"]
         assert set(actual) == set(expected)
 
     def test_printfunc_1_2(self, mocker):
         file_full_name = "./test_data/for_test_get_func_python.py"
         mocker.patch.object(sys, "argv", ["printfunc", file_full_name, ".py", ""])
-        actual = printfunc()
+        actual = print_funcs()
         expected = ["make_voicedsound", "main"]
         assert set(actual) == set(expected)
 
     def test_printfunc_1_3(self, mocker):
         file_full_name = "./test_data/for_test_get_func_python.py"
         mocker.patch.object(sys, "argv", ["printfunc", file_full_name, ".py", ""])
-        actual = printfunc()
+        actual = print_funcs()
         expected = ["make_voicedsound", "main"]
         assert set(actual) == set(expected)
 
     def test_printfunc_1_4(self, mocker):
         file_full_name = "./test_data/for_test_get_func_python.py"
         mocker.patch.object(sys, "argv", ["printfunc", file_full_name, ".py", "*"])
-        actual = printfunc()
+        actual = print_funcs()
         expected = ["* make_voicedsound", "* main"]
         assert set(actual) == set(expected)
 
     def test_printfunc_2_1(self, mocker):
         file_full_name = "./test_data/for_test_get_func_javascript.js"
         mocker.patch.object(sys, "argv", ["printfunc", file_full_name, ".js", ""])
-        actual = printfunc()
+        actual = print_funcs()
         expected = ["getFolderIdArray", "testtest", "main"]
         assert set(actual) == set(expected)
 
     def test_printfunc_2_2(self, mocker):
         file_full_name = "./test_data/for_test_get_func_javascript.js"
         mocker.patch.object(sys, "argv", ["printfunc", file_full_name, ".js", "-"])
-        actual = printfunc()
+        actual = print_funcs()
         expected = ["- getFolderIdArray", "- testtest", "- main"]
         assert set(actual) == set(expected)
 
-    def test_printdepends_1_1(self, mocker):
+    def test_print_depends_1_1(self, mocker):
         file_full_name = get_src_path_from_test_path(__file__, "for_test_get_func_python.py", "test_data")
         mocker.patch.object(sys, "argv", ["printdepends", file_full_name, ".py", ""])
-        actual = printdepends()
+        actual = print_depends()
         expected = {"main": ["make_voicedsound"], "make_voicedsound": []}
         assert actual == expected
 
-    def test_printdepends_1_2(self, mocker):
+    def test_print_depends_1_2(self, mocker):
         file_full_name = get_src_path_from_test_path(__file__, "for_test_get_func_javascript.js", "test_data")
         mocker.patch.object(sys, "argv", ["printdepends", file_full_name, ".js", ""])
-        actual = printdepends()
+        actual = print_depends()
         expected = {"getFolderIdArray": [], "testtest": [], "main": ["getFolderIdArray"]}
         assert actual == expected
+
+    def test_count_mermaid_lines_1_1(self, mocker):
+        file_full_name = get_src_path_from_test_path(__file__, "for_test_get_func_python.py", "test_data")
+        mocker.patch.object(sys, "argv", ["printdepends", file_full_name, ".py", ""])
+        depends = print_depends()
+        prefix_elements = ["```mermaid", "classDiagram"]
+        suffix_elements = ["```"]
+        actual = count_mermaid_lines(depends, prefix_elements, suffix_elements)
+        expected = 8
+        assert actual == expected
+
+    def test_print_depends_on_mermaid_1_1(self, mocker):
+        file_full_name = get_src_path_from_test_path(__file__, "for_test_get_func_python.py", "test_data")
+        mocker.patch.object(sys, "argv", ["print_depends_on_mermaid", file_full_name, ".py", ""])
+        actual = print_depends_on_mermaid()
+        mocker.patch.object(sys, "argv", ["printdepends", file_full_name, ".py", ""])
+        depends = print_depends()
+        prefix_elements = ["```mermaid", "classDiagram"]
+        suffix_elements = ["```"]
+        expected = count_mermaid_lines(depends, prefix_elements, suffix_elements)
+        assert len(actual) == expected
+
+    def test_print_depends_on_mermaid_1_2(self, mocker):
+        file_full_name = get_src_path_from_test_path(__file__, "for_test_get_func_python.py", "test_data")
+        mocker.patch.object(sys, "argv", ["print_depends_on_mermaid", file_full_name, ".py", ""])
+        actual = print_depends_on_mermaid()
+        prefix_elements = ["```mermaid", "classDiagram"]
+        suffix_elements = ["```"]
+        expected = [* prefix_elements, '  make_voicedsound <|-- main', '  class make_voicedsound{', '  }', '  class main{', '  }', * suffix_elements]
+        assert list(actual) == list(expected)
+
+    def test_print_depends_on_mermaid_1_3(self, mocker):
+        file_full_name = get_src_path_from_test_path(__file__, "for_test_get_func_javascript.js", "test_data")
+        mocker.patch.object(sys, "argv", ["print_depends_on_mermaid", file_full_name, ".js", ""])
+        actual = print_depends_on_mermaid()
+        mocker.patch.object(sys, "argv", ["printdepends", file_full_name, ".js", ""])
+        depends = print_depends()
+        prefix_elements = ["```mermaid", "classDiagram"]
+        suffix_elements = ["```"]
+        expected = count_mermaid_lines(depends, prefix_elements, suffix_elements)
+        assert len(actual) == expected
+
+    def test_print_depends_on_mermaid_1_4(self, mocker):
+        file_full_name = get_src_path_from_test_path(__file__, "for_test_get_func_javascript.js", "test_data")
+        mocker.patch.object(sys, "argv", ["print_depends_on_mermaid", file_full_name, ".js", ""])
+        actual = print_depends_on_mermaid()
+        prefix_elements = ["```mermaid", "classDiagram"]
+        suffix_elements = ["```"]
+        expected = [* prefix_elements, '  getFolderIdArray <|-- main', '  class getFolderIdArray{', '  }', '  class testtest{', '  }',  '  class main{', '  }', * suffix_elements]
+        assert list(actual) == list(expected)

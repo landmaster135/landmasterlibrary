@@ -258,6 +258,15 @@ def get_text_in_file(file_full_name : str) -> str:
     )
     return text
 
+def get_funcs_in_text(funcs : list, text : str) -> list:
+    hit_funcs = []
+    # if len(funcs) == 0:
+    #     return hit_funcs
+    for func in funcs:
+        if func in text:
+            hit_funcs.append(func)
+    return hit_funcs
+
 def get_functions_in_python_file(file_full_name : str, head_of_function : str = "def ", tail_of_function : str = "(") -> list:
 
     text = get_text_in_file(file_full_name)
@@ -293,6 +302,40 @@ def get_words_in_lines_by_head_and_tail(text_lines : list, head_of_target : str,
         "{}".format(get_str_repeated_to_mark("b"))
     )
     return words
+
+def get_str_of_head_or_tail_by_extension(extension : str, head_or_tail : str = "head") -> str:
+    '''
+    extension: ex. ".py", ".js"
+    head_or_tail: "head" or "tail"
+    '''
+    head_of_function = "def "
+    tail_of_function = "("
+    if extension == ".py":
+        pass
+    elif extension == ".js":
+        head_of_function = "function "
+        tail_of_function = "("
+    else:
+        raise AttributeError(f"'{extension}' is not supported.")
+    if head_or_tail == "head":
+        return head_of_function
+    elif head_or_tail == "tail":
+        return tail_of_function
+    else:
+        raise AttributeError("head_or_tail must be 'head' or 'tail'.")
+
+def get_mark_of_not_function_statement(extension : str) -> str:
+    '''
+    extension: ex. ".py", ".js"
+    '''
+    mark = "if __name__ == \"__main__\":"
+    if extension == ".py":
+        pass
+    elif extension == ".js":
+        mark = "}"
+    else:
+        raise AttributeError(f"'{extension}' is not supported.")
+    return mark
 
 def append_items(appended_list : list, appending_list : list, target_index : int = 0) -> list:
     if type(appended_list) != list:
@@ -398,7 +441,7 @@ def get_func(args) -> str:
     )
     return functions
 
-def printfunc() -> str:
+def print_funcs() -> str:
     args = sys.argv
     functions = get_func(args)
 
@@ -412,50 +455,7 @@ def printfunc() -> str:
     print("============ functions list: end ============")
     return functions
 
-def get_funcs_in_text(funcs : list, text : str) -> list:
-    hit_funcs = []
-    # if len(funcs) == 0:
-    #     return hit_funcs
-    for func in funcs:
-        if func in text:
-            hit_funcs.append(func)
-    return hit_funcs
-
-def get_str_of_head_or_tail_by_extension(extension : str, head_or_tail : str = "head") -> str:
-    '''
-    extension: ex. ".py", ".js"
-    head_or_tail: "head" or "tail"
-    '''
-    head_of_function = "def "
-    tail_of_function = "("
-    if extension == ".py":
-        pass
-    elif extension == ".js":
-        head_of_function = "function "
-        tail_of_function = "("
-    else:
-        raise AttributeError(f"'{extension}' is not supported.")
-    if head_or_tail == "head":
-        return head_of_function
-    elif head_or_tail == "tail":
-        return tail_of_function
-    else:
-        raise AttributeError("head_or_tail must be 'head' or 'tail'.")
-
-def get_mark_of_not_function_statement(extension : str) -> str:
-    '''
-    extension: ex. ".py", ".js"
-    '''
-    mark = "if __name__ == \"__main__\":"
-    if extension == ".py":
-        pass
-    elif extension == ".js":
-        mark = "}"
-    else:
-        raise AttributeError(f"'{extension}' is not supported.")
-    return mark
-
-def printdepends() -> dict:
+def print_depends() -> dict:
     '''
     return: The format is { "": [], "": [] , ... }.
     '''
@@ -490,6 +490,49 @@ def printdepends() -> dict:
         depending_func_obj[f"{depending_function}"].append(* funcs_in_text)
     return depending_func_obj
 
+def count_mermaid_lines(depends,prefix_elements, suffix_elements):
+    count = len(prefix_elements) + len(suffix_elements)
+    for k, v in depends.items():
+        count += 2
+        for func in v:
+            count += 1
+    return count
+
+def get_mermaid_elements(prefix_or_suffix : str) -> list:
+    elements = ["```mermaid", "classDiagram"]
+    if prefix_or_suffix == "prefix":
+        pass
+    elif prefix_or_suffix == "suffix":
+        elements = ["```"]
+    else:
+        raise AttributeError("'prefix_or_suffix' must be 'prefix' or 'suffix'.")
+    return elements
+
+def print_depends_on_mermaid():
+    depends = print_depends()
+    prefix_elements = ["```mermaid", "classDiagram"]
+    suffix_elements = ["```"]
+    body_depending_elements = []
+    body_class_elements = []
+    fixed_elements = []
+    curly_bracket_start = "{"
+    curly_bracket_end = "}"
+    indent = "  "
+    for k, v in depends.items():
+        body_class_elements.append(f"{indent}class {k}{curly_bracket_start}")
+        body_class_elements.append(f"{indent}{curly_bracket_end}")
+        for func in v:
+            body_depending_elements.append(f"{indent}{func} <|-- {k}")
+    fixed_elements.extend(prefix_elements)
+    fixed_elements.extend(body_depending_elements)
+    fixed_elements.extend(body_class_elements)
+    fixed_elements.extend(suffix_elements)
+    print("============ depends list on Markdown: start ============")
+    for func in fixed_elements:
+        print(f"{func}")
+    print("============ depends list on Markdown: end ============")
+    return fixed_elements
+
 
 if __name__ == "__main__":
-    printfunc()
+    print_funcs()

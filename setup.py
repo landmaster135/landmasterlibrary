@@ -28,8 +28,9 @@ setup(
     entry_points = {
         'console_scripts': [
             "text_replacer = landmasterlibrary.text_replacer:main"
-            , "printfunc = landmasterlibrary.generaltool:printfunc"
-            , "printdepends = landmasterlibrary.generaltool:printdepends"
+            , "printfunc = landmasterlibrary.generaltool:print_funcs"
+            , "printdepends = landmasterlibrary.generaltool:print_depends"
+            , "printdependsonmd = landmasterlibrary.generaltool:print_depends_on_mermaid"
         ]
     },
     python_requires=">=3.7",

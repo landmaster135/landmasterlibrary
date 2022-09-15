@@ -253,7 +253,6 @@ No dependencies.
 
 ```mermaid
 classDiagram
-  make_voicedsound <|-- make_voicedsound
   make_voicedsound <|-- main
   class make_voicedsound{
   }

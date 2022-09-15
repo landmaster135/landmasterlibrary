@@ -130,6 +130,8 @@ classDiagram
 
 ## config.py
 
+No dependencies.
+
 ## generaltools.py
 
 ```mermaid
@@ -245,6 +247,18 @@ classDiagram
 
 ## morph_analysis.py
 
+No dependencies.
 
+## text_replacer.py
+
+```mermaid
+classDiagram
+  make_voicedsound <|-- make_voicedsound
+  make_voicedsound <|-- main
+  class make_voicedsound{
+  }
+  class main{
+  }
+```
 
 

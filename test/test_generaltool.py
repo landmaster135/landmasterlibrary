@@ -7,7 +7,7 @@ import datetime
 import pytest
 # Library by landmasterlibrary
 from src.landmasterlibrary.config import Config
-from src.landmasterlibrary.generaltool import get_str_repeated_to_mark, get_str_by_zero_padding, output_log, get_str_from_list, get_value_from_yaml, get_indices_by_seperators, get_indcies_containing_words, get_words_by_indices, get_words_by_seperators, get_src_dir_path_from_test_path, get_src_path_from_test_path, read_txt_lines, read_csv_lines, remove_spaces_at_head_and_tail, remove_tail_sapces, remove_head_sapces, replace_by_words, get_functions_in_python_file, get_words_in_lines_by_head_and_tail, append_items, remove_empty_items, get_files_by_extensions, generate_cron_from_datetime_now, printfunc
+from src.landmasterlibrary.generaltool import get_str_repeated_to_mark, get_str_by_zero_padding, output_log, get_str_from_list, get_value_from_yaml, get_indices_by_seperators, get_indcies_containing_words, get_words_by_indices, get_words_by_seperators, get_src_dir_path_from_test_path, get_src_path_from_test_path, read_txt_lines, read_csv_lines, remove_spaces_at_head_and_tail, remove_tail_sapces, remove_head_sapces, replace_by_words, get_text_in_file, get_funcs_in_text, get_functions_in_python_file, get_words_in_lines_by_head_and_tail, get_str_of_head_or_tail_by_extension, get_mark_of_not_function_statement, append_items, remove_empty_items, get_files_by_extensions, generate_cron_from_datetime_now, printfunc, printdepends
 
 class Test_Generaltool:
 
@@ -450,6 +450,7 @@ class Test_Generaltool:
             , ""
             , "def main():"
             , "    replace_character = ReplaceCharacter()"
+            , "    sound = replace_character.make_voicedsound(\"testtest\")"
             , ""
             , "if __name__ == \"__main__\":"
             , "    main()"
@@ -946,6 +947,90 @@ class Test_Generaltool:
         assert actual == expected
 
     # normal system for Python
+    def test_get_text_in_file_1_1(self):
+        file_full_name = get_src_path_from_test_path(__file__, "for_test_get_func_python.py", "test_data")
+        actual = get_text_in_file(file_full_name)
+        expected = 11
+        assert len(actual.split("\n")) == expected
+
+    # normal system for Python
+    def test_get_text_in_file_1_2(self):
+        file_full_name = get_src_path_from_test_path(__file__, "for_test_get_func_javascript.js", "test_data")
+        actual = get_text_in_file(file_full_name)
+        expected = 29
+        assert len(actual.split("\n")) == expected
+
+     # normal system for Python
+    def test_get_text_in_file_1_3(self):
+        file_full_name = get_src_path_from_test_path(__file__, "for_test_get_files_by_extensions.js.py", "test_data")
+        actual = get_text_in_file(file_full_name)
+        expected = 10
+        assert len(actual.split("\n")) == expected
+
+    def test_get_funcs_in_text_1_1(self):
+        funcs = ["test_replace", "test_add"]
+        text = "    replace = test_replace()"
+        actual = get_funcs_in_text(funcs, text)
+        expected = ["test_replace"]
+        assert set(actual) == set(expected)
+
+    def test_get_funcs_in_text_1_2(self):
+        funcs = ["test_replace", "test_add", "test_minus"]
+        text = "    replace = test_minus()"
+        actual = get_funcs_in_text(funcs, text)
+        expected = ["test_minus"]
+        assert set(actual) == set(expected)
+
+    def test_get_funcs_in_text_1_3(self):
+        funcs = ["test_replace", "test_add", "test_minus"]
+        text = "    replace = test_minus() + test_add(number)"
+        actual = get_funcs_in_text(funcs, text)
+        expected = ["test_minus", "test_add"]
+        assert set(actual) == set(expected)
+
+    def test_get_funcs_in_text_1_4(self):
+        funcs = ["test_replace", "test_add", "test_minus"]
+        text = "replace = test_minus() + test_add(number)"
+        actual = get_funcs_in_text(funcs, text)
+        expected = ["test_minus", "test_add"]
+        assert set(actual) == set(expected)
+
+    def test_get_funcs_in_text_1_5(self):
+        funcs = ["test_replace", "test_add"]
+        text = "replace = test_minus() + test_add(number)"
+        actual = get_funcs_in_text(funcs, text)
+        expected = ["test_add"]
+        assert set(actual) == set(expected)
+
+    def test_get_funcs_in_text_1_6(self):
+        funcs = ["test_replace", "test_add"]
+        text = "replace = TestClass.test_add(number)"
+        actual = get_funcs_in_text(funcs, text)
+        expected = ["test_add"]
+        assert set(actual) == set(expected)
+
+    def test_get_funcs_in_text_1_7(self):
+        funcs = ["test_replace", "test_add"]
+        text = "replace = Test_replace.test_add(number)"
+        actual = get_funcs_in_text(funcs, text)
+        expected = ["test_add"]
+        assert set(actual) == set(expected)
+
+    def test_get_funcs_in_text_2_1(self):
+        funcs = ["test_replace", "test_add", "test_minus"]
+        text = "    replace = test_multiple()"
+        actual = get_funcs_in_text(funcs, text)
+        expected = []
+        assert set(actual) == set(expected)
+
+    def test_get_funcs_in_text_2_2(self):
+        funcs = ["test_replace", "test_add", "test_minus"]
+        text = "replace = test_multiple()"
+        actual = get_funcs_in_text(funcs, text)
+        expected = []
+        assert set(actual) == set(expected)
+
+    # normal system for Python
     def test_get_functions_in_python_file_1_1(self):
         file_full_name = get_src_path_from_test_path(__file__, "for_test_get_func_python.py", "test_data")
         actual = get_functions_in_python_file(file_full_name)
@@ -975,6 +1060,134 @@ class Test_Generaltool:
         actual = get_words_in_lines_by_head_and_tail(lines, head, tail)
         expected = ["make_voicedsound", "main"]
         assert actual == expected
+
+    def test_get_words_in_lines_by_head_and_tail_2_1(self):
+        lines = ["    def make_voicedsound(text : str) -> str:"]
+        head = "def "
+        tail = "("
+        actual = get_words_in_lines_by_head_and_tail(lines, head, tail)
+        expected = ["make_voicedsound"]
+        assert actual == expected
+
+    def test_get_words_in_lines_by_head_and_tail_2_2(self):
+        lines = ["def make_voicedsound(text : str) -> str:"]
+        head = "def "
+        tail = "("
+        actual = get_words_in_lines_by_head_and_tail(lines, head, tail)
+        expected = ["make_voicedsound"]
+        assert actual == expected
+
+    def test_get_words_in_lines_by_head_and_tail_2_3(self):
+        lines = ["    def make_voicedsound(text : str) -> str:"]
+        head = "function"
+        tail = "("
+        actual = get_words_in_lines_by_head_and_tail(lines, head, tail)
+        expected = []
+        assert actual == expected
+
+    def test_get_words_in_lines_by_head_and_tail_2_4(self):
+        lines = ["def make_voicedsound(text : str) -> str:"]
+        head = "function"
+        tail = "("
+        actual = get_words_in_lines_by_head_and_tail(lines, head, tail)
+        expected = []
+        assert actual == expected
+
+    def test_get_words_in_lines_by_head_and_tail_2_5(self):
+        lines = ["class ReplaceCharacter:", "    def make_voicedsound(self, text : str) -> str:", "        pass", "def main():", "    replace_character = ReplaceCharacter()", "if __name__ == \"__main__\":", "    main()"]
+        head = "function"
+        tail = "("
+        actual = get_words_in_lines_by_head_and_tail(lines, head, tail)
+        expected = []
+        assert actual == expected
+
+    def test_get_words_in_lines_by_head_and_tail_2_6(self):
+        lines = ["class ReplaceCharacter:", "    def make_voicedsound(self, text : str) -> str:", "        pass", "def main():", "    replace_character = ReplaceCharacter()", "if __name__ == \"__main__\":", "    main()"]
+        head = "def "
+        tail = "function"
+        actual = get_words_in_lines_by_head_and_tail(lines, head, tail)
+        expected = []
+        assert actual == expected
+
+    def test_get_str_of_head_or_tail_by_extension_1_1(self):
+        extension = ".py"
+        head_or_tail = "head"
+        actual = get_str_of_head_or_tail_by_extension(extension, head_or_tail)
+        expected = "def "
+        assert actual == expected
+
+    def test_get_str_of_head_or_tail_by_extension_1_2(self):
+        extension = ".py"
+        head_or_tail = "tail"
+        actual = get_str_of_head_or_tail_by_extension(extension, head_or_tail)
+        expected = "("
+        assert actual == expected
+
+    def test_get_str_of_head_or_tail_by_extension_1_3(self):
+        extension = ".js"
+        head_or_tail = "head"
+        actual = get_str_of_head_or_tail_by_extension(extension, head_or_tail)
+        expected = "function "
+        assert actual == expected
+
+    def test_get_str_of_head_or_tail_by_extension_1_4(self):
+        extension = ".js"
+        head_or_tail = "tail"
+        actual = get_str_of_head_or_tail_by_extension(extension, head_or_tail)
+        expected = "("
+        assert actual == expected
+
+    def test_get_str_of_head_or_tail_by_extension_2_1(self):
+        extension = ".py"
+        head_or_tail = "body"
+        with pytest.raises(AttributeError) as e:
+            actual = get_str_of_head_or_tail_by_extension(extension, head_or_tail)
+        assert str(e.value) == "head_or_tail must be 'head' or 'tail'."
+
+    def test_get_str_of_head_or_tail_by_extension_2_2(self):
+        extension = ".js"
+        head_or_tail = "body"
+        with pytest.raises(AttributeError) as e:
+            actual = get_str_of_head_or_tail_by_extension(extension, head_or_tail)
+        assert str(e.value) == "head_or_tail must be 'head' or 'tail'."
+
+    def test_get_str_of_head_or_tail_by_extension_2_3(self):
+        with pytest.raises(TypeError) as e:
+            actual = get_str_of_head_or_tail_by_extension()
+        assert str(e.value) == "get_str_of_head_or_tail_by_extension() missing 1 required positional argument: 'extension'"
+
+    def test_get_str_of_head_or_tail_by_extension_2_4(self):
+        extension = ".lua"
+        head_or_tail = "head"
+        with pytest.raises(AttributeError) as e:
+            actual = get_str_of_head_or_tail_by_extension(extension, head_or_tail)
+        assert str(e.value) == f"'{extension}' is not supported."
+
+    def test_get_str_of_head_or_tail_by_extension_2_5(self):
+        extension = ".lua"
+        head_or_tail = "tail"
+        with pytest.raises(AttributeError) as e:
+            actual = get_str_of_head_or_tail_by_extension(extension, head_or_tail)
+        assert str(e.value) == f"'{extension}' is not supported."
+
+    def test_get_mark_of_not_function_statement_1_1(self):
+        extension = ".py"
+        actual = get_mark_of_not_function_statement(extension)
+        expected = "if __name__ == \"__main__\":"
+        assert actual == expected
+
+    def test_get_mark_of_not_function_statement_1_2(self):
+        extension = ".js"
+        actual = get_mark_of_not_function_statement(extension)
+        expected = "}"
+        assert actual == expected
+
+    def test_get_str_of_head_or_tail_by_extension_2_1(self):
+        extension = ".lua"
+        with pytest.raises(AttributeError) as e:
+            actual = get_mark_of_not_function_statement(extension)
+        assert str(e.value) == f"'{extension}' is not supported."
+
 
     def test_append_items_1_1(self):
         read_txt_lines = ["a", "b", "c"]
@@ -1249,3 +1462,17 @@ class Test_Generaltool:
         actual = printfunc()
         expected = ["- getFolderIdArray", "- testtest", "- main"]
         assert set(actual) == set(expected)
+
+    def test_printdepends_1_1(self, mocker):
+        file_full_name = get_src_path_from_test_path(__file__, "for_test_get_func_python.py", "test_data")
+        mocker.patch.object(sys, "argv", ["printdepends", file_full_name, ".py", ""])
+        actual = printdepends()
+        expected = {"main": ["make_voicedsound"], "make_voicedsound": []}
+        assert actual == expected
+
+    def test_printdepends_1_2(self, mocker):
+        file_full_name = get_src_path_from_test_path(__file__, "for_test_get_func_javascript.js", "test_data")
+        mocker.patch.object(sys, "argv", ["printdepends", file_full_name, ".js", ""])
+        actual = printdepends()
+        expected = {"getFolderIdArray": [], "testtest": [], "main": ["getFolderIdArray"]}
+        assert actual == expected

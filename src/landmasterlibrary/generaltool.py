@@ -245,8 +245,7 @@ def replace_by_words(word : str, replacing_word : dict = {":": "：", "/": "／"
         word = word.replace(k, v)
     return word
 
-def get_functions_in_python_file(file_full_name : str, head_of_function : str = "def ", tail_of_function : str = "(") -> list:
-    functions = []
+def get_text_in_file(file_full_name : str) -> str:
     text = ""
     with open(file_full_name, "r", encoding="UTF-8") as f:
         text = f.read()
@@ -257,6 +256,12 @@ def get_functions_in_python_file(file_full_name : str, head_of_function : str = 
         function_name,
         "{}".format(get_str_repeated_to_mark("a"))
     )
+    return text
+
+def get_functions_in_python_file(file_full_name : str, head_of_function : str = "def ", tail_of_function : str = "(") -> list:
+
+    text = get_text_in_file(file_full_name)
+    functions = []
     text_lines = text.split("\n")
     functions = get_words_in_lines_by_head_and_tail(text_lines, head_of_function, tail_of_function)
     return functions
@@ -360,9 +365,8 @@ def generate_cron_from_datetime_now(minutes_scheduled_later : int, time_differen
     cron = f"{cron_minute} {cron_hour} * * *"
     return cron
 
-
-def printfunc() -> str:
-    args = sys.argv
+# Functions for executing from the commandline.
+def get_func(args) -> str:
     print(args)
     file_path = args[1]
     function_name = sys._getframe().f_code.co_name
@@ -392,6 +396,11 @@ def printfunc() -> str:
         function_name,
         "{}".format(get_str_repeated_to_mark("b"))
     )
+    return functions
+
+def printfunc() -> str:
+    args = sys.argv
+    functions = get_func(args)
 
     # display
     prefix = args[3]
@@ -402,6 +411,85 @@ def printfunc() -> str:
         print(f"{func}")
     print("============ functions list: end ============")
     return functions
+
+def get_funcs_in_text(funcs : list, text : str) -> list:
+    hit_funcs = []
+    # if len(funcs) == 0:
+    #     return hit_funcs
+    for func in funcs:
+        if func in text:
+            hit_funcs.append(func)
+    return hit_funcs
+
+def get_str_of_head_or_tail_by_extension(extension : str, head_or_tail : str = "head") -> str:
+    '''
+    extension: ex. ".py", ".js"
+    head_or_tail: "head" or "tail"
+    '''
+    head_of_function = "def "
+    tail_of_function = "("
+    if extension == ".py":
+        pass
+    elif extension == ".js":
+        head_of_function = "function "
+        tail_of_function = "("
+    else:
+        raise AttributeError(f"'{extension}' is not supported.")
+    if head_or_tail == "head":
+        return head_of_function
+    elif head_or_tail == "tail":
+        return tail_of_function
+    else:
+        raise AttributeError("head_or_tail must be 'head' or 'tail'.")
+
+def get_mark_of_not_function_statement(extension : str) -> str:
+    '''
+    extension: ex. ".py", ".js"
+    '''
+    mark = "if __name__ == \"__main__\":"
+    if extension == ".py":
+        pass
+    elif extension == ".js":
+        mark = "}"
+    else:
+        raise AttributeError(f"'{extension}' is not supported.")
+    return mark
+
+def printdepends() -> dict:
+    '''
+    return: The format is { "": [], "": [] , ... }.
+    '''
+    args = sys.argv
+    file_path = args[1]
+    text = get_text_in_file(file_path)
+    text_lines = text.split("\n")
+
+    extension = args[2]
+    head_of_function = get_str_of_head_or_tail_by_extension(extension, "head")
+    tail_of_function = get_str_of_head_or_tail_by_extension(extension, "tail")
+
+    functions = get_func(args)
+    line_by_list = []
+    depending_function = ""
+    depending_func_obj = {}
+    for line in text_lines:
+        line_by_list = [line]
+        function_by_list = get_words_in_lines_by_head_and_tail(line_by_list, head_of_function, tail_of_function)
+        if len(function_by_list) != 0:
+            depending_function = function_by_list[0]
+            depending_func_obj[f"{depending_function}"] = []
+            #  declaring line is skipped.
+            continue
+        if line_by_list[0] == get_mark_of_not_function_statement(extension):
+            depending_function = ""
+        if depending_function == "":
+            continue
+        funcs_in_text = get_funcs_in_text(functions, line_by_list[0])
+        if len(funcs_in_text) == 0:
+            continue
+        depending_func_obj[f"{depending_function}"].append(* funcs_in_text)
+    return depending_func_obj
+
 
 if __name__ == "__main__":
     printfunc()

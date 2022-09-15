@@ -29,6 +29,7 @@ setup(
         'console_scripts': [
             "text_replacer = landmasterlibrary.text_replacer:main"
             , "printfunc = landmasterlibrary.generaltool:printfunc"
+            , "printdepends = landmasterlibrary.generaltool:printdepends"
         ]
     },
     python_requires=">=3.7",

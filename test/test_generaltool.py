@@ -831,7 +831,7 @@ class Test_Generaltool:
         actual = get_files_by_extensions(target_dir, extensions)
         expected = ["for_test_get_func_python.py", "for_test_get_files_by_extensions.js.py"]
         assert len(actual) == len(expected)
-        assert actual == expected
+        assert set(actual) == set(expected)
 
     def test_get_files_by_extensions_1_3(self):
         target_dir = "./"
@@ -950,22 +950,22 @@ class Test_Generaltool:
         file_full_name = get_src_path_from_test_path(__file__, "for_test_get_func_python.py", "test_data")
         actual = get_functions_in_python_file(file_full_name)
         expected = ["make_voicedsound", "main"]
-        assert actual == expected
+        assert set(actual) == set(expected)
 
      # normal system for Python
     def test_get_functions_in_python_file_1_2(self):
         file_full_name = get_src_path_from_test_path(__file__, "for_test_get_func_python.py", "test_data")
         actual = get_functions_in_python_file(file_full_name, "def ", "(")
         expected = ["make_voicedsound", "main"]
-        assert actual == expected
+        assert set(actual) == set(expected)
 
     # normal system for JavaScript (ECMAScript)
     def test_get_functions_in_python_file_2_1(self):
         # TODO
         file_full_name = get_src_path_from_test_path(__file__, "for_test_get_func_javascript.js", "test_data")
         actual = get_functions_in_python_file(file_full_name, "function ", "(")
-        expected = ["getFolderIdArray"]
-        assert actual == expected
+        expected = ["getFolderIdArray", "testtest", "main"]
+        assert set(actual) == set(expected)
 
     # normal system
     def test_get_words_in_lines_by_head_and_tail_1_1(self):
@@ -1210,14 +1210,42 @@ class Test_Generaltool:
 
     def test_printfunc_1_1(self, mocker):
         file_full_name = get_src_path_from_test_path(__file__, "for_test_get_func_python.py", "test_data")
-        mocker.patch.object(sys, "argv", ["printfunc", file_full_name, ""])
+        mocker.patch.object(sys, "argv", ["printfunc", file_full_name, "", ""])
         actual = printfunc()
         expected = ["make_voicedsound", "main"]
-        assert actual == expected
+        assert set(actual) == set(expected)
 
     def test_printfunc_1_2(self, mocker):
         file_full_name = "./test_data/for_test_get_func_python.py"
-        mocker.patch.object(sys, "argv", ["printfunc", file_full_name, ""])
+        mocker.patch.object(sys, "argv", ["printfunc", file_full_name, ".py", ""])
         actual = printfunc()
         expected = ["make_voicedsound", "main"]
-        assert actual == expected
+        assert set(actual) == set(expected)
+
+    def test_printfunc_1_3(self, mocker):
+        file_full_name = "./test_data/for_test_get_func_python.py"
+        mocker.patch.object(sys, "argv", ["printfunc", file_full_name, ".py", ""])
+        actual = printfunc()
+        expected = ["make_voicedsound", "main"]
+        assert set(actual) == set(expected)
+
+    def test_printfunc_1_4(self, mocker):
+        file_full_name = "./test_data/for_test_get_func_python.py"
+        mocker.patch.object(sys, "argv", ["printfunc", file_full_name, ".py", "*"])
+        actual = printfunc()
+        expected = ["* make_voicedsound", "* main"]
+        assert set(actual) == set(expected)
+
+    def test_printfunc_2_1(self, mocker):
+        file_full_name = "./test_data/for_test_get_func_javascript.js"
+        mocker.patch.object(sys, "argv", ["printfunc", file_full_name, ".js", ""])
+        actual = printfunc()
+        expected = ["getFolderIdArray", "testtest", "main"]
+        assert set(actual) == set(expected)
+
+    def test_printfunc_2_2(self, mocker):
+        file_full_name = "./test_data/for_test_get_func_javascript.js"
+        mocker.patch.object(sys, "argv", ["printfunc", file_full_name, ".js", "-"])
+        actual = printfunc()
+        expected = ["- getFolderIdArray", "- testtest", "- main"]
+        assert set(actual) == set(expected)

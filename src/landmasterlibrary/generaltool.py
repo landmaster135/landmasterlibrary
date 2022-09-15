@@ -378,7 +378,15 @@ def printfunc() -> str:
             raise TypeError("TypeError: 1 argument is expected str only, not NoneType")
     except TypeError as e:
         raise
-    functions = get_functions_in_python_file(file_path)
+
+    functions = []
+    extension = args[2]
+    if extension == ".py":
+        functions = get_functions_in_python_file(file_path, "def ", "(")
+    elif extension == ".js":
+        functions = get_functions_in_python_file(file_path, "function ", "(")
+    else:
+        functions = get_functions_in_python_file(file_path)
     output_log(
         __file__,
         function_name,
@@ -386,10 +394,12 @@ def printfunc() -> str:
     )
 
     # display
-    prefix = args[2]
+    prefix = args[3]
+    if prefix != "":
+        functions = [f"{prefix} {f}" for f in functions]
     print("============ functions list: start ============")
     for func in functions:
-        print("{} {}".format(prefix, func))
+        print(f"{func}")
     print("============ functions list: end ============")
     return functions
 

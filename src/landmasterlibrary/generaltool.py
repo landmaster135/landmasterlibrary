@@ -337,6 +337,24 @@ def get_mark_of_not_function_statement(extension : str) -> str:
         raise AttributeError(f"'{extension}' is not supported.")
     return mark
 
+def count_mermaid_lines(depends,prefix_elements, suffix_elements):
+    count = len(prefix_elements) + len(suffix_elements)
+    for k, v in depends.items():
+        count += 2
+        for func in v:
+            count += 1
+    return count
+
+def get_mermaid_elements(prefix_or_suffix : str) -> list:
+    elements = ["```mermaid", "classDiagram"]
+    if prefix_or_suffix == "prefix":
+        pass
+    elif prefix_or_suffix == "suffix":
+        elements = ["```"]
+    else:
+        raise AttributeError("'prefix_or_suffix' must be 'prefix' or 'suffix'.")
+    return elements
+
 def append_items(appended_list : list, appending_list : list, target_index : int = 0) -> list:
     if type(appended_list) != list:
         raise TypeError("TypeError: appended_list must be list type.")
@@ -487,26 +505,8 @@ def print_depends() -> dict:
         funcs_in_text = get_funcs_in_text(functions, line_by_list[0])
         if len(funcs_in_text) == 0:
             continue
-        depending_func_obj[f"{depending_function}"].append(* funcs_in_text)
+        depending_func_obj[f"{depending_function}"].extend(funcs_in_text)
     return depending_func_obj
-
-def count_mermaid_lines(depends,prefix_elements, suffix_elements):
-    count = len(prefix_elements) + len(suffix_elements)
-    for k, v in depends.items():
-        count += 2
-        for func in v:
-            count += 1
-    return count
-
-def get_mermaid_elements(prefix_or_suffix : str) -> list:
-    elements = ["```mermaid", "classDiagram"]
-    if prefix_or_suffix == "prefix":
-        pass
-    elif prefix_or_suffix == "suffix":
-        elements = ["```"]
-    else:
-        raise AttributeError("'prefix_or_suffix' must be 'prefix' or 'suffix'.")
-    return elements
 
 def print_depends_on_mermaid():
     depends = print_depends()
@@ -535,4 +535,6 @@ def print_depends_on_mermaid():
 
 
 if __name__ == "__main__":
-    print_funcs()
+    # print_funcs()
+    # print_depends()
+    print_depends_on_mermaid()

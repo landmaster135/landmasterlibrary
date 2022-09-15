@@ -144,10 +144,10 @@ def read_csv_lines(calling_file_path : str, read_files : list, dir_name : str) -
     for i in range(0, len(read_files)):
         file_full_name = get_src_path_from_test_path(calling_file_path, read_files[i], dir_name)
         with open(file_full_name, "r") as fr:
-            read_txt_lines = fr.readlines()
+            txt_lines = fr.readlines()
         csv_line = []
-        for j in range(0, len(read_txt_lines)):
-            csv_line.append(read_txt_lines[j].split(","))
+        for j in range(0, len(txt_lines)):
+            csv_line.append(txt_lines[j].split(","))
         csv_lines.append(csv_line)
         csv_lines[i] = remove_empty_items(csv_lines[i])
         for j in range(0, len(csv_lines[i])):
@@ -260,8 +260,6 @@ def get_text_in_file(file_full_name : str) -> str:
 
 def get_funcs_in_text(funcs : list, text : str) -> list:
     hit_funcs = []
-    # if len(funcs) == 0:
-    #     return hit_funcs
     for func in funcs:
         if func in text:
             hit_funcs.append(func)
@@ -446,12 +444,14 @@ def get_func(args) -> str:
 
     functions = []
     extension = args[2]
+    tmp_args = []
     if extension == ".py":
-        functions = get_functions_in_python_file(file_path, "def ", "(")
+        tmp_args = ["def ", "("]
     elif extension == ".js":
-        functions = get_functions_in_python_file(file_path, "function ", "(")
+        tmp_args = ["function ", "("]
     else:
-        functions = get_functions_in_python_file(file_path)
+        pass
+    functions = get_functions_in_python_file(file_path, * tmp_args)
     output_log(
         __file__,
         function_name,

@@ -4,7 +4,6 @@
 from pathlib import Path
 import os
 import sys
-import datetime
 # Library by third party
 import yaml
 # Library by landmasterlibrary
@@ -245,219 +244,22 @@ def replace_by_words(word : str, replacing_word : dict = {":": "：", "/": "／"
         word = word.replace(k, v)
     return word
 
-def get_text_in_file(file_full_name : str) -> str:
-    text = ""
-    with open(file_full_name, "r", encoding="UTF-8") as f:
-        text = f.read()
 
-    function_name = sys._getframe().f_code.co_name
-    output_log(
-        __file__,
-        function_name,
-        "{}".format(get_str_repeated_to_mark("a"))
-    )
-    return text
 
-def get_funcs_in_text(funcs : list, text : str) -> list:
-    hit_funcs = []
-    for func in funcs:
-        if func in text:
-            hit_funcs.append(func)
-    return hit_funcs
 
-def get_functions_in_python_file(file_full_name : str, head_of_function : str = "def ", tail_of_function : str = "(") -> list:
 
-    text = get_text_in_file(file_full_name)
-    functions = []
-    text_lines = text.split("\n")
-    functions = get_words_in_lines_by_head_and_tail(text_lines, head_of_function, tail_of_function)
-    return functions
 
-def get_words_in_lines_by_head_and_tail(text_lines : list, head_of_target : str, tail_of_target : str) -> list:
-    words = []
-    text_line_removed_head_space = ""
-    function_name = sys._getframe().f_code.co_name
-    output_log(
-        __file__,
-        function_name,
-        "{}".format(get_str_repeated_to_mark("a"))
-    )
-    print(text_lines)
 
-    for text_line in text_lines:
-        text_line_removed_head_space = remove_head_sapces(text_line)
-        head_index = text_line_removed_head_space.find(head_of_target, 0)
-        if head_index != 0:
-            continue
-        tail_index = text_line_removed_head_space.find(tail_of_target, 0+head_index)
-        if text_line_removed_head_space.find(tail_of_target, 0) == -1:
-            continue
-        word = text_line_removed_head_space[len(head_of_target):tail_index]
-        words.append(word)
-    output_log(
-        __file__,
-        function_name,
-        "{}".format(get_str_repeated_to_mark("b"))
-    )
-    return words
 
-def get_str_of_head_or_tail_by_extension(extension : str, head_or_tail : str = "head") -> str:
-    '''
-    extension: ex. ".py", ".js"
-    head_or_tail: "head" or "tail"
-    '''
-    head_of_function = "def "
-    tail_of_function = "("
-    if extension == ".py":
-        pass
-    elif extension == ".js":
-        head_of_function = "function "
-        tail_of_function = "("
-    else:
-        raise AttributeError(f"'{extension}' is not supported.")
-    if head_or_tail == "head":
-        return head_of_function
-    elif head_or_tail == "tail":
-        return tail_of_function
-    else:
-        raise AttributeError("head_or_tail must be 'head' or 'tail'.")
 
-def get_mark_of_not_function_statement(extension : str) -> str:
-    '''
-    extension: ex. ".py", ".js"
-    '''
-    mark = "if __name__ == \"__main__\":"
-    if extension == ".py":
-        pass
-    elif extension == ".js":
-        mark = "}"
-    else:
-        raise AttributeError(f"'{extension}' is not supported.")
-    return mark
 
-def count_mermaid_lines(depends,prefix_elements, suffix_elements):
-    count = len(prefix_elements) + len(suffix_elements)
-    for k, v in depends.items():
-        count += 2
-        for func in v:
-            count += 1
-    return count
 
-def get_mermaid_elements(prefix_or_suffix : str) -> list:
-    elements = ["```mermaid", "classDiagram"]
-    if prefix_or_suffix == "prefix":
-        pass
-    elif prefix_or_suffix == "suffix":
-        elements = ["```"]
-    else:
-        raise AttributeError("'prefix_or_suffix' must be 'prefix' or 'suffix'.")
-    return elements
 
-def append_items(appended_list : list, appending_list : list, target_index : int = 0) -> list:
-    if type(appended_list) != list:
-        raise TypeError("TypeError: appended_list must be list type.")
-    if type(appending_list) != list:
-        raise TypeError("TypeError: appending_list must be list type.")
-    if type(target_index) != int:
-        raise TypeError("TypeError: target_index must be int type.")
-    if target_index < 0:
-        raise IndexError("IndexError: target_index must be more than or equal to 0.")
-    if target_index > len(appended_list):
-        raise IndexError("IndexError: target_index must be less than length of appended_list.")
-    for i in range(0, len(appending_list)):
-        appended_list.insert(target_index + i, appending_list[i])
-    return appended_list
 
-def remove_empty_items(removed_list : list, target_items : list = [""]) -> list:
-    if type(removed_list) != list:
-        raise TypeError("TypeError: removed_list must be list type.")
-    if type(target_items) != list:
-        raise TypeError("TypeError: target_item must be list type.")
-    removed_count = 0
-    for i in range(0, len(removed_list)):
-        j = i - removed_count
-        if removed_list[j] in target_items:
-        # if removed_list[j] == target_item:
-            removed_list.pop(j)
-            removed_count += 1
-    return removed_list
 
-def get_files_by_extensions(target_dir : str, extensions : list) -> list:
-    if type(extensions) != list:
-        raise TypeError("TypeError: extensions must be list type.")
-    for i in range(0, len(extensions)):
-        if type(extensions[i]) != str:
-            raise TypeError("TypeError: extensions' items must be str type.")
-    all_files = os.listdir(target_dir)
-    files = []
-    for i in range(0, len(all_files)):
-        for j in range(0, len(extensions)):
-            if all_files[i][-len(extensions[j]):] == extensions[j]:
-                files.append(all_files[i])
-    return files
 
-def generate_cron_from_datetime_now(minutes_scheduled_later : int, time_difference : int = 0) -> str:
-    """
-    e.g.
-    '0 19 * * *'  # At 04:00. – https://crontab.guru"
-    """
-    if type(minutes_scheduled_later) != int:
-        raise TypeError("TypeError: minutes_scheduled_later must be int type.")
-    if type(time_difference) != int:
-        raise TypeError("TypeError: time_difference must be int type.")
-    cron_minute = 0
-    cron_hour = 0
-    dt_now = datetime.datetime.now(
-        datetime.timezone(datetime.timedelta(hours=time_difference))
-    )
-    minutes_from_an_hour = 60
-    if dt_now.minute + minutes_scheduled_later >= minutes_from_an_hour:
-        cron_minute = dt_now.minute + minutes_scheduled_later - minutes_from_an_hour
-        cron_hour = dt_now.hour + 1
-    else:
-        cron_minute = dt_now.minute + minutes_scheduled_later
-        cron_hour = dt_now.hour
-    hours_from_a_day = 24
-    if cron_hour >= hours_from_a_day:
-        cron_hour = cron_hour - hours_from_a_day
 
-    cron = f"{cron_minute} {cron_hour} * * *"
-    return cron
 
-# Functions for executing from the commandline.
-def get_func(args) -> str:
-    print(args)
-    file_path = args[1]
-    function_name = sys._getframe().f_code.co_name
-    output_log(
-        __file__,
-        function_name,
-        "{}".format(get_str_repeated_to_mark("a"))
-    )
-    print(f"file_name is {file_path}")
-    print(type(file_path))
-    try:
-        if type(file_path) != str:
-            raise TypeError("TypeError: 1 argument is expected str only, not NoneType")
-    except TypeError as e:
-        raise
-
-    functions = []
-    extension = args[2]
-    tmp_args = []
-    if extension == ".py":
-        tmp_args = ["def ", "("]
-    elif extension == ".js":
-        tmp_args = ["function ", "("]
-    else:
-        pass
-    functions = get_functions_in_python_file(file_path, * tmp_args)
-    output_log(
-        __file__,
-        function_name,
-        "{}".format(get_str_repeated_to_mark("b"))
-    )
-    return functions
 
 def print_funcs() -> str:
     args = sys.argv
@@ -473,65 +275,6 @@ def print_funcs() -> str:
     print("============ functions list: end ============")
     return functions
 
-def print_depends() -> dict:
-    '''
-    return: The format is { "": [], "": [] , ... }.
-    '''
-    args = sys.argv
-    file_path = args[1]
-    text = get_text_in_file(file_path)
-    text_lines = text.split("\n")
-
-    extension = args[2]
-    head_of_function = get_str_of_head_or_tail_by_extension(extension, "head")
-    tail_of_function = get_str_of_head_or_tail_by_extension(extension, "tail")
-
-    functions = get_func(args)
-    line_by_list = []
-    depending_function = ""
-    depending_func_obj = {}
-    for line in text_lines:
-        line_by_list = [line]
-        function_by_list = get_words_in_lines_by_head_and_tail(line_by_list, head_of_function, tail_of_function)
-        if len(function_by_list) != 0:
-            depending_function = function_by_list[0]
-            depending_func_obj[f"{depending_function}"] = []
-            #  declaring line is skipped.
-            continue
-        if line_by_list[0] == get_mark_of_not_function_statement(extension):
-            depending_function = ""
-        if depending_function == "":
-            continue
-        funcs_in_text = get_funcs_in_text(functions, line_by_list[0])
-        if len(funcs_in_text) == 0:
-            continue
-        depending_func_obj[f"{depending_function}"].extend(funcs_in_text)
-    return depending_func_obj
-
-def print_depends_on_mermaid():
-    depends = print_depends()
-    prefix_elements = ["```mermaid", "classDiagram"]
-    suffix_elements = ["```"]
-    body_depending_elements = []
-    body_class_elements = []
-    fixed_elements = []
-    curly_bracket_start = "{"
-    curly_bracket_end = "}"
-    indent = "  "
-    for k, v in depends.items():
-        body_class_elements.append(f"{indent}class {k}{curly_bracket_start}")
-        body_class_elements.append(f"{indent}{curly_bracket_end}")
-        for func in v:
-            body_depending_elements.append(f"{indent}{func} <|-- {k}")
-    fixed_elements.extend(prefix_elements)
-    fixed_elements.extend(body_depending_elements)
-    fixed_elements.extend(body_class_elements)
-    fixed_elements.extend(suffix_elements)
-    print("============ depends list on Markdown: start ============")
-    for func in fixed_elements:
-        print(f"{func}")
-    print("============ depends list on Markdown: end ============")
-    return fixed_elements
 
 
 if __name__ == "__main__":
